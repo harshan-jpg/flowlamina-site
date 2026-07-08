@@ -106,7 +106,6 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   right: 1.5rem; top: 50%;
   transform: translateY(-50%);
   width: min(340px, 28vw);
-  opacity: 0.10;
   pointer-events: none;
 }
 .eyebrow {
