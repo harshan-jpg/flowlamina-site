@@ -127,17 +127,9 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
 }
 .hero-actions { display: flex; gap: 0.9rem; flex-wrap: wrap; }
 
-/* ---------- About strip ---------- */
-.about { padding: 3.5rem 0; }
-.about p {
-  font-size: 1.2rem;
-  color: var(--green-900);
-  text-align: center;
-  text-wrap: balance;
-}
-
 /* ---------- Cards / grids ---------- */
 .grid { display: grid; gap: 1.4rem; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .card {
   background: var(--paper);
@@ -157,10 +149,30 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   margin-bottom: 1.1rem;
 }
 
+/* ---------- Quadrant cards ---------- */
+.quadrant ul {
+  list-style: none;
+  columns: 1;
+}
+.quadrant li {
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  padding: 0.28rem 0 0.28rem 1.4rem;
+  position: relative;
+}
+.quadrant li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--green-500);
+  font-weight: 700;
+}
+
 /* ---------- Process steps ---------- */
 .steps {
   list-style: none;
   counter-reset: step;
+  margin-top: 2.25rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.4rem;
@@ -187,10 +199,11 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
 .stats-section { padding: 4rem 0; }
 .stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.4rem;
   text-align: center;
 }
+.stat-label { display: block; max-width: 22ch; margin: 0 auto; }
 .stat-num {
   display: block;
   font-size: clamp(2.2rem, 5vw, 3rem);
@@ -258,8 +271,9 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
 
 /* ---------- Responsive ---------- */
 @media (max-width: 860px) {
-  .grid-3 { grid-template-columns: 1fr; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
   .steps { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 720px) {
   .section { padding: 3.75rem 0; }
