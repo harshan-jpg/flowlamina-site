@@ -201,8 +201,23 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   line-height: 1.25;
 }
 .mf-arrow { color: var(--green-500); font-weight: 600; line-height: 42px; }
-.quadrant { display: flex; flex-direction: column; }
-.quadrant ul { margin-bottom: 1.25rem; }
+
+/* ---------- Quadrant card layout: checklist left, large pictogram right ---------- */
+.quadrant { display: flex; align-items: center; gap: 1.4rem; }
+.quadrant-body { flex: 1; min-width: 0; }
+.quadrant-art {
+  width: clamp(104px, 11vw, 148px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--green-100);
+  color: var(--green-700);
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+.quadrant-art svg { width: 54%; height: 54%; display: block; }
+@media (max-width: 400px) {
+  .quadrant { flex-direction: column-reverse; align-items: flex-start; }
+}
 
 /* ---------- Process steps ---------- */
 .steps {
