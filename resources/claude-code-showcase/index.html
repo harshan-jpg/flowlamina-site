@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How we run an entire business on AI — Flowlamina Resources</title>
+  <meta name="description" content="A real, working example of a business run on Claude Code — from winning work to delivering it to keeping the books. See the exact setup Flowlamina uses every day.">
+  <link rel="canonical" href="https://flowlamina.com/resources/claude-code-showcase/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="How we run an entire business on AI">
+  <meta property="og:description" content="A real, working example of a business run on Claude Code — the exact setup Flowlamina uses every day.">
+  <meta property="og:url" content="https://flowlamina.com/resources/claude-code-showcase/">
+  <meta property="og:image" content="https://flowlamina.com/assets/logo.png">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    /* ---- page-specific components, built on the site tokens ---- */
+    .res-hero { padding: 5.5rem 0 4rem; }
+    .res-hero h1 { max-width: 22ch; }
+    .res-hero .lede { max-width: 40rem; }
+    .crumb { font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 1.6rem; }
+    .crumb a { font-weight: 500; }
+
+    .mono {
+      font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    .cmd {
+      font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.8em;
+      background: var(--mint);
+      color: var(--green-900);
+      padding: 2px 8px 3px;
+      border-radius: 6px;
+      border: 1px solid var(--green-100);
+      white-space: nowrap;
+      font-weight: 550;
+    }
+    .tint .cmd { background: var(--paper); }
+
+    /* ---- diagram 1: the big idea, 4 steps ---- */
+    .flow4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2.2rem;
+      margin-top: 2.5rem;
+      counter-reset: flowstep;
+    }
+    .flow4 .fstep {
+      background: var(--paper);
+      border: 1px solid var(--green-100);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.4rem;
+      position: relative;
+      counter-increment: flowstep;
+    }
+    .flow4 .fstep::before {
+      content: counter(flowstep);
+      display: grid; place-items: center;
+      width: 2rem; height: 2rem;
+      border-radius: 50%;
+      background: var(--green-700);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.9rem;
+    }
+    .flow4 .fstep:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -1.7rem; top: 50%;
+      transform: translateY(-50%);
+      color: var(--green-500);
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    .flow4 h3 { font-size: 1.05rem; }
+    .flow4 p { color: var(--ink-soft); font-size: 0.94rem; }
+    .fstep.human { background: #fdf6ec; border-color: #e5d3b0; }
+    .fstep.human::before { background: #b98a2e; }
+    .human-tag {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      color: #7a5c20;
+      background: #fff;
+      border: 1px solid #e5d3b0;
+      border-radius: 999px;
+      padding: 1px 9px;
+      margin-bottom: 0.5rem;
+    }
+    .flow4.cols3 { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 900px) {
+      .flow4, .flow4.cols3 { grid-template-columns: 1fr; gap: 2rem; max-width: 26rem; }
+      .flow4 .fstep:not(:last-child)::after {
+        content: "↓";
+        right: auto; left: 50%; top: auto; bottom: -1.75rem;
+        transform: translateX(-50%);
+      }
+    }
+
+    /* ---- diagram 2: one workspace, four parts ---- */
+    .map { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-top: 2.5rem; }
+    .map .hub {
+      grid-column: 1 / -1;
+      justify-self: center;
+      text-align: center;
+      background: var(--green-900);
+      color: #fff;
+      border-radius: 999px;
+      padding: 0.9rem 2.4rem;
+      display: flex; flex-direction: column; gap: 0.1rem;
+      order: 2;
+    }
+    .map .hub strong { font-size: 1.05rem; }
+    .map .hub span { font-size: 0.85rem; color: var(--green-200); }
+    .map .part { order: 1; }
+    .map .part.below { order: 3; }
+    .map .part h3 { display: flex; align-items: baseline; gap: 0.6rem; }
+    .map .part h3 .tagline { font-size: 0.85rem; font-weight: 500; color: var(--green-500); }
+    .map .part ul { list-style: none; margin-top: 0.5rem; }
+    .map .part li {
+      color: var(--ink-soft); font-size: 0.95rem;
+      padding: 0.22rem 0 0.22rem 1.3rem; position: relative;
+    }
+    .map .part li::before {
+      content: "✓"; position: absolute; left: 0;
+      color: var(--green-700); font-weight: 700;
+    }
+    @media (max-width: 860px) {
+      .map { grid-template-columns: 1fr; }
+      .map .hub { order: 0; justify-self: stretch; border-radius: var(--radius); }
+      .map .part, .map .part.below { order: 1; }
+    }
+
+    /* ---- terminal ---- */
+    .terminal {
+      background: #14201a;
+      border-radius: 12px;
+      border: 1px solid rgba(127, 214, 164, 0.2);
+      box-shadow: 0 18px 44px -18px rgba(20, 40, 30, 0.4);
+      overflow: hidden;
+      font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      line-height: 1.75;
+      max-width: 620px;
+      margin: 2.5rem auto 0;
+    }
+    .terminal-bar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(127, 214, 164, 0.15);
+    }
+    .terminal-bar .dot { width: 10px; height: 10px; border-radius: 50%; background: #7d9488; opacity: .55; }
+    .terminal-bar .ttl { margin-left: 8px; color: #7d9488; font-size: 11.5px; letter-spacing: .04em; }
+    .terminal-body { padding: 16px 18px 20px; color: #cfe3d6; overflow-x: auto; }
+    .terminal-body .ln { white-space: pre; }
+    .t-prompt { color: #7fd6a4; font-weight: 600; }
+    .t-dim { color: #7d9488; }
+    .t-ok { color: #7fd6a4; }
+
+    /* ---- detail divider ---- */
+    .detail-divider {
+      display: flex; align-items: center; gap: 1.2rem;
+      margin: 0 auto; max-width: 1080px; padding: 0 1.5rem;
+    }
+    .detail-divider::before, .detail-divider::after {
+      content: ""; flex: 1; height: 1px; background: var(--green-100);
+    }
+    .detail-divider span {
+      font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--green-500);
+      text-align: center;
+    }
+
+    /* ---- pipeline rail ---- */
+    .pipeline { display: flex; flex-direction: column; max-width: 760px; margin-top: 2.5rem; }
+    .pstep { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 1.3rem; }
+    .pstep-rail { display: flex; flex-direction: column; align-items: center; }
+    .pstep-node {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--green-700); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.95rem; flex-shrink: 0;
+    }
+    .pstep-node.gate {
+      background: #fdf6ec; border: 2px solid #e5d3b0; color: #7a5c20; font-size: 1.1rem;
+    }
+    .pstep-line { width: 2px; flex: 1; background: var(--green-100); min-height: 26px; }
+    .pstep:last-child .pstep-line { display: none; }
+    .pstep-body { padding-bottom: 2.1rem; display: flex; flex-direction: column; gap: 0.45rem; }
+    .pstep:last-child .pstep-body { padding-bottom: 0; }
+    .pstep-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.7rem; }
+    .pstep-title h3 { margin: 0; }
+    .pstep-body p { color: var(--ink-soft); max-width: 58ch; font-size: 0.98rem; }
+    .gate-tag {
+      font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      background: #fdf6ec; color: #7a5c20;
+      border: 1px solid #e5d3b0;
+      padding: 2px 9px; border-radius: 999px;
+    }
+    .status-flow { font-size: 0.85rem; color: var(--green-500); }
+    .status-flow strong { color: var(--green-700); }
+    .aside-note {
+      margin-top: 2.4rem;
+      border-left: 3px solid var(--green-500);
+      padding: 0.2rem 0 0.2rem 1.1rem;
+      color: var(--ink-soft);
+      max-width: 62ch;
+      font-size: 0.98rem;
+    }
+
+    /* ---- streams / memory / guardrails ---- */
+    .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 0.7rem; }
+    .chips .cmd { font-size: 0.78rem; }
+    .stream-foot {
+      margin-top: 1.1rem; padding-top: 0.8rem;
+      font-size: 0.88rem; color: var(--green-500);
+      border-top: 1px dashed var(--green-100);
+    }
+    .k {
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--green-500);
+      display: block; margin-bottom: 0.5rem;
+    }
+    .mem-file { font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.95rem; font-weight: 650; color: var(--green-900); }
+    .mem-when { display: block; margin-top: 0.6rem; font-size: 0.83rem; color: var(--green-500); }
+    .rail-icon {
+      width: 2.4rem; height: 2.4rem; border-radius: 9px;
+      background: var(--green-100); color: var(--green-700);
+      display: grid; place-items: center; font-size: 1.05rem;
+      margin-bottom: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav-wrap">
+    <nav class="container nav">
+      <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="34" height="34">
+        <span>Flowlamina</span>
+      </a>
+      <div class="nav-links">
+        <a href="/resources/">Resources</a>
+        <a href="/#services">Services</a>
+        <a class="btn btn-small" href="https://calendly.com/harshan-flowlamina/30min" target="_blank" rel="noopener">Book a call</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- Hero: plain-English framing -->
+    <section class="res-hero">
+      <div class="container">
+        <p class="crumb"><a href="/resources/">Resources</a> / Claude Code showcase</p>
+        <p class="eyebrow">Free resource · A real working example</p>
+        <h1>How we run an entire business on AI</h1>
+        <p class="lede">Flowlamina practises what it sells. Our own sales, client work, content and bookkeeping all run through one AI workspace — a tool called Claude Code. This page shows the actual setup, starting with the big picture and working down to the nuts and bolts.</p>
+      </div>
+    </section>
+
+    <!-- The big idea -->
+    <section class="section tint">
+      <div class="container">
+        <h2>The big idea</h2>
+        <p class="section-sub">Forget the jargon for a moment. Every automated workflow on this page follows the same four-step shape:</p>
+        <div class="flow4">
+          <div class="fstep">
+            <h3>You ask in plain English</h3>
+            <p>"Draft a proposal for this job." "File this meeting." "Import this bank statement." No forms, no code.</p>
+          </div>
+          <div class="fstep">
+            <h3>The AI does the work</h3>
+            <p>It reads your files, follows your written rules, and operates the tools you already use — email, CRM, spreadsheets, accounting.</p>
+          </div>
+          <div class="fstep human">
+            <span class="human-tag">Human checkpoint</span>
+            <h3>You review &amp; approve</h3>
+            <p>Anything important stops and waits for a person. The AI does the labour; you keep the judgement.</p>
+          </div>
+          <div class="fstep">
+            <h3>Everything files itself</h3>
+            <p>Documents saved, records updated, statuses tracked — the paperwork keeps itself, automatically.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- One workspace, four parts -->
+    <section class="section">
+      <div class="container">
+        <h2>One workspace, four parts of the business</h2>
+        <p class="section-sub">This isn't one clever trick — the whole business runs out of the same AI workspace. Here's the map:</p>
+        <div class="map">
+          <article class="card part">
+            <h3>Winning work <span class="tagline">— sales</span></h3>
+            <ul>
+              <li>Lead lists researched and personalised for outreach</li>
+              <li>Job posts turned into tracked pipeline entries</li>
+              <li>Proposals drafted, rendered and e-signed</li>
+            </ul>
+          </article>
+          <article class="card part">
+            <h3>Serving clients <span class="tagline">— delivery</span></h3>
+            <ul>
+              <li>Client folders and profiles kept automatically</li>
+              <li>Meeting transcripts filed and summarised</li>
+              <li>The builds themselves — chatbots, integrations, automations</li>
+            </ul>
+          </article>
+          <div class="hub">
+            <strong>One AI workspace</strong>
+            <span>Claude Code + your business rules + your tools</span>
+          </div>
+          <article class="card part below">
+            <h3>Content &amp; marketing <span class="tagline">— audience</span></h3>
+            <ul>
+              <li>Videos edited, cleaned up and thumbnailed</li>
+              <li>Descriptions written from the actual recording</li>
+              <li>Social content pipelines for clients</li>
+            </ul>
+          </article>
+          <article class="card part below">
+            <h3>Money &amp; admin <span class="tagline">— back office</span></h3>
+            <ul>
+              <li>Bank statements parsed straight into the books</li>
+              <li>CRM and dashboard kept current overnight</li>
+              <li>A daily 5am briefing on where to focus</li>
+            </ul>
+          </article>
+        </div>
+        <p class="section-sub" style="margin: 2.2rem 0 0; max-width: 62ch;">If those four parts look familiar, they should — they're the same four quadrants we <a href="/#services">automate for clients</a>. This page is simply our own business run through them.</p>
+      </div>
+    </section>
+
+    <!-- A real example -->
+    <section class="section tint">
+      <div class="container">
+        <h2>A real example: proposals in minutes, not evenings</h2>
+        <p class="section-sub">The clearest way to understand the setup is to watch one workflow. Writing a proposal used to take an evening — drafting, formatting, filing, updating the pipeline. Now it looks like this:</p>
+        <div class="flow4 cols3" id="example3">
+          <div class="fstep">
+            <h3>Paste the brief</h3>
+            <p>A job ad, call notes, or a rough scope — whatever exists gets pasted into the chat.</p>
+          </div>
+          <div class="fstep">
+            <h3>The AI drafts it</h3>
+            <p>It writes the full proposal in our voice, modelled on past winning proposals, and logs it in the sales pipeline.</p>
+          </div>
+          <div class="fstep human">
+            <span class="human-tag">Human checkpoint</span>
+            <h3>Review, then ship</h3>
+            <p>After a human read-through, one more command renders the branded PDF and preps it for e-signature.</p>
+          </div>
+        </div>
+        <div class="terminal" role="img" aria-label="A Claude Code terminal session generating a proposal">
+          <div class="terminal-bar">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="ttl">what it actually looks like</span>
+          </div>
+          <div class="terminal-body">
+            <div class="ln"><span class="t-prompt">❯</span> /generate-proposal</div>
+            <div class="ln"><span class="t-dim">  reading past winners + drafting rules…</span></div>
+            <div class="ln"><span class="t-ok">  ✓</span> proposal drafted <span class="t-dim">(scope, price, terms)</span></div>
+            <div class="ln"><span class="t-ok">  ✓</span> pipeline updated <span class="t-dim">→ Drafting</span></div>
+            <div class="ln"><span class="t-dim">  paused for your review — edit, then:</span></div>
+            <div class="ln"><span class="t-prompt">❯</span> /finalise-proposal</div>
+            <div class="ln"><span class="t-ok">  ✓</span> branded PDF rendered</div>
+            <div class="ln"><span class="t-ok">  ✓</span> pipeline updated <span class="t-dim">→ Ready</span> · e-sign prepared</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section" style="padding: 2.5rem 0 0;">
+      <div class="detail-divider"><span>For the curious — the full detail</span></div>
+    </div>
+
+    <!-- Full pipeline detail -->
+    <section class="section">
+      <div class="container">
+        <h2>The proposal pipeline, step by step</h2>
+        <p class="section-sub">Every stage below runs today, exactly as described. The commands in green boxes are the actual "skills" — saved instructions the AI follows the same way every time.</p>
+        <div class="pipeline">
+          <div class="pstep">
+            <div class="pstep-rail"><div class="pstep-node">1</div><div class="pstep-line"></div></div>
+            <div class="pstep-body">
+              <div class="pstep-title"><h3>Paste the brief</h3></div>
+              <p>A job post, call notes, or a rough scope typed straight into chat — no template to fill in.</p>
+            </div>
+          </div>
+          <div class="pstep">
+            <div class="pstep-rail"><div class="pstep-node">2</div><div class="pstep-line"></div></div>
+            <div class="pstep-body">
+              <div class="pstep-title"><h3>Draft</h3><span class="cmd">/generate-proposal</span></div>
+              <p>The AI reads past winning proposals and the house drafting rules — tone, structure, terms, Australian English — then writes the full proposal as an editable document and creates the tracking row in the sales pipeline.</p>
+              <span class="status-flow">pipeline status → <strong>Drafting</strong></span>
+            </div>
+          </div>
+          <div class="pstep">
+            <div class="pstep-rail"><div class="pstep-node gate" aria-hidden="true">✋</div><div class="pstep-line"></div></div>
+            <div class="pstep-body">
+              <div class="pstep-title"><h3>Review &amp; edit</h3><span class="gate-tag">Human gate</span></div>
+              <p>The system stops on purpose. Nothing client-facing leaves without a human reading it — scope, pricing and wording get adjusted before anything is rendered.</p>
+            </div>
+          </div>
+          <div class="pstep">
+            <div class="pstep-rail"><div class="pstep-node">3</div><div class="pstep-line"></div></div>
+            <div class="pstep-body">
+              <div class="pstep-title"><h3>Finalise</h3><span class="cmd">/finalise-proposal</span></div>
+              <p>Renders the accepted draft into a branded PDF — cover page, contents, page numbers, consistent tables — and preps it for e-signature upload.</p>
+              <span class="status-flow">pipeline status → <strong>Ready</strong></span>
+            </div>
+          </div>
+          <div class="pstep">
+            <div class="pstep-rail"><div class="pstep-node gate" aria-hidden="true">✍</div><div class="pstep-line"></div></div>
+            <div class="pstep-body">
+              <div class="pstep-title"><h3>Client signs</h3><span class="gate-tag">Human gate</span></div>
+              <p>The PDF goes out through an e-signature service. The client signs on their own time.</p>
+            </div>
+          </div>
+          <div class="pstep">
+            <div class="pstep-rail"><div class="pstep-node">4</div><div class="pstep-line"></div></div>
+            <div class="pstep-body">
+              <div class="pstep-title"><h3>File the signed copy</h3><span class="cmd">/save-signed-proposal</span></div>
+              <p>The signed PDF is filed next to the original, the pipeline flips to Signed, and the engagement timeline gets a dated entry — the record keeps itself.</p>
+              <span class="status-flow">pipeline status → <strong>Signed</strong></span>
+            </div>
+          </div>
+        </div>
+        <p class="aside-note">The pattern to notice: the AI does the drafting, rendering and record-keeping; the human owns judgement and sign-off. Every workflow on this page follows that split.</p>
+      </div>
+    </section>
+
+    <!-- Four streams detail -->
+    <section class="section tint">
+      <div class="container">
+        <h2>The full command library</h2>
+        <p class="section-sub">Each chip below is a real command that runs today — a documented process the AI executes the same way every time.</p>
+        <div class="grid grid-2">
+          <article class="card">
+            <span class="k">Winning work</span>
+            <h3>Sales &amp; outreach</h3>
+            <p>Scraped lead lists get qualified, enriched with decision-maker emails, and personalised one by one with genuine web research. Job posts become tracked pipeline entries in seconds; campaign analytics sync back weekly.</p>
+            <div class="chips">
+              <span class="cmd">/qualify-leads</span>
+              <span class="cmd">/enrich-leads</span>
+              <span class="cmd">/personalise-leads</span>
+              <span class="cmd">/parse-upwork</span>
+              <span class="cmd">/sync-instantly-analytics</span>
+            </div>
+            <div class="stream-foot">Thousands of leads researched individually — a job no human would do by hand.</div>
+          </article>
+          <article class="card">
+            <span class="k">Serving clients</span>
+            <h3>Delivery &amp; engagement records</h3>
+            <p>New clients get a scaffolded folder with a living profile. Meeting transcripts are filed and summarised into a running timeline, and the day's work is logged from a plain-language brain-dump. The AI also does the builds themselves through direct connections to client tools.</p>
+            <div class="chips">
+              <span class="cmd">/client:create</span>
+              <span class="cmd">/client:save-meeting</span>
+              <span class="cmd">/log-day</span>
+            </div>
+            <div class="stream-foot">Connected to email, calendars, CRMs, automation platforms and hosting — it operates the tools, not just talks about them.</div>
+          </article>
+          <article class="card">
+            <span class="k">Content &amp; marketing</span>
+            <h3>Video &amp; content engines</h3>
+            <p>A full video post-production line: silence-cut and level a raw recording, scan the screen for accidentally-visible passwords and blur them, generate the thumbnail, and draft the description from a transcript of the actual narration.</p>
+            <div class="chips">
+              <span class="cmd">/process-video</span>
+              <span class="cmd">/redact-video</span>
+              <span class="cmd">/generate-thumbnail</span>
+              <span class="cmd">/generate-description</span>
+            </div>
+            <div class="stream-foot">Once a process runs twice, it gets encoded — the third run is a single command.</div>
+          </article>
+          <article class="card">
+            <span class="k">Money &amp; admin</span>
+            <h3>Back office &amp; strategy</h3>
+            <p>Bank statement PDFs are parsed straight into the finance records — safely re-runnable, so nothing ever duplicates. A nightly sync keeps the CRM and a live dashboard current, and each morning an advisor briefing reads the whole business and returns a ranked list of where to focus.</p>
+            <div class="chips">
+              <span class="cmd">/import-bank-statement-pdf</span>
+              <span class="cmd">/sync-crm</span>
+              <span class="cmd">/advisor</span>
+            </div>
+            <div class="stream-foot">The advisor runs on a schedule at 5am — the business gets reviewed before the day starts.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Memory -->
+    <section class="section">
+      <div class="container">
+        <h2>Why it keeps getting better</h2>
+        <p class="section-sub">The commands are only half the setup. The other half is a written memory: corrections and preferences get captured in the right file, so the same feedback never has to be given twice.</p>
+        <div class="grid grid-2">
+          <article class="card">
+            <span class="mem-file">CLAUDE.md</span>
+            <p>The operating manual. Hard rules, a map of the workspace, conventions — the first thing the AI reads every session, so behaviour stays consistent.</p>
+            <span class="mem-when">Read at the start of every session</span>
+          </article>
+          <article class="card">
+            <span class="mem-file">LEARNINGS.md</span>
+            <p>Business insights that repeat: what lifted reply rates, what clients actually prefer. Each entry states the rule, why, and when to apply it.</p>
+            <span class="mem-when">Written when a lesson generalises</span>
+          </article>
+          <article class="card">
+            <span class="mem-file">DECISIONS.md</span>
+            <p>A permanent log of structural choices — vendors, schemas, architecture — with the alternatives considered, so old analysis is never repeated.</p>
+            <span class="mem-when">Written when a meaningful choice is made</span>
+          </article>
+          <article class="card">
+            <span class="mem-file">feedback.md</span>
+            <p>Scoped rules for one workflow or one client: layout preferences, voice, process corrections. Loaded automatically whenever that work runs.</p>
+            <span class="mem-when">Written the moment feedback is given</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Guardrails -->
+    <section class="section tint">
+      <div class="container">
+        <h2>Built to be trusted</h2>
+        <div class="grid grid-3" style="margin-top: 2.25rem;">
+          <article class="card">
+            <div class="rail-icon" aria-hidden="true">✋</div>
+            <h3>Human gates where it matters</h3>
+            <p>Anything client-facing — proposals, published videos, outbound email — stops for review before it ships. Automation handles the labour, not the judgement.</p>
+          </article>
+          <article class="card">
+            <div class="rail-icon" aria-hidden="true">🔒</div>
+            <h3>Secrets stay secret</h3>
+            <p>Passwords and keys are referenced by name, never displayed or stored in documents. One command even scans screen recordings for visible keys before a video is published.</p>
+          </article>
+          <article class="card">
+            <div class="rail-icon" aria-hidden="true">⚠</div>
+            <h3>Fail loudly, never silently</h3>
+            <p>Missing settings stop the run with a clear error instead of guessing at a default. Imports and syncs are safely re-runnable without duplicating data.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta-section">
+      <div class="container narrow center">
+        <h2>Want this for your business?</h2>
+        <p class="section-sub">None of this needed custom software — it's an AI workspace pointed at processes you already run, with the judgement calls kept human. Tell us where your team loses time and we'll show you what your version looks like.</p>
+        <a class="btn btn-lg" href="https://calendly.com/harshan-flowlamina/30min" target="_blank" rel="noopener">Book a free 30-minute consultation</a>
+        <p class="contact-lines">
+          <a href="mailto:harshan@flowlamina.com">harshan@flowlamina.com</a>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="26" height="26">
+        <span>Flowlamina</span>
+      </a>
+      <p>© Flowlamina · Melbourne, Australia</p>
+      <div class="footer-links">
+        <a href="/resources/">Resources</a>
+        <a href="https://www.youtube.com/@hkaiautomate" target="_blank" rel="noopener">YouTube</a>
+        <a href="mailto:harshan@flowlamina.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- GoatCounter — privacy-friendly page-view counts, no cookies. Dashboard: https://flowlamina.goatcounter.com -->
+  <script data-goatcounter="https://flowlamina.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free resources — Flowlamina</title>
+  <meta name="description" content="Free, practical resources from Flowlamina — real working examples of AI systems for small and medium businesses.">
+  <link rel="canonical" href="https://flowlamina.com/resources/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Free resources — Flowlamina">
+  <meta property="og:description" content="Real working examples of AI systems for small and medium businesses.">
+  <meta property="og:url" content="https://flowlamina.com/resources/">
+  <meta property="og:image" content="https://flowlamina.com/assets/logo.png">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .res-card { display: block; transition: border-color 0.15s ease, transform 0.15s ease; }
+    .res-card:hover { border-color: var(--green-500); transform: translateY(-2px); }
+    .res-card h3 { margin-bottom: 0.5rem; }
+    .res-card .go { display: inline-block; margin-top: 1rem; font-weight: 600; color: var(--green-700); }
+    .res-kind {
+      display: inline-block;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.11em; text-transform: uppercase;
+      color: var(--green-500);
+      margin-bottom: 0.7rem;
+    }
+    .coming { color: var(--ink-soft); font-size: 0.95rem; margin-top: 2.4rem; }
+  </style>
+</head>
+<body>
+
+  <header class="nav-wrap">
+    <nav class="container nav">
+      <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="34" height="34">
+        <span>Flowlamina</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#services">Services</a>
+        <a href="/#faq">FAQ</a>
+        <a class="btn btn-small" href="https://calendly.com/harshan-flowlamina/30min" target="_blank" rel="noopener">Book a call</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="section" style="padding-top: 5.5rem;">
+      <div class="container">
+        <p class="eyebrow">Free resources</p>
+        <h1 style="font-size: clamp(2rem, 4.5vw, 2.8rem);">See how it actually works</h1>
+        <p class="lede" style="margin-bottom: 3rem;">No gated PDFs, no email walls — real working examples of the AI systems we build, free to read and share.</p>
+
+        <div class="grid grid-2">
+          <a class="card res-card" href="/resources/claude-code-showcase/">
+            <span class="res-kind">Working example</span>
+            <h3>How we run an entire business on AI</h3>
+            <p>Flowlamina's own setup, top to bottom: sales, client delivery, content and bookkeeping all running through one AI workspace — with the human checkpoints that keep it trustworthy. Starts with the big picture, then goes as deep as you like.</p>
+            <span class="go">Read the showcase →</span>
+          </a>
+        </div>
+
+        <p class="coming">More resources are on the way. Want one on a specific problem — quoting, follow-ups, reporting? <a href="mailto:harshan@flowlamina.com">Tell us</a> and we'll bump it up the list.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="26" height="26">
+        <span>Flowlamina</span>
+      </a>
+      <p>© Flowlamina · Melbourne, Australia</p>
+      <div class="footer-links">
+        <a href="https://www.youtube.com/@hkaiautomate" target="_blank" rel="noopener">YouTube</a>
+        <a href="mailto:harshan@flowlamina.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Email address copied</div>
+  <script>
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+      a.addEventListener('click', () => {
+        if (!navigator.clipboard) return;
+        navigator.clipboard.writeText('harshan@flowlamina.com').then(() => {
+          toast.classList.add('show');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+        });
+      });
+    });
+  </script>
+
+  <!-- GoatCounter — privacy-friendly page-view counts, no cookies. Dashboard: https://flowlamina.goatcounter.com -->
+  <script data-goatcounter="https://flowlamina.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>
