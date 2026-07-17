@@ -167,6 +167,43 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   font-weight: 700;
 }
 
+/* ---------- Mini pictogram flows (card footers) ---------- */
+.mini-flow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  margin-top: auto;              /* pins the strip to the card bottom (card must be flex column) */
+  padding-top: 1.15rem;
+  border-top: 1px dashed var(--green-100);
+}
+.mf-node {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  text-align: center;
+  min-width: 0;
+}
+.mf-icon {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: var(--green-100);
+  color: var(--green-700);
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+.mf-icon svg { width: 22px; height: 22px; display: block; }
+.mf-node span {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  line-height: 1.25;
+}
+.mf-arrow { color: var(--green-500); font-weight: 600; line-height: 42px; }
+.quadrant { display: flex; flex-direction: column; }
+.quadrant ul { margin-bottom: 1.25rem; }
+
 /* ---------- Process steps ---------- */
 .steps {
   list-style: none;
