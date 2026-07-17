@@ -392,3 +392,4 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
 .tone-amber { background: #F3E6C8; color: #8F6A1C; }
 .tone-blue  { background: #D8E4EC; color: #33667F; }
 .tone-rose  { background: #F3DDD6; color: #A85C4B; }
+.tone-claude { background: #F7E4DC; color: #C96442; }   /* Claude's coral — used for the Claude Code mark */
