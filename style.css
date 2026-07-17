@@ -218,9 +218,19 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   background: var(--paper);
   border: 1px solid var(--green-100);
   border-radius: var(--radius);
-  padding: 1.8rem 1.6rem 1.8rem 4.4rem;
+  padding: 1.8rem 4.6rem 1.8rem 4.4rem;
   position: relative;
 }
+.step-ico {
+  position: absolute;
+  right: 1.4rem; top: 1.55rem;
+  width: 2.6rem; height: 2.6rem;
+  border-radius: 10px;
+  background: var(--green-100);
+  color: var(--green-700);
+  display: grid; place-items: center;
+}
+.step-ico svg { width: 20px; height: 20px; display: block; }
 .steps li::before {
   content: counter(step, decimal-leading-zero);
   position: absolute;
@@ -240,6 +250,15 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   text-align: center;
 }
 .stat-label { display: block; max-width: 22ch; margin: 0 auto; }
+.stat-ico {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--green-100);
+  color: var(--green-700);
+  display: grid; place-items: center;
+  margin: 0 auto 0.9rem;
+}
+.stat-ico svg { width: 22px; height: 22px; display: block; }
 .stat-num {
   display: block;
   font-size: clamp(2.2rem, 5vw, 3rem);
@@ -250,13 +269,24 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
 .stat-label { color: var(--ink-soft); }
 
 /* ---------- Testimonials ---------- */
+.quote { display: flex; flex-direction: column; }
 .quote blockquote {
   font-size: 0.98rem;
   color: var(--ink);
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.3rem;
 }
 .quote figcaption { font-weight: 650; color: var(--green-700); }
-.quote figcaption::before { content: "— "; }
+.quote-person {
+  margin-top: auto;                /* pins the person row to the card bottom */
+  display: flex; align-items: center; gap: 0.8rem;
+}
+.quote-person img {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--green-100);
+  flex-shrink: 0;
+}
 
 /* ---------- FAQ ---------- */
 #faq details {
