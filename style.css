@@ -385,3 +385,10 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   .stats { grid-template-columns: 1fr; gap: 2rem; }
   .footer-inner { flex-direction: column; text-align: center; }
 }
+
+/* ---------- Icon tones — muted 4-colour system (green is the default).
+   Kept at the end of the file so they win the cascade over the
+   component rules (.quadrant-art, .step-ico, .stat-ico, .mf-icon). ---------- */
+.tone-amber { background: #F3E6C8; color: #8F6A1C; }
+.tone-blue  { background: #D8E4EC; color: #33667F; }
+.tone-rose  { background: #F3DDD6; color: #A85C4B; }
