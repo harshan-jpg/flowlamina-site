@@ -403,13 +403,12 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
 }
 .founder-photo {
   background: var(--mint);
-  border: 1px solid var(--green-100);
-  border-radius: var(--radius);
+  border-radius: 40px;        /* soft, borderless tile so the portrait blends into the page */
   overflow: hidden;
   display: flex;
   align-items: flex-end;      /* cut-out portrait sits flush on the tile's bottom edge */
   max-width: 380px;
-  padding: 2rem 2rem 0;
+  padding: 1.8rem 0 0;        /* no side padding: the portrait fills the tile and the radius clips it */
 }
 .founder-photo img { width: 100%; height: auto; display: block; }
 .founder-copy p:not(.eyebrow) {
