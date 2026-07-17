@@ -393,3 +393,32 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
 .tone-blue  { background: #D8E4EC; color: #33667F; }
 .tone-rose  { background: #F3DDD6; color: #A85C4B; }
 .tone-claude { background: #F7E4DC; color: #C96442; }   /* Claude's coral — used for the Claude Code mark */
+
+/* ---------- Founder ---------- */
+.founder {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 3.5rem;
+  align-items: center;
+}
+.founder-photo {
+  background: var(--mint);
+  border: 1px solid var(--green-100);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;      /* cut-out portrait sits flush on the tile's bottom edge */
+  max-width: 380px;
+  padding: 2rem 2rem 0;
+}
+.founder-photo img { width: 100%; height: auto; display: block; }
+.founder-copy p:not(.eyebrow) {
+  color: var(--ink-soft);
+  max-width: 54ch;
+}
+.founder-copy p + p { margin-top: 0.9rem; }
+.founder-copy h2 { margin-bottom: 1.1rem; }
+@media (max-width: 860px) {
+  .founder { grid-template-columns: 1fr; gap: 2rem; }
+  .founder-photo { max-width: 300px; }
+}

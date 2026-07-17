@@ -19,6 +19,7 @@
       transition: border-color 0.15s ease, transform 0.15s ease;
     }
     .res-card-body { flex: 1; min-width: 0; }
+    .res-logo { width: clamp(130px, 16vw, 190px); height: auto; flex-shrink: 0; }
     @media (max-width: 400px) { .res-card { flex-direction: column-reverse; align-items: flex-start; } }
     .res-card:hover { border-color: var(--green-500); transform: translateY(-2px); }
     .res-card h3 { margin-bottom: 0.5rem; }
@@ -65,7 +66,7 @@
               <p>Flowlamina's own setup — sales, client delivery, content and bookkeeping, all run through Claude Code.</p>
               <span class="go">Read the showcase →</span>
             </div>
-            <div class="quadrant-art tone-claude" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2.6v5.1"/><path d="M12 16.3v5.1"/><path d="M2.6 12h5.1"/><path d="M16.3 12h5.1"/><path d="M5.35 5.35l3.6 3.6"/><path d="M15.05 15.05l3.6 3.6"/><path d="M18.65 5.35l-3.6 3.6"/><path d="M8.95 15.05l-3.6 3.6"/></svg></div>
+            <img class="res-logo" src="/assets/claude-code-logo.png" alt="Claude Code" width="520" height="283" loading="lazy">
           </a>
         </div>
 
