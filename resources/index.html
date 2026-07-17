@@ -14,7 +14,12 @@
   <meta property="og:image" content="https://flowlamina.com/assets/logo.png">
   <link rel="stylesheet" href="/style.css">
   <style>
-    .res-card { display: block; transition: border-color 0.15s ease, transform 0.15s ease; }
+    .res-card {
+      display: flex; align-items: center; gap: 1.6rem;
+      transition: border-color 0.15s ease, transform 0.15s ease;
+    }
+    .res-card-body { flex: 1; min-width: 0; }
+    @media (max-width: 400px) { .res-card { flex-direction: column-reverse; align-items: flex-start; } }
     .res-card:hover { border-color: var(--green-500); transform: translateY(-2px); }
     .res-card h3 { margin-bottom: 0.5rem; }
     .res-card .go { display: inline-block; margin-top: 1rem; font-weight: 600; color: var(--green-700); }
@@ -53,10 +58,13 @@
 
         <div class="grid grid-2">
           <a class="card res-card" href="/resources/claude-code-showcase/">
-            <span class="res-kind">Working example</span>
-            <h3>How we run an entire business on AI</h3>
-            <p>Flowlamina's own setup, top to bottom: sales, client delivery, content and bookkeeping all running through one AI workspace — with the human checkpoints that keep it trustworthy. Starts with the big picture, then goes as deep as you like.</p>
-            <span class="go">Read the showcase →</span>
+            <div class="res-card-body">
+              <span class="res-kind">Working example</span>
+              <h3>How we run an entire business with Claude Code</h3>
+              <p>Flowlamina's own setup — sales, client delivery, content and bookkeeping, all run through Claude Code.</p>
+              <span class="go">Read the showcase →</span>
+            </div>
+            <div class="quadrant-art" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4.5" width="18" height="15" rx="2"/><path d="M7 9.5l3 2.5-3 2.5"/><path d="M12.5 15h4.5"/></svg></div>
           </a>
         </div>
 
