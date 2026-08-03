@@ -37,6 +37,9 @@
     .mock-title { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.84rem; font-weight: 650; color: var(--green-900); margin-left: 0.5rem; }
     .mock-title svg { width: 15px; height: 15px; }
     .mock-bar.green .mock-title { color: var(--green-700); }
+    .brand-logo { display: inline-block; width: auto; }
+    .brand-logo.gmail { height: 17px; }
+    .brand-logo.zoho { height: 16px; }
 
     .mail-list { padding: 0.4rem; }
     .mail-row { display: flex; gap: 0.6rem; padding: 0.7rem; border-radius: 10px; align-items: flex-start; }
@@ -148,7 +151,7 @@
         <div class="mock-row">
           <!-- email inbox mockup -->
           <figure class="mock">
-            <figcaption class="mock-bar"><span class="md r"></span><span class="md y"></span><span class="md g"></span><span class="mock-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg> Sales inbox</span></figcaption>
+            <figcaption class="mock-bar"><span class="md r"></span><span class="md y"></span><span class="md g"></span><span class="mock-title"><img class="brand-logo gmail" src="gmail-logo.svg" alt="Gmail" width="24" height="18"> Sales inbox</span></figcaption>
             <div class="mail-list">
               <div class="mail-row hot">
                 <span class="mail-unread"></span>
@@ -183,7 +186,7 @@
 
           <!-- Zoho quotes mockup -->
           <figure class="mock">
-            <figcaption class="mock-bar green"><span class="md r"></span><span class="md y"></span><span class="md g"></span><span class="mock-title">Zoho CRM · Quotes</span></figcaption>
+            <figcaption class="mock-bar green"><span class="md r"></span><span class="md y"></span><span class="md g"></span><span class="mock-title"><img class="brand-logo zoho" src="zoho-logo.svg" alt="Zoho" width="41" height="18"> CRM · Quotes</span></figcaption>
             <div class="crm-wrap">
               <table class="crm-table">
                 <thead><tr><th>Quote</th><th>Subject</th><th>Stage</th><th class="ta-r">Amount</th></tr></thead>
