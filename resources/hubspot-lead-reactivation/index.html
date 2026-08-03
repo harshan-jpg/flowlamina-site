@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reactivating dormant leads in HubSpot — Flowlamina case study</title>
+  <meta name="description" content="A case study: a self-running AI engine, built natively in HubSpot CRM, that reactivates thousands of dormant leads with a personalised SMS-and-email sequence and books the calls.">
+  <link rel="canonical" href="https://flowlamina.com/resources/hubspot-lead-reactivation/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Reactivating dormant leads in HubSpot — Flowlamina case study">
+  <meta property="og:description" content="A self-running AI engine, built natively in HubSpot CRM, that reactivates thousands of dormant leads and books the calls.">
+  <meta property="og:url" content="https://flowlamina.com/resources/hubspot-lead-reactivation/">
+  <meta property="og:image" content="https://flowlamina.com/resources/hubspot-lead-reactivation/cold-pipeline-proof.png">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .cs-hero { padding: 6.5rem 0 3rem; }
+    .cs-hero .lede { max-width: 42rem; }
+    .cs-meta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.6rem; }
+    .cs-tag {
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em;
+      color: var(--green-700); background: var(--mint);
+      border: 1px solid var(--green-100); border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+    }
+    .back-link { display: block; margin-bottom: 1.4rem; font-weight: 600; font-size: 0.92rem; }
+    .prose { max-width: 62ch; }
+    .prose p { color: var(--ink-soft); margin-bottom: 1rem; }
+    .prose p strong { color: var(--ink); }
+
+    /* proof screenshot frame */
+    .proof-figure {
+      margin: 2.5rem 0 0; border: 1px solid var(--green-100); border-radius: var(--radius);
+      overflow: hidden; background: var(--paper); box-shadow: 0 12px 34px rgba(27, 67, 50, 0.09);
+    }
+    .proof-bar {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.7rem 1rem; background: var(--paper); border-bottom: 1px solid var(--green-100);
+    }
+    .proof-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--green-200); display: inline-block; }
+    .proof-bar i.r { background: #E0655A; } .proof-bar i.y { background: #E0A94A; } .proof-bar i.g { background: #57A877; }
+    .proof-bar .lbl { font-family: ui-monospace, Menlo, monospace; font-size: 0.78rem; color: var(--ink-soft); margin-left: 0.4rem; }
+    .proof-figure img { display: block; width: 100%; height: auto; }
+    .proof-figure figcaption { padding: 1rem 1.2rem; font-size: 0.9rem; color: var(--ink-soft); border-top: 1px solid var(--green-100); line-height: 1.55; }
+    .proof-figure figcaption b { color: var(--ink); font-weight: 650; }
+
+    /* KPI row */
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; margin-top: 2.75rem; text-align: center; }
+    .kpi-num { display: block; font-size: clamp(1.9rem, 4.4vw, 2.6rem); font-weight: 750; color: var(--green-700); line-height: 1.1; }
+    .kpi-label { display: block; color: var(--ink-soft); font-size: 0.95rem; max-width: 20ch; margin: 0.35rem auto 0; }
+
+    .two-cards { margin-top: 2.5rem; }
+    .safe-card h3 { display: flex; align-items: center; gap: 0.6rem; }
+    .safe-card ul { list-style: none; margin-top: 0.9rem; }
+    .safe-card li { position: relative; padding: 0.28rem 0 0.28rem 1.4rem; color: var(--ink-soft); font-size: 0.98rem; }
+    .safe-card li::before { content: "✓"; position: absolute; left: 0; color: var(--green-700); font-weight: 700; }
+
+    @media (max-width: 860px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .kpis { grid-template-columns: 1fr; gap: 2rem; } }
+  </style>
+</head>
+<body>
+
+  <header class="nav-wrap">
+    <nav class="container nav">
+      <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="34" height="34">
+        <span>Flowlamina</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#services">Services</a>
+        <a href="/resources/">Resources</a>
+        <a href="https://www.youtube.com/@hkaiautomate" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn btn-small" href="https://calendly.com/harshan-flowlamina/30min" target="_blank" rel="noopener">Book a call</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="cs-hero">
+      <div class="container">
+        <a class="back-link" href="/resources/">← All resources</a>
+        <p class="eyebrow">Case study · HubSpot CRM</p>
+        <h1 style="max-width: 20ch;">Turning a CRM full of dormant leads back into booked calls</h1>
+        <p class="lede">A self-running reactivation engine, built natively inside a client's <strong>HubSpot CRM</strong>. It rebuilds a targetable list from years of gone-quiet contacts, runs a personalised SMS-and-email sequence, and hands every reply to an AI agent that qualifies the lead and books the call.</p>
+        <div class="cs-meta">
+          <span class="cs-tag">HubSpot CRM</span>
+          <span class="cs-tag">AI SMS + email agent</span>
+          <span class="cs-tag">~5,600 dormant deals</span>
+          <span class="cs-tag">Details sanitised — no client data</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="section" style="padding-top: 2rem;">
+      <div class="container">
+        <div class="prose">
+          <h2>The buried asset every business is sitting on</h2>
+          <p>Established businesses all share the same untapped asset: thousands of contacts who once sampled, enquired or interacted — then went quiet. They already know the brand, which makes them the <strong>cheapest revenue in the business</strong> to win.</p>
+          <p>But no one has the hours to work back through thousands of them by hand. So they sit in the CRM's cold pipeline, untouched, month after month. This engine works that list automatically — persistently, personally, and safely.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section tint">
+      <div class="container">
+        <h2>How the engine works</h2>
+        <p class="section-sub">From a cold contact to a booked call — end to end, inside HubSpot.</p>
+        <ol class="steps">
+          <li>
+            <div class="step-ico tone-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M6 12h12M10 18h4"/></svg></div>
+            <h3>Build the target list</h3>
+            <p>No clean "dormant" list exists, so the engine assembles one from signals — past interaction, gone quiet, not yet a customer. Messy phone data is cleaned and normalised, and contacts split into two cohorts: <strong>win-back</strong> (lapsed customers) and <strong>re-intro</strong> (sampled, never bought).</p>
+          </li>
+          <li>
+            <div class="step-ico tone-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></div>
+            <h3>Reach out — multi-touch</h3>
+            <p>Five touches over roughly two weeks, alternating SMS and email, personalised per contact. SMS leads where a valid mobile exists; email carries the rest. The sequence <strong>stops the instant someone replies</strong>.</p>
+          </li>
+          <li>
+            <div class="step-ico tone-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2z"/></svg></div>
+            <h3>AI takes the conversation</h3>
+            <p>A reply hands the thread to an AI agent. It qualifies conversationally, answers <strong>only from an approved knowledge base</strong>, and steers toward booking — capturing the day, time and contact details. It never discounts, never makes unverified claims, and never pretends to be human.</p>
+          </li>
+          <li>
+            <div class="step-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M9 15l2 2 4-4"/></svg></div>
+            <h3>Book &amp; hand off</h3>
+            <p>The agent books the call into a staff calendar and progresses the HubSpot deal stage. Anything sensitive — complaints, edge cases, anyone asking for a person — routes cleanly to <strong>a single human</strong>.</p>
+          </li>
+          <li>
+            <div class="step-ico tone-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4v16M4 7h12a2 2 0 0 1 0 4H4M4 13h9a2 2 0 0 1 0 4H4"/></svg></div>
+            <h3>Everything on the record</h3>
+            <p>Every touch, reply and booking is written back to the HubSpot contact timeline, so the <strong>CRM stays the single source of truth</strong>. Nothing lives in a black box off to the side.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- PROOF -->
+    <section class="section">
+      <div class="container">
+        <h2>Proof — inside the HubSpot CRM</h2>
+        <p class="section-sub">This runs on a real HubSpot CRM. Here's the live Cold pipeline, with all client-identifying details redacted.</p>
+
+        <figure class="proof-figure">
+          <div class="proof-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="lbl">app.hubspot.com · HubSpot CRM · Deals · Cold pipeline</span></div>
+          <img src="cold-pipeline-proof.png" alt="A HubSpot CRM Deals board filtered to the Cold pipeline, showing 3,943 cold leads and 1,634 cold prospects highlighted. Client-identifying details are redacted." width="1600" height="961" loading="lazy">
+          <figcaption><b>A real HubSpot CRM deal board.</b> Highlighted: the Cold pipeline holds <b>3,943 cold leads</b> and <b>1,634 cold prospects</b> — around <b>5,600 dormant deals</b> the engine re-contacts. Redacted: portal ID, account name, every business and deal name, logos, owner initials and internal deal-value figures.</figcaption>
+        </figure>
+
+        <div class="kpis">
+          <div><span class="kpi-num">3,943</span><span class="kpi-label">cold leads in the pipeline</span></div>
+          <div><span class="kpi-num">1,634</span><span class="kpi-label">cold prospects in the pipeline</span></div>
+          <div><span class="kpi-num">~5,600</span><span class="kpi-label">dormant deals re-contacted</span></div>
+          <div><span class="kpi-num">5&nbsp;touches</span><span class="kpi-label">per contact, over ~2 weeks</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT KEEPS IT SAFE -->
+    <section class="section tint">
+      <div class="container">
+        <h2>Built to run safely</h2>
+        <p class="section-sub">Messaging a large dormant database is only worth doing if it's done properly.</p>
+        <div class="grid grid-2 two-cards">
+          <div class="card safe-card">
+            <h3>Guardrails &amp; compliance</h3>
+            <ul>
+              <li>A defensible consent basis before the first send</li>
+              <li>Working opt-out, honoured and mirrored back into the CRM</li>
+              <li>Safe sending hours for the contact's timezone</li>
+              <li>A hard "never" list the AI agent cannot cross</li>
+            </ul>
+          </div>
+          <div class="card safe-card">
+            <h3>State &amp; two-way sync</h3>
+            <ul>
+              <li>Per-contact state: touch count, last touched, replied, booked, opted-out</li>
+              <li>Held in HubSpot, with a scheduler that decides who's due next</li>
+              <li>Stops instantly on any reply, on any channel</li>
+              <li>HubSpot stays the single source of truth</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY IT PAYS -->
+    <section class="stats-section">
+      <div class="container">
+        <h2 class="center">Why reactivation pays</h2>
+        <div class="stats" style="margin-top: 2.5rem;">
+          <div>
+            <span class="stat-num">1,000+</span>
+            <span class="stat-label">contacts is where reactivating a dormant list starts to pay for itself</span>
+          </div>
+          <div>
+            <span class="stat-num">~1.5–2%</span>
+            <span class="stat-label">typical book-and-convert rate off a well-worked dormant list</span>
+          </div>
+          <div>
+            <span class="stat-num">A few orders</span>
+            <span class="stat-label">typical payback — reactivated revenue is the cheapest you'll win</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta-section center">
+      <div class="container">
+        <h2>Sitting on a cold database?</h2>
+        <p class="section-sub">If you've got a CRM full of leads that have gone quiet, there's revenue in there worth reactivating. Let's talk about what a system like this would look like for your business.</p>
+        <a class="btn btn-lg" href="https://calendly.com/harshan-flowlamina/30min" target="_blank" rel="noopener">Book a call</a>
+        <p class="contact-lines">Or email <a href="mailto:harshan@flowlamina.com">harshan@flowlamina.com</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="26" height="26">
+        <span>Flowlamina</span>
+      </a>
+      <p>© Flowlamina · Melbourne, Australia</p>
+      <div class="footer-links">
+        <a href="/resources/">Resources</a>
+        <a href="https://www.youtube.com/@hkaiautomate" target="_blank" rel="noopener">YouTube</a>
+        <a href="mailto:harshan@flowlamina.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Email address copied</div>
+  <script>
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+      a.addEventListener('click', () => {
+        if (!navigator.clipboard) return;
+        navigator.clipboard.writeText('harshan@flowlamina.com').then(() => {
+          toast.classList.add('show');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+        });
+      });
+    });
+  </script>
+
+  <!-- GoatCounter — privacy-friendly page-view counts, no cookies. -->
+  <script data-goatcounter="https://flowlamina.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>
