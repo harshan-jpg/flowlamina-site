@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Email-to-quote automation in Zoho CRM — Flowlamina case study</title>
+  <meta name="description" content="A case study: an AI automation that reads inbound customer emails, prices them from Zoho CRM's own price books, and drafts ready-to-send quotes inside Zoho for staff to review.">
+  <link rel="canonical" href="https://flowlamina.com/resources/zoho-email-to-quote/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Email-to-quote automation in Zoho CRM — Flowlamina case study">
+  <meta property="og:description" content="AI reads inbound emails, prices them from Zoho's price books, and drafts ready-to-send quotes inside Zoho CRM.">
+  <meta property="og:url" content="https://flowlamina.com/resources/zoho-email-to-quote/">
+  <meta property="og:image" content="https://flowlamina.com/assets/logo.png">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .cs-hero { padding: 6.5rem 0 3rem; }
+    .cs-hero .lede { max-width: 44rem; }
+    .cs-meta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.6rem; }
+    .cs-tag {
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em;
+      color: var(--green-700); background: var(--mint);
+      border: 1px solid var(--green-100); border-radius: 999px; padding: 0.35rem 0.85rem;
+    }
+    .back-link { display: block; margin-bottom: 1.4rem; font-weight: 600; font-size: 0.92rem; }
+    .prose { max-width: 62ch; }
+    .prose p { color: var(--ink-soft); margin-bottom: 1rem; }
+    .prose p strong { color: var(--ink); }
+
+    /* --- email → Zoho visual mockups --- */
+    .mock-row { display: flex; align-items: center; gap: 1.2rem; margin-top: 2.5rem; }
+    @media (max-width: 820px) { .mock-row { flex-direction: column; } }
+    .mock { flex: 1; min-width: 0; width: 100%; background: var(--paper); border: 1px solid var(--green-100); border-radius: var(--radius); overflow: hidden; box-shadow: 0 12px 34px rgba(27, 67, 50, 0.10); margin: 0; }
+    .mock-bar { display: flex; align-items: center; gap: 0.4rem; padding: 0.6rem 0.9rem; background: var(--mint); border-bottom: 1px solid var(--green-100); }
+    .md { width: 10px; height: 10px; border-radius: 50%; background: var(--green-200); display: inline-block; }
+    .md.r { background: #E0655A; } .md.y { background: #E0A94A; } .md.g { background: #57A877; }
+    .mock-title { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.84rem; font-weight: 650; color: var(--green-900); margin-left: 0.5rem; }
+    .mock-title svg { width: 15px; height: 15px; }
+    .mock-bar.green .mock-title { color: var(--green-700); }
+
+    .mail-list { padding: 0.4rem; }
+    .mail-row { display: flex; gap: 0.6rem; padding: 0.7rem; border-radius: 10px; align-items: flex-start; }
+    .mail-row.hot { background: var(--mint); }
+    .mail-unread { width: 8px; height: 8px; border-radius: 50%; background: #E0655A; margin-top: 0.4rem; flex-shrink: 0; }
+    .mail-read { width: 8px; height: 8px; border-radius: 50%; background: transparent; border: 1.5px solid var(--green-200); margin-top: 0.4rem; flex-shrink: 0; }
+    .mail-body { min-width: 0; flex: 1; }
+    .mail-top { display: flex; justify-content: space-between; gap: 0.6rem; font-size: 0.9rem; color: var(--green-900); }
+    .mail-top b { font-weight: 700; }
+    .mail-time { color: var(--ink-soft); font-size: 0.78rem; flex-shrink: 0; }
+    .mail-sub { font-size: 0.88rem; font-weight: 650; color: var(--ink); margin-top: 0.1rem; }
+    .mail-sub.muted { font-weight: 500; color: var(--ink-soft); }
+    .mail-snip { font-size: 0.83rem; color: var(--ink-soft); margin-top: 0.15rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .mail-chip { display: inline-flex; align-items: center; gap: 0.3rem; margin-top: 0.55rem; font-size: 0.76rem; font-weight: 600; color: var(--green-700); background: var(--paper); border: 1px solid var(--green-200); border-radius: 6px; padding: 0.2rem 0.5rem; }
+    .mail-chip svg { width: 13px; height: 13px; }
+
+    .mock-link { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; flex-shrink: 0; }
+    .mock-link-arrow { font-size: 2rem; font-weight: 700; line-height: 1; color: var(--green-500); }
+    .mock-link-lbl { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; text-align: center; color: var(--green-700); line-height: 1.3; }
+    @media (max-width: 820px) { .mock-link-arrow { transform: rotate(90deg); } }
+
+    .crm-wrap { padding: 0.2rem 0.4rem 0.7rem; }
+    .crm-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .crm-table th { text-align: left; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-soft); font-weight: 700; padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--green-100); }
+    .crm-table td { padding: 0.62rem 0.7rem; border-bottom: 1px solid var(--green-100); color: var(--ink); }
+    .crm-table tbody tr:last-child td { border-bottom: none; }
+    .crm-table tr.hot td { background: var(--mint); }
+    .crm-table tr.hot td:first-child { font-weight: 700; color: var(--green-900); }
+    .ta-r { text-align: right; font-variant-numeric: tabular-nums; }
+    .stage { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 999px; white-space: nowrap; }
+    .stage-draft { background: #F3E6C8; color: #8F6A1C; }
+    .stage-sent { background: #D8E4EC; color: #33667F; }
+    .stage-won { background: var(--green-100); color: var(--green-700); }
+    .crm-foot { margin: 0.5rem 0.3rem 0; padding: 0.6rem 0.7rem; font-size: 0.82rem; color: var(--ink-soft); background: var(--mint); border-radius: 8px; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
+    .mock-note { font-size: 0.8rem; color: var(--ink-soft); margin-top: 1.1rem; }
+
+    /* --- large journey boxes --- */
+    .journey { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin-top: 3rem; }
+    .jbox { position: relative; background: var(--paper); border: 1px solid var(--green-100); border-radius: var(--radius); padding: 1.7rem 1.4rem; }
+    .jn { position: absolute; top: 1.3rem; right: 1.4rem; font-size: 1.1rem; font-weight: 800; color: var(--green-200); }
+    .j-ico { width: 3.1rem; height: 3.1rem; border-radius: 12px; background: var(--green-100); color: var(--green-700); display: grid; place-items: center; margin-bottom: 1.05rem; }
+    .j-ico svg { width: 27px; height: 27px; }
+    .jbox h3 { font-size: 1.12rem; margin-bottom: 0.55rem; }
+    .jbox p { color: var(--ink-soft); font-size: 0.96rem; }
+    @media (max-width: 860px) { .journey { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .journey { grid-template-columns: 1fr; } }
+
+    /* depth cards */
+    .depth-card h3 { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; }
+    .depth-ico { width: 2.3rem; height: 2.3rem; border-radius: 10px; display: grid; place-items: center; flex-shrink: 0; }
+    .depth-ico svg { width: 18px; height: 18px; }
+
+    .safe-card h3 { margin-bottom: 0.4rem; }
+    .safe-card ul { list-style: none; margin-top: 0.6rem; }
+    .safe-card li { position: relative; padding: 0.28rem 0 0.28rem 1.4rem; color: var(--ink-soft); font-size: 0.98rem; }
+    .safe-card li::before { content: "✓"; position: absolute; left: 0; color: var(--green-700); font-weight: 700; }
+
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; margin-top: 3rem; }
+    .kpi { background: var(--paper); border: 1px solid var(--green-100); border-radius: var(--radius); padding: 2.2rem 1.4rem; text-align: center; }
+    .kpi-num { display: block; font-size: clamp(3.2rem, 8vw, 4.6rem); font-weight: 800; color: var(--green-700); line-height: 0.95; letter-spacing: -0.03em; }
+    .kpi-label { display: block; color: var(--ink-soft); font-size: 1rem; max-width: 20ch; margin: 1rem auto 0; line-height: 1.4; }
+    @media (max-width: 860px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .kpis { grid-template-columns: 1fr; gap: 1.4rem; } }
+  </style>
+</head>
+<body>
+
+  <header class="nav-wrap">
+    <nav class="container nav">
+      <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="34" height="34">
+        <span>Flowlamina</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#services">Services</a>
+        <a href="/resources/">Resources</a>
+        <a href="https://www.youtube.com/@hkaiautomate" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn btn-small" href="https://calendly.com/harshan-flowlamina/30min" target="_blank" rel="noopener">Book a call</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="cs-hero">
+      <div class="container">
+        <a class="back-link" href="/resources/">← All resources</a>
+        <p class="eyebrow">Case study · Zoho CRM</p>
+        <h1 style="max-width: 22ch;">Turning inbound emails into ready-to-send quotes in Zoho CRM</h1>
+        <p class="lede">A specialist manufacturer takes every order as an email — often buried in a PDF or an RFQ, in more than one language. I built an automation that reads each email, prices it from the company's own <strong>Zoho price books</strong>, and drops a ready-to-review quote straight into <strong>Zoho CRM</strong>. Staff just check it and hit send.</p>
+        <div class="cs-meta">
+          <span class="cs-tag">Zoho CRM</span>
+          <span class="cs-tag">AI email triage</span>
+          <span class="cs-tag">Tiered price-book pricing</span>
+          <span class="cs-tag">Bilingual</span>
+          <span class="cs-tag">Human-in-the-loop</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- VISUAL: email in → Zoho quote out -->
+    <section class="section tint" style="padding-top: 2.5rem;">
+      <div class="container">
+        <h2 class="center">One email in — a Zoho quote out</h2>
+        <p class="section-sub center">A customer emails a request. The automation reads it and, moments later, a ready-to-send quote is waiting in Zoho CRM.</p>
+
+        <div class="mock-row">
+          <!-- email inbox mockup -->
+          <figure class="mock">
+            <figcaption class="mock-bar"><span class="md r"></span><span class="md y"></span><span class="md g"></span><span class="mock-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg> Sales inbox</span></figcaption>
+            <div class="mail-list">
+              <div class="mail-row hot">
+                <span class="mail-unread"></span>
+                <div class="mail-body">
+                  <div class="mail-top"><b>Procurement — Vendor Co.</b><span class="mail-time">9:41</span></div>
+                  <div class="mail-sub">Request for quote — 200 metres</div>
+                  <div class="mail-snip">Hi, could you please send pricing for 200 m of the shielding product…</div>
+                  <span class="mail-chip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h6l2 2h6a2 2 0 0 1 2 2z"/></svg> RFQ.pdf</span>
+                </div>
+              </div>
+              <div class="mail-row">
+                <span class="mail-read"></span>
+                <div class="mail-body">
+                  <div class="mail-top"><span>Ops — Northline Ltd.</span><span class="mail-time">8:12</span></div>
+                  <div class="mail-sub muted">Re: delivery schedule for last order</div>
+                </div>
+              </div>
+              <div class="mail-row">
+                <span class="mail-read"></span>
+                <div class="mail-body">
+                  <div class="mail-top"><span>Engineering — Halcyon Systems</span><span class="mail-time">Yst</span></div>
+                  <div class="mail-sub muted">Spec question — braided sleeving sizes</div>
+                </div>
+              </div>
+            </div>
+          </figure>
+
+          <div class="mock-link">
+            <div class="mock-link-arrow">→</div>
+            <span class="mock-link-lbl">AI reads it<br>&amp; prices it</span>
+          </div>
+
+          <!-- Zoho quotes mockup -->
+          <figure class="mock">
+            <figcaption class="mock-bar green"><span class="md r"></span><span class="md y"></span><span class="md g"></span><span class="mock-title">Zoho CRM · Quotes</span></figcaption>
+            <div class="crm-wrap">
+              <table class="crm-table">
+                <thead><tr><th>Quote</th><th>Subject</th><th>Stage</th><th class="ta-r">Amount</th></tr></thead>
+                <tbody>
+                  <tr class="hot">
+                    <td>QT-2043</td><td>Quote — 200 m</td><td><span class="stage stage-draft">Draft</span></td><td class="ta-r">$3,021</td>
+                  </tr>
+                  <tr><td>QT-2042</td><td>Quote — 1,900 m</td><td><span class="stage stage-sent">Sent</span></td><td class="ta-r">$28,671</td></tr>
+                  <tr><td>QT-2041</td><td>Quote — 500 m</td><td><span class="stage stage-sent">Sent</span></td><td class="ta-r">$7,450</td></tr>
+                  <tr><td>QT-2040</td><td>Quote — 15,000 m</td><td><span class="stage stage-won">Accepted</span></td><td class="ta-r">$96,300</td></tr>
+                </tbody>
+              </table>
+              <div class="crm-foot"><span class="stage stage-draft">Draft</span> created automatically · a draft email is attached, ready to review &amp; send</div>
+            </div>
+          </figure>
+        </div>
+        <p class="mock-note center">Illustrative — layouts recreated for clarity; no real client data shown.</p>
+
+        <!-- large journey boxes -->
+        <div class="journey">
+          <div class="jbox">
+            <div class="jn">1</div>
+            <div class="j-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+            <h3>Email arrives</h3>
+            <p>A customer emails a quote request — in the subject, the body, or an attached PDF or RFQ. The automation reads all three.</p>
+          </div>
+          <div class="jbox">
+            <div class="jn">2</div>
+            <div class="j-ico tone-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/></svg></div>
+            <h3>AI reads &amp; understands</h3>
+            <p>It recognises a quote request, spots the language, and pulls out exactly which products and quantities the customer wants.</p>
+          </div>
+          <div class="jbox">
+            <div class="jn">3</div>
+            <div class="j-ico tone-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+            <h3>Priced from Zoho</h3>
+            <p>It finds each product in Zoho CRM and reads the right price-book tier for that quantity — real prices, straight from Zoho.</p>
+          </div>
+          <div class="jbox">
+            <div class="jn">4</div>
+            <div class="j-ico tone-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg></div>
+            <h3>Draft quote, ready to send</h3>
+            <p>A draft quote and a ready-to-send email land in Zoho CRM. Staff give it a glance, then hit send — the automation never sends on its own.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="section" style="padding-top: 2rem;">
+      <div class="container">
+        <div class="prose">
+          <h2>Every sale started with a manual quote</h2>
+          <p>For a technical manufacturer, every deal begins the same way: a customer emails to ask what a product costs for a given quantity. Answering means a person reading the request — sometimes a scanned PDF or an RFQ — finding the product, looking up the right price for that quantity, and writing a formal quote. <strong>By hand, one at a time.</strong></p>
+          <p>It's accurate, but it's slow, and it ties up skilled people in repetitive work. The brief was clear: keep the simple <strong>"just email us"</strong> promise customers rely on — but do the heavy lifting automatically, inside the Zoho CRM the business already runs on.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section tint">
+      <div class="container">
+        <h2>How the automation works</h2>
+        <p class="section-sub">From an inbound email to a reviewable quote — end to end, inside Zoho CRM.</p>
+        <ol class="steps">
+          <li>
+            <div class="step-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div>
+            <h3>Read every incoming email</h3>
+            <p>It watches the shared sales inbox and reads the whole request — the subject, the body, <strong>and any attachments</strong>, including PDFs, RFQs, spreadsheets and scanned documents. Quote details hide in all three, so all three are read.</p>
+          </li>
+          <li>
+            <div class="step-ico tone-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9.5 13.9 11.4 12 16l-1.9-4.6L5.5 9.5l4.6-1.9L12 3z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2z"/></svg></div>
+            <h3>Understand &amp; classify it</h3>
+            <p>An AI model works out whether it's a quote request, detects the <strong>language</strong> it's written in, and extracts the exact <strong>products and quantities</strong> being asked for.</p>
+          </li>
+          <li>
+            <div class="step-ico tone-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+            <h3>Price it from Zoho's price books</h3>
+            <p>It matches the sender to a <strong>Contact</strong> in Zoho CRM, then for each product reads Zoho's tiered <strong>Price Books</strong> and picks the correct per-unit price for the requested quantity. Pricing comes <strong>only from Zoho</strong> — never invented or estimated.</p>
+          </li>
+          <li>
+            <div class="step-ico tone-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg></div>
+            <h3>Draft the quote in Zoho CRM</h3>
+            <p>It generates a professional, on-brand quote in the customer's language and creates a real <strong>Draft Quote record</strong> in Zoho — with a structured line-item table — plus a <strong>ready-to-send draft email</strong> saved right under the quote.</p>
+          </li>
+          <li>
+            <div class="step-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+            <h3>Review, send — and nothing slips</h3>
+            <p>A person opens the draft in Zoho, checks it, and clicks send — the automation <strong>never sends anything itself</strong>. And if a product or customer can't be matched confidently, it opens a <strong>Manual Review task in Zoho</strong> instead of guessing, so every request is accounted for.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ZOHO DEPTH -->
+    <section class="section">
+      <div class="container">
+        <h2>Built deep into Zoho CRM</h2>
+        <p class="section-sub">This isn't a bolt-on that keeps its own copy of the data — it reads and writes Zoho's real modules through the Zoho CRM API.</p>
+        <div class="grid grid-2">
+          <div class="card depth-card">
+            <h3><span class="depth-ico tone-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/></svg></span>Single source of truth</h3>
+            <p>Contacts, Products, Price Books and Quotes all live in Zoho. The automation reads and writes them natively — Zoho stays the one system of record.</p>
+          </div>
+          <div class="card depth-card">
+            <h3><span class="depth-ico tone-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18M8 3v18"/></svg></span>Tiered price-book logic</h3>
+            <p>It reads per-product, per-quantity list prices from Zoho's Price Books and matches the right tier to the order size — the pricing rules the business already uses, applied automatically.</p>
+          </div>
+          <div class="card depth-card">
+            <h3><span class="depth-ico tone-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></span>Native Quote records</h3>
+            <p>It creates genuine Zoho Quote records at Draft stage with a structured line-item subform — not a PDF stapled on the side of the CRM.</p>
+          </div>
+          <div class="card depth-card">
+            <h3><span class="depth-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>Draft email under the quote</h3>
+            <p>The customer-ready email is saved as a draft on the Quote itself, so staff send from Zoho exactly as they always have — no new tool to learn.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT KEEPS IT TRUSTWORTHY -->
+    <section class="section tint">
+      <div class="container">
+        <h2>Accurate by design</h2>
+        <p class="section-sub">A quote that goes to a customer has to be right — so the guardrails come first.</p>
+        <div class="grid grid-2">
+          <div class="card safe-card">
+            <h3>Accuracy &amp; control</h3>
+            <ul>
+              <li>Human-in-the-loop — every quote is reviewed before it's sent</li>
+              <li>No auto-send, ever — the automation only drafts</li>
+              <li>Prices come only from Zoho's price books</li>
+              <li>The AI is forbidden from inventing or adjusting a number</li>
+            </ul>
+          </div>
+          <div class="card safe-card">
+            <h3>Fits how they already work</h3>
+            <ul>
+              <li>Bilingual — replies in the sender's language</li>
+              <li>Keeps the "just email us" promise unchanged</li>
+              <li>Staff keep sending from Zoho, as before</li>
+              <li>Unmatched requests become review tasks — never wrong quotes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KPIs -->
+    <section class="section tint">
+      <div class="container">
+        <h2 class="center">What it changes</h2>
+        <p class="section-sub center">The whole quoting process, distilled into four numbers.</p>
+        <div class="kpis">
+          <div class="kpi"><span class="kpi-num">3</span><span class="kpi-label">sources read on every email — subject, body &amp; attachments</span></div>
+          <div class="kpi"><span class="kpi-num">2</span><span class="kpi-label">languages handled automatically, in the sender's language</span></div>
+          <div class="kpi"><span class="kpi-num">1</span><span class="kpi-label">source of truth — Zoho CRM, read &amp; written natively</span></div>
+          <div class="kpi"><span class="kpi-num">0</span><span class="kpi-label">prices ever invented by the AI — pricing comes only from Zoho</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta-section center">
+      <div class="container">
+        <h2>Still quoting by hand?</h2>
+        <p class="section-sub">If your team turns inbound emails into quotes one at a time, that's a process an automation can take off their plate — inside the CRM you already use. Let's talk about what it would look like for your business.</p>
+        <a class="btn btn-lg" href="https://calendly.com/harshan-flowlamina/30min" target="_blank" rel="noopener">Book a call</a>
+        <p class="contact-lines">Or email <a href="mailto:harshan@flowlamina.com">harshan@flowlamina.com</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="26" height="26">
+        <span>Flowlamina</span>
+      </a>
+      <p>© Flowlamina · Melbourne, Australia</p>
+      <div class="footer-links">
+        <a href="/resources/">Resources</a>
+        <a href="https://www.youtube.com/@hkaiautomate" target="_blank" rel="noopener">YouTube</a>
+        <a href="mailto:harshan@flowlamina.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Email address copied</div>
+  <script>
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+      a.addEventListener('click', () => {
+        if (!navigator.clipboard) return;
+        navigator.clipboard.writeText('harshan@flowlamina.com').then(() => {
+          toast.classList.add('show');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+        });
+      });
+    });
+  </script>
+
+  <!-- GoatCounter — privacy-friendly page-view counts, no cookies. -->
+  <script data-goatcounter="https://flowlamina.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>
