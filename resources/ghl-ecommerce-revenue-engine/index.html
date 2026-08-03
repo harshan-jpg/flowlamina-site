@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A revenue-recovery engine inside GoHighLevel — Flowlamina case study</title>
+  <meta name="description" content="A case study: abandoned-cart recovery, always-on lifecycle SMS, and a custom coupon-analytics dashboard — all built natively inside a real ecommerce store's GoHighLevel CRM.">
+  <link rel="canonical" href="https://flowlamina.com/resources/ghl-ecommerce-revenue-engine/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="A revenue-recovery engine inside GoHighLevel — Flowlamina case study">
+  <meta property="og:description" content="Abandoned-cart recovery, always-on lifecycle SMS, and a custom coupon dashboard — built natively inside a real ecommerce GoHighLevel CRM.">
+  <meta property="og:url" content="https://flowlamina.com/resources/ghl-ecommerce-revenue-engine/">
+  <meta property="og:image" content="https://flowlamina.com/resources/ghl-ecommerce-revenue-engine/04-coupons.png">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .cs-hero { padding: 6.5rem 0 2.5rem; }
+    .cs-hero .lede { max-width: 44rem; }
+    .cs-meta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.6rem; }
+    .cs-tag {
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em;
+      color: var(--green-700); background: var(--mint);
+      border: 1px solid var(--green-100); border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+    }
+    .back-link { display: block; margin-bottom: 1.4rem; font-weight: 600; font-size: 0.92rem; }
+    .prose { max-width: 62ch; }
+    .prose p { color: var(--ink-soft); margin-bottom: 1rem; }
+    .prose p strong { color: var(--ink); }
+
+    /* ===== BIG LOUD HEADLINE NUMBERS ===== */
+    .bignum-band {
+      background: var(--green-900);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: clamp(2rem, 5vw, 3.4rem) clamp(1.4rem, 4vw, 3rem);
+      margin-top: 2.8rem;
+      box-shadow: 0 20px 50px rgba(27, 67, 50, 0.22);
+    }
+    .bignum-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: clamp(1.4rem, 3vw, 2.4rem);
+    }
+    .bignum { text-align: center; }
+    .bignum .n {
+      display: block; font-weight: 800; line-height: 1;
+      font-size: clamp(2.4rem, 6.4vw, 4rem);
+      color: #fff; letter-spacing: -0.02em;
+    }
+    .bignum .l {
+      display: block; margin-top: 0.7rem;
+      font-size: 0.98rem; line-height: 1.4;
+      color: rgba(255,255,255,0.82); max-width: 24ch; margin-inline: auto;
+    }
+    @media (max-width: 760px) { .bignum-grid { grid-template-columns: repeat(2, 1fr); row-gap: 2.2rem; } }
+
+    /* louder section headers */
+    .loud-h2 { font-size: clamp(1.9rem, 4.6vw, 3rem); line-height: 1.08; letter-spacing: -0.02em; }
+
+    /* pillar cards */
+    .pillars { margin-top: 2.6rem; }
+    .pillar h3 { display: flex; align-items: center; gap: 0.6rem; font-size: 1.22rem; }
+    .pillar .p-ico {
+      width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+      display: grid; place-items: center; background: var(--mint); color: var(--green-700);
+    }
+    .pillar .p-ico svg { width: 22px; height: 22px; }
+    .pillar p { color: var(--ink-soft); margin-top: 0.8rem; }
+
+    /* proof screenshot frame */
+    .proof-figure {
+      margin: 2.2rem 0 0; border: 1px solid var(--green-100); border-radius: var(--radius);
+      overflow: hidden; background: var(--paper); box-shadow: 0 12px 34px rgba(27, 67, 50, 0.09);
+    }
+    .proof-bar {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.7rem 1rem; background: var(--paper); border-bottom: 1px solid var(--green-100);
+    }
+    .proof-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--green-200); display: inline-block; }
+    .proof-bar i.r { background: #E0655A; } .proof-bar i.y { background: #E0A94A; } .proof-bar i.g { background: #57A877; }
+    .proof-bar .lbl { font-family: ui-monospace, Menlo, monospace; font-size: 0.78rem; color: var(--ink-soft); margin-left: 0.4rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .proof-figure img { display: block; width: 100%; height: auto; }
+    .proof-figure figcaption { padding: 1.05rem 1.25rem; font-size: 0.94rem; color: var(--ink-soft); border-top: 1px solid var(--green-100); line-height: 1.6; }
+    .proof-figure figcaption b { color: var(--ink); font-weight: 650; }
+
+    /* per-proof loud stat strip */
+    .shot-block { margin-top: 3.4rem; }
+    .shot-kicker { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-500); }
+    .shot-block h3 { font-size: clamp(1.4rem, 3.2vw, 1.9rem); margin: 0.4rem 0 0.4rem; line-height: 1.15; }
+    .shot-block > p { color: var(--ink-soft); max-width: 60ch; }
+    .shot-stats { display: flex; flex-wrap: wrap; gap: 1.4rem 2.6rem; margin-top: 1.4rem; }
+    .shot-stat .sn { display: block; font-size: clamp(1.6rem, 3.6vw, 2.3rem); font-weight: 800; color: var(--green-700); line-height: 1; letter-spacing: -0.01em; }
+    .shot-stat .sl { display: block; margin-top: 0.35rem; font-size: 0.9rem; color: var(--ink-soft); max-width: 22ch; }
+
+    /* safe cards */
+    .safe-card h3 { display: flex; align-items: center; gap: 0.6rem; }
+    .safe-card ul { list-style: none; margin-top: 0.9rem; }
+    .safe-card li { position: relative; padding: 0.28rem 0 0.28rem 1.4rem; color: var(--ink-soft); font-size: 0.98rem; }
+    .safe-card li::before { content: "✓"; position: absolute; left: 0; color: var(--green-700); font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <header class="nav-wrap">
+    <nav class="container nav">
+      <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="34" height="34">
+        <span>Flowlamina</span>
+      </a>
+      <div class="nav-links">
+        <a href="/#services">Services</a>
+        <a href="/resources/">Resources</a>
+        <a href="https://www.youtube.com/@hkaiautomate" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn btn-small" href="https://calendly.com/harshan-flowlamina/30min" target="_blank" rel="noopener">Book a call</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="cs-hero">
+      <div class="container">
+        <a class="back-link" href="/resources/">← All resources</a>
+        <p class="eyebrow">Case study · GoHighLevel</p>
+        <h1 style="max-width: 18ch; font-size: clamp(2.2rem, 5.6vw, 3.6rem); line-height: 1.05;">A revenue-recovery engine, built right inside the store's CRM</h1>
+        <p class="lede">For an established Australian ecommerce store, I turned their <strong>GoHighLevel</strong> account into an always-on revenue engine — automatically winning back abandoned carts, running lifecycle SMS to every customer, and tracking every dollar that coupon codes bring in through a custom dashboard I built inside the platform.</p>
+        <div class="cs-meta">
+          <span class="cs-tag">GoHighLevel CRM</span>
+          <span class="cs-tag">Shopify store</span>
+          <span class="cs-tag">Abandoned-cart recovery</span>
+          <span class="cs-tag">Lifecycle SMS</span>
+          <span class="cs-tag">Custom analytics</span>
+          <span class="cs-tag">Details sanitised — no client data</span>
+        </div>
+
+        <!-- BIG LOUD HEADLINE NUMBERS -->
+        <div class="bignum-band">
+          <div class="bignum-grid">
+            <div class="bignum"><span class="n">A$78.6k</span><span class="l">revenue tracked through coupon codes</span></div>
+            <div class="bignum"><span class="n">29%</span><span class="l">of tracked abandoned carts won back</span></div>
+            <div class="bignum"><span class="n">244</span><span class="l">coupon redemptions across 47 codes</span></div>
+            <div class="bignum"><span class="n">6</span><span class="l">always-on automations running the lifecycle</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROBLEM -->
+    <section class="section" style="padding-top: 2.4rem;">
+      <div class="container">
+        <div class="prose">
+          <h2 class="loud-h2">The revenue was leaking in the gaps</h2>
+          <p>A busy online store makes sales all day — but the money it <strong>doesn't</strong> capture is invisible. Carts get abandoned at checkout and never followed up. Customers buy once and never hear from the brand again. Discount codes go out the door with <strong>no idea which ones actually drive revenue</strong> versus which ones just give margin away.</p>
+          <p>None of that is a marketing problem you can fix by hand at volume. It needs systems that run every hour of every day, quietly, without anyone remembering to press go. So that's what I built — natively inside the CRM the business already runs on.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT I BUILT -->
+    <section class="section tint">
+      <div class="container">
+        <h2 class="loud-h2">What I built</h2>
+        <p class="section-sub">Three systems, one CRM — each one plugging a different revenue leak.</p>
+        <div class="grid grid-3 pillars">
+          <div class="card pillar">
+            <h3><span class="p-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg></span> Abandoned-cart recovery</h3>
+            <p>The moment a shopper leaves a cart behind, they enter an automated SMS pipeline that follows up, tracks their stage, and marks the cart as won the instant they come back and buy — with a live dashboard on the recovered revenue.</p>
+          </div>
+          <div class="card pillar">
+            <h3><span class="p-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> Always-on lifecycle SMS</h3>
+            <p>Half a dozen published automations run the whole customer journey — post-purchase follow-ups, win-backs for lapsed buyers, sunset flows and more — each triggering off real store activity, no manual sends.</p>
+          </div>
+          <div class="card pillar">
+            <h3><span class="p-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 9l-5 5-3-3-4 4"/></svg></span> Custom coupon analytics</h3>
+            <p>A purpose-built dashboard, embedded straight into the CRM, that shows exactly what every discount code earns — revenue, redemptions, average order value and the share of new vs returning customers, per code.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROOF -->
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">The proof</p>
+        <h2 class="loud-h2">Inside the real CRM</h2>
+        <p class="section-sub">These are live screenshots from the store's own GoHighLevel account. Every client-identifying detail — brand name, logo, website and customer contact details — is redacted. All the revenue figures are real and untouched.</p>
+
+        <!-- SHOT 1: coupon dashboard -->
+        <div class="shot-block">
+          <span class="shot-kicker">Custom dashboard</span>
+          <h3>Every discount code, measured to the dollar</h3>
+          <p>A custom analytics view I built inside the CRM. It turns a pile of coupon codes into a clear picture of what actually drives revenue — so the business can double down on the codes that pay and kill the ones that just leak margin.</p>
+          <div class="shot-stats">
+            <div class="shot-stat"><span class="sn">A$78,596</span><span class="sl">revenue attributed to coupon usage</span></div>
+            <div class="shot-stat"><span class="sn">244</span><span class="sl">redemptions across 47 live codes</span></div>
+            <div class="shot-stat"><span class="sn">A$322</span><span class="sl">average order value on redemptions</span></div>
+            <div class="shot-stat"><span class="sn">57%</span><span class="sl">of redeemers were brand-new customers</span></div>
+          </div>
+          <figure class="proof-figure">
+            <div class="proof-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="lbl">app.gohighlevel.com · Coupon Analytics</span></div>
+            <img src="04-coupons.png" alt="A custom coupon-analytics dashboard inside GoHighLevel showing 244 redemptions, 47 distinct codes, A$15,441 total discount, A$78,596 revenue, A$322 average order value and 57% new customers, with per-code performance below." width="3456" height="2072" loading="lazy">
+            <figcaption><b>The custom coupon dashboard.</b> Redemptions, distinct codes, total discount given, <b>revenue attributed</b>, average order value and the new-vs-returning split — plus a per-code table ranking every discount by what it earns. Redacted: brand name and one code that carried it.</figcaption>
+          </figure>
+        </div>
+
+        <!-- SHOT 2: recovery dashboard -->
+        <div class="shot-block">
+          <span class="shot-kicker">Abandoned-cart recovery</span>
+          <h3>Carts won back — and counted</h3>
+          <p>A live recovery-performance view showing what the automation actually rescues. Every abandoned cart the system opens is tracked through to a purchase, so the recovered revenue is attributed, not guessed.</p>
+          <div class="shot-stats">
+            <div class="shot-stat"><span class="sn">29.0%</span><span class="sl">of recovery opportunities became a purchase</span></div>
+            <div class="shot-stat"><span class="sn">20</span><span class="sl">carts recovered of 69 tracked</span></div>
+            <div class="shot-stat"><span class="sn">A$4,331</span><span class="sl">revenue won back from abandonment</span></div>
+          </div>
+          <figure class="proof-figure">
+            <div class="proof-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="lbl">app.gohighlevel.com · Cart Recovery</span></div>
+            <img src="03-recovery.png" alt="An abandoned-cart recovery performance dashboard inside GoHighLevel showing a 29.0% conversion rate, 20 carts recovered of 69 tracked, and A$4,331.23 recovered revenue, with a breakdown of where every tracked cart currently sits." width="3456" height="2070" loading="lazy">
+            <figcaption><b>Recovery performance, all-time.</b> A <b>29% conversion rate</b> turning tracked abandoned carts back into purchases, with <b>A$4,331 recovered</b> and a live breakdown of exactly where every cart sits right now. Redacted: brand name and website.</figcaption>
+          </figure>
+        </div>
+
+        <!-- SHOT 3: pipeline -->
+        <div class="shot-block">
+          <span class="shot-kicker">Live pipeline</span>
+          <h3>Recovery you can watch happen</h3>
+          <p>The recovery pipeline in motion. Each abandoned cart moves through the stages automatically — from abandonment, to SMS sent, to purchased — with the dollar value on every card, so nothing slips through unnoticed.</p>
+          <div class="shot-stats">
+            <div class="shot-stat"><span class="sn">69</span><span class="sl">carts tracked through the pipeline</span></div>
+            <div class="shot-stat"><span class="sn">A$6,801</span><span class="sl">in value actively worked in the SMS-sent stage</span></div>
+            <div class="shot-stat"><span class="sn">Auto</span><span class="sl">stage moves — no manual dragging</span></div>
+          </div>
+          <figure class="proof-figure">
+            <div class="proof-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="lbl">app.gohighlevel.com · Opportunities · Abandoned Cart SMS Pipeline</span></div>
+            <img src="02-pipeline.png" alt="A GoHighLevel opportunities board for an Abandoned Cart SMS Pipeline with stages for cart occurred, SMS sent, customer purchased and not interested, each opportunity card showing a dollar value. Customer contact details are redacted." width="3456" height="2078" loading="lazy">
+            <figcaption><b>The abandoned-cart pipeline.</b> 69 opportunities flowing through four stages, each card carrying its real cart value, purchased cards marked <b>WON</b>. Redacted: every customer's name, email and phone — the money stays, the people don't.</figcaption>
+          </figure>
+        </div>
+
+        <!-- SHOT 4: workflows -->
+        <div class="shot-block">
+          <span class="shot-kicker">Automation engine</span>
+          <h3>The always-on flows behind it all</h3>
+          <p>The published automations doing the work around the clock — abandoned-checkout follow-ups, post-purchase sequences, win-backs and more. Thousands of contacts have already been enrolled and worked, entirely hands-off.</p>
+          <div class="shot-stats">
+            <div class="shot-stat"><span class="sn">6</span><span class="sl">automations published and live</span></div>
+            <div class="shot-stat"><span class="sn">971</span><span class="sl">contacts enrolled in post-purchase follow-up alone</span></div>
+            <div class="shot-stat"><span class="sn">319</span><span class="sl">actively enrolled in the win-back flow</span></div>
+          </div>
+          <figure class="proof-figure">
+            <div class="proof-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="lbl">app.gohighlevel.com · Automation · Workflows</span></div>
+            <img src="01-workflows.png" alt="A GoHighLevel workflows list showing six published automations including abandoned-checkout follow-up SMS, post-purchase follow-up SMS, win-back and sunset flows, with total and active enrolment counts for each." width="3456" height="2076" loading="lazy">
+            <figcaption><b>The workflow engine.</b> Six published automations — abandoned checkout, post-purchase, win-back, sunset and more — each showing <b>total and active enrolments</b>. This is the machinery quietly running the whole customer lifecycle. Redacted: brand logo and name.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section tint">
+      <div class="container">
+        <h2 class="loud-h2">How the engine works</h2>
+        <p class="section-sub">From a store event to money recovered — end to end, inside GoHighLevel.</p>
+        <ol class="steps">
+          <li>
+            <div class="step-ico tone-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+            <h3>Store events flow in</h3>
+            <p>The Shopify store and the CRM are wired together, so real events — an abandoned checkout, a purchase, a lapsed customer — trigger the right automation the moment they happen. <strong>No exports, no manual imports.</strong></p>
+          </li>
+          <li>
+            <div class="step-ico tone-amber"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <h3>The right message goes out</h3>
+            <p>Each contact enters the automation that fits their moment — cart recovery, post-purchase, win-back. Timed SMS does the follow-up a person never has the hours to, and the sequence <strong>stops the instant they act</strong>.</p>
+          </li>
+          <li>
+            <div class="step-ico tone-rose"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></div>
+            <h3>Every cart is tracked to the sale</h3>
+            <p>Recovery opportunities move through the pipeline automatically and get marked <strong>WON</strong> when the customer comes back and buys — so recovered revenue is attributed with a real dollar figure, not estimated.</p>
+          </li>
+          <li>
+            <div class="step-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 9l-5 5-3-3-4 4"/></svg></div>
+            <h3>Everything reports back</h3>
+            <p>Recovered revenue, coupon performance and enrolment all surface in dashboards <strong>inside the CRM the team already uses</strong> — so the impact is visible without logging into anything else.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- WHY IT PAYS -->
+    <section class="section">
+      <div class="container">
+        <div class="prose">
+          <h2 class="loud-h2">Why it pays for itself</h2>
+          <p>Every one of these systems recovers revenue the business was already <strong>leaving on the table</strong> — carts that were abandoned anyway, customers who'd have gone quiet, discount spend that was flying blind. The store keeps making its sales; this just catches the ones that used to slip.</p>
+          <p>And because it all lives inside the CRM they already pay for and run on, there's <strong>no new tool for the team to learn</strong> and nothing sitting in a black box off to the side. It runs whether anyone's watching or not.</p>
+        </div>
+
+        <div class="grid grid-2" style="margin-top: 2.6rem;">
+          <div class="card safe-card">
+            <h3>Built to run unattended</h3>
+            <ul>
+              <li>Triggers off real store events, not manual sends</li>
+              <li>Sequences stop the moment a customer acts</li>
+              <li>Recovered revenue attributed, not estimated</li>
+              <li>Runs 24/7 with no one pressing go</li>
+            </ul>
+          </div>
+          <div class="card safe-card">
+            <h3>All in one place</h3>
+            <ul>
+              <li>Native to the store's existing GoHighLevel CRM</li>
+              <li>Dashboards embedded right where the team works</li>
+              <li>Coupon revenue measured per code</li>
+              <li>No extra software for anyone to learn</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta-section center">
+      <div class="container">
+        <h2 class="loud-h2">Running a store that's leaking revenue in the gaps?</h2>
+        <p class="section-sub">Abandoned carts, one-and-done customers, discount spend you can't measure — there's revenue in all of it worth recovering. Let's talk about what an engine like this would look like for your store.</p>
+        <a class="btn btn-lg" href="https://calendly.com/harshan-flowlamina/30min" target="_blank" rel="noopener">Book a call</a>
+        <p class="contact-lines">Or email <a href="mailto:harshan@flowlamina.com">harshan@flowlamina.com</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="26" height="26">
+        <span>Flowlamina</span>
+      </a>
+      <p>© Flowlamina · Melbourne, Australia</p>
+      <div class="footer-links">
+        <a href="/resources/">Resources</a>
+        <a href="https://www.youtube.com/@hkaiautomate" target="_blank" rel="noopener">YouTube</a>
+        <a href="mailto:harshan@flowlamina.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">Email address copied</div>
+  <script>
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+      a.addEventListener('click', () => {
+        if (!navigator.clipboard) return;
+        navigator.clipboard.writeText('harshan@flowlamina.com').then(() => {
+          toast.classList.add('show');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+        });
+      });
+    });
+  </script>
+
+  <!-- GoatCounter — privacy-friendly page-view counts, no cookies. -->
+  <script data-goatcounter="https://flowlamina.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>
