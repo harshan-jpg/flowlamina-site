@@ -104,6 +104,15 @@
     .cs-meta, .mini-stats, .review-row, .flow { justify-content: center; }
     .worth-card { text-align: center; }
     .worth-card .payoff { margin-left: auto; margin-right: auto; }
+
+    /* ===== WIDEN SCREENSHOTS (bigger, easier to talk to on calls) ===== */
+    /* Break the three proof figures out past the text column, capped and centred. */
+    .proof-figure {
+      width: min(94vw, 1600px);
+      margin-left: calc(50% - min(47vw, 800px));
+    }
+    .proof-bar .lbl { font-size: 0.86rem; }
+    .proof-figure figcaption { font-size: 1rem; max-width: 70ch; margin-inline: auto; }
   </style>
 </head>
 <body>
