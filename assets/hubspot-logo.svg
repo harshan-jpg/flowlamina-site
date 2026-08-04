@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 64" role="img" aria-label="HubSpot">
+  <g stroke="#FF7A59" stroke-width="3" stroke-linecap="round">
+    <line x1="32" y1="33" x2="32" y2="12"/>
+    <line x1="32" y1="33" x2="51" y2="44"/>
+    <line x1="32" y1="33" x2="13" y2="44"/>
+  </g>
+  <g fill="#FF7A59">
+    <circle cx="32" cy="33" r="6.5"/>
+    <circle cx="32" cy="11" r="5"/>
+    <circle cx="52" cy="45" r="5"/>
+    <circle cx="12" cy="45" r="5"/>
+  </g>
+  <text x="74" y="42" font-family="Arial, Helvetica, sans-serif" font-size="29" font-weight="700" fill="#33475B">HubSpot</text>
+</svg>
