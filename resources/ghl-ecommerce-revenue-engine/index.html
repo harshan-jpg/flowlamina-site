@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI that wins back lost customers — Flowlamina case study</title>
-  <meta name="description" content="A case study: AI-powered GoHighLevel workflows that automatically win back customers about to be lost — recovering A$4,331 of abandoned-cart sales in 14 days, growing repeat revenue, and generating Google, Facebook and Yelp reviews.">
+  <title>$4,331 saved in 14 days with AI — Flowlamina case study</title>
+  <meta name="description" content="A case study: an AI-powered GoHighLevel workflow that won back A$4,331 of abandoned-cart sales in 14 days, tracks every lead through the pipeline, and runs more workflows that grow repeat revenue and generate Google, Facebook and Yelp reviews.">
   <link rel="canonical" href="https://flowlamina.com/resources/ghl-ecommerce-revenue-engine/">
   <link rel="icon" type="image/png" href="/assets/favicon.png">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="AI that wins back lost customers — Flowlamina case study">
-  <meta property="og:description" content="AI-powered GoHighLevel workflows that recovered A$4,331 of abandoned-cart sales in 14 days, grow repeat revenue, and generate Google, Facebook and Yelp reviews.">
+  <meta property="og:title" content="$4,331 saved in 14 days with AI — Flowlamina case study">
+  <meta property="og:description" content="An AI-powered GoHighLevel workflow that won back A$4,331 of abandoned-cart sales in 14 days — plus workflows that grow repeat revenue and generate reviews.">
   <meta property="og:url" content="https://flowlamina.com/resources/ghl-ecommerce-revenue-engine/">
   <meta property="og:image" content="https://flowlamina.com/resources/ghl-ecommerce-revenue-engine/03-recovery.png">
   <link rel="stylesheet" href="/style.css">
   <style>
-    .cs-hero { padding: 6.5rem 0 2.5rem; }
+    .cs-hero { padding: 6.5rem 0 2.4rem; }
     .cs-hero .lede { max-width: 44rem; }
-    .cs-meta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.6rem; }
+    .cs-meta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.7rem; }
     .cs-tag {
       font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em;
       color: var(--green-700); background: var(--mint);
@@ -24,13 +24,27 @@
       padding: 0.35rem 0.85rem;
     }
     .back-link { display: block; margin-bottom: 1.4rem; font-weight: 600; font-size: 0.92rem; }
-    .prose { max-width: 60ch; }
-    .prose p { color: var(--ink-soft); margin-bottom: 1rem; font-size: 1.06rem; }
-    .prose p strong { color: var(--ink); }
+
+    /* ===== HERO MONEY HEADLINE ===== */
+    .hero-money {
+      font-weight: 850; letter-spacing: -0.03em; line-height: 0.98;
+      font-size: clamp(3rem, 11vw, 6.4rem); max-width: 15ch; margin-top: 0.3rem;
+    }
+    .hero-money .amt { color: var(--green-700); }
+    .hero-emph {
+      margin-top: 1.4rem; max-width: 40ch;
+      font-size: clamp(1.05rem, 2.6vw, 1.35rem); font-weight: 600; line-height: 1.45; color: var(--ink);
+    }
+    .hero-emph b.lost { color: #C0503F; }
 
     /* louder, bigger section headers */
-    .loud-h2 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.06; letter-spacing: -0.02em; }
-    .lead-in { font-size: clamp(1.1rem, 2.4vw, 1.35rem); color: var(--ink-soft); max-width: 46ch; margin-top: 1rem; line-height: 1.5; }
+    .loud-h2 { font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.06; letter-spacing: -0.02em; }
+    .lead-in { font-size: clamp(1.1rem, 2.4vw, 1.32rem); color: var(--ink-soft); max-width: 48ch; margin-top: 1rem; line-height: 1.5; }
+
+    /* metric row */
+    .mini-stats { display: flex; flex-wrap: wrap; gap: clamp(1.6rem, 6vw, 4rem); margin-top: 0.4rem; }
+    .mini-stat .n { display: block; font-size: clamp(2rem, 4.6vw, 2.9rem); font-weight: 800; color: var(--green-700); line-height: 1; letter-spacing: -0.01em; }
+    .mini-stat .l { display: block; margin-top: 0.4rem; font-size: 0.92rem; color: var(--ink-soft); max-width: 17ch; }
 
     /* ===== SIMPLE 3-STEP FLOW ===== */
     .flow { display: flex; align-items: stretch; gap: 0.5rem; margin-top: 2.8rem; flex-wrap: wrap; }
@@ -48,33 +62,9 @@
       .flow-arrow { transform: rotate(90deg); padding: 0.2rem 0; align-self: center; }
     }
 
-    /* ===== BIG MONEY CALLOUT ===== */
-    .money-callout {
-      margin-top: 2.8rem; text-align: center;
-      background: var(--green-900); color: #fff; border-radius: var(--radius);
-      padding: clamp(2.6rem, 6vw, 4.2rem) 1.5rem;
-      box-shadow: 0 22px 55px rgba(27, 67, 50, 0.25);
-    }
-    .money-callout .kick { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
-    .money-callout .big {
-      display: block; font-weight: 850; line-height: 0.95; letter-spacing: -0.03em;
-      font-size: clamp(3.2rem, 13vw, 6.5rem); margin-top: 0.6rem;
-    }
-    .money-callout .sub { font-size: clamp(1.15rem, 3vw, 1.6rem); margin-top: 0.9rem; color: rgba(255,255,255,0.9); font-weight: 600; }
-    .money-callout .emph {
-      margin: 1.8rem auto 0; max-width: 34ch; font-size: clamp(1.05rem, 2.6vw, 1.35rem);
-      line-height: 1.5; color: #fff;
-    }
-    .money-callout .emph b { color: #ffd7cf; font-weight: 800; }
-
-    .mini-stats { display: flex; justify-content: center; gap: clamp(1.6rem, 6vw, 4rem); flex-wrap: wrap; margin-top: 2.4rem; }
-    .mini-stat { text-align: center; }
-    .mini-stat .n { display: block; font-size: clamp(1.9rem, 4.4vw, 2.8rem); font-weight: 800; color: var(--green-700); line-height: 1; letter-spacing: -0.01em; }
-    .mini-stat .l { display: block; margin-top: 0.4rem; font-size: 0.92rem; color: var(--ink-soft); max-width: 16ch; margin-inline: auto; }
-
     /* proof screenshot frame */
     .proof-figure {
-      margin: 2.4rem 0 0; border: 1px solid var(--green-100); border-radius: var(--radius);
+      margin: 2.2rem 0 0; border: 1px solid var(--green-100); border-radius: var(--radius);
       overflow: hidden; background: var(--paper); box-shadow: 0 12px 34px rgba(27, 67, 50, 0.09);
     }
     .proof-bar { display: flex; align-items: center; gap: 0.5rem; padding: 0.7rem 1rem; background: var(--paper); border-bottom: 1px solid var(--green-100); }
@@ -85,26 +75,23 @@
     .proof-figure figcaption { padding: 1.05rem 1.25rem; font-size: 0.94rem; color: var(--ink-soft); border-top: 1px solid var(--green-100); line-height: 1.6; }
     .proof-figure figcaption b { color: var(--ink); font-weight: 650; }
 
+    /* small "h6" intro headline above the workflow list */
+    .mini-head { margin-top: 2.8rem; font-size: 1.08rem; font-weight: 750; color: var(--ink); letter-spacing: 0.01em; }
+    .mini-head + .proof-figure { margin-top: 1rem; }
+
     /* ===== "WORTH" WORKFLOW CARDS ===== */
     .worth-grid { margin-top: 2.6rem; }
     .worth-card { text-align: left; }
     .worth-card .wc-emoji { font-size: 2.2rem; display: block; line-height: 1; margin-bottom: 0.9rem; }
-    .worth-card h3 { font-size: 1.22rem; }
+    .worth-card h3 { font-size: 1.2rem; }
     .worth-card p { color: var(--ink-soft); margin-top: 0.6rem; line-height: 1.55; }
     .worth-card .payoff {
       display: inline-block; margin-top: 1rem; font-weight: 700; font-size: 0.92rem;
       color: var(--green-700); background: var(--mint); border: 1px solid var(--green-100);
       border-radius: 999px; padding: 0.35rem 0.85rem;
     }
-
-    /* review platform chips */
     .review-row { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; margin-top: 1.1rem; }
     .review-chip { font-weight: 700; font-size: 0.9rem; color: var(--ink); background: #fff; border: 1px solid var(--green-100); border-radius: 10px; padding: 0.45rem 0.8rem; box-shadow: 0 4px 12px rgba(27,67,50,0.05); }
-
-    /* bottom-line band */
-    .bottomline { text-align: center; }
-    .bottomline .big-line { font-size: clamp(1.5rem, 4vw, 2.4rem); font-weight: 800; line-height: 1.2; letter-spacing: -0.01em; max-width: 24ch; margin: 0 auto; color: var(--ink); }
-    .bottomline .big-line span { color: var(--green-700); }
   </style>
 </head>
 <body>
@@ -126,24 +113,43 @@
 
   <main>
 
-    <!-- HERO -->
+    <!-- 1. HERO — the money line first -->
     <section class="cs-hero">
       <div class="container">
         <a class="back-link" href="/resources/">← All resources</a>
         <p class="eyebrow">Case study · AI + GoHighLevel</p>
-        <h1 style="max-width: 16ch; font-size: clamp(2.3rem, 6vw, 4rem); line-height: 1.02;">AI that wins back the customers you were about to lose</h1>
-        <p class="lede">Every business quietly loses money. Shoppers almost buy, then leave. Customers buy once, then vanish. I set up <strong>AI-powered workflows inside GoHighLevel</strong> that catch those lost customers automatically — and turn them back into sales, day and night, without anyone lifting a finger.</p>
+        <h1 class="hero-money"><span class="amt">A$4,331</span> saved in just 14 days</h1>
+        <p class="lede">That's the sales one real ecommerce store won back in a fortnight — from carts shoppers had already abandoned. An <strong>AI-powered workflow inside GoHighLevel</strong> did it automatically, day and night, with no one lifting a finger.</p>
+        <p class="hero-emph">That's over <b>$4,000 in sales</b> that would otherwise have been <b class="lost">lost for good</b>.</p>
         <div class="cs-meta">
           <span class="cs-tag">Real ecommerce store</span>
           <span class="cs-tag">AI + GoHighLevel</span>
-          <span class="cs-tag">A$4,331 recovered in 14 days</span>
+          <span class="cs-tag">14-day result</span>
           <span class="cs-tag">Details sanitised — no client data</span>
         </div>
       </div>
     </section>
 
-    <!-- THE BIG IDEA — 12-year-old simple -->
-    <section class="section" style="padding-top: 2.2rem;">
+    <!-- 2. THE DASHBOARD + METRIC DATA -->
+    <section class="section" style="padding-top: 1.4rem;">
+      <div class="container">
+        <div class="mini-stats">
+          <div class="mini-stat"><span class="n">A$4,331</span><span class="l">recovered in 14 days</span></div>
+          <div class="mini-stat"><span class="n">20</span><span class="l">carts won back</span></div>
+          <div class="mini-stat"><span class="n">29%</span><span class="l">of tracked carts recovered</span></div>
+          <div class="mini-stat"><span class="n">69</span><span class="l">abandoned carts tracked</span></div>
+        </div>
+
+        <figure class="proof-figure">
+          <div class="proof-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="lbl">app.gohighlevel.com · Cart Recovery dashboard</span></div>
+          <img src="03-recovery.png" alt="An abandoned-cart recovery dashboard inside GoHighLevel showing a 29.0% conversion rate, 20 carts recovered of 69 tracked, and A$4,331.23 in recovered revenue." width="3456" height="2070" loading="lazy">
+          <figcaption><b>The live recovery dashboard.</b> Every abandoned cart is tracked until it turns into a sale — so the <b>A$4,331.23 recovered</b> is real money attributed to the workflow, not a guess. Brand name, website and account ID redacted.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 3. THE SIMPLE IDEA -->
+    <section class="section tint">
       <div class="container">
         <h2 class="loud-h2">The simple idea</h2>
         <p class="lead-in">Online, about <strong>7 out of 10</strong> shoppers fill a cart and leave without buying. Here's how the AI turns that lost sale back into money.</p>
@@ -158,7 +164,7 @@
           <div class="flow-step">
             <span class="emoji">🤖</span>
             <h3>2. AI follows up</h3>
-            <p>Seconds later, an automatic text nudges them to come back — no staff, no effort.</p>
+            <p>Moments later, an automatic text nudges them to come back — no staff, no effort.</p>
           </div>
           <div class="flow-arrow" aria-hidden="true">→</div>
           <div class="flow-step">
@@ -170,48 +176,26 @@
       </div>
     </section>
 
-    <!-- PROOF: ABANDONED CART RECOVERY -->
-    <section class="section tint">
+    <!-- 4. TRACKING LEADS THROUGH THE PIPELINE -->
+    <section class="section">
       <div class="container">
-        <p class="eyebrow">The proof · Abandoned-cart recovery</p>
-        <h2 class="loud-h2">$4,331 saved — in just 14 days</h2>
-        <p class="lead-in">This is the real result from one store's abandoned-cart workflow. In its first two weeks, here's the money it won back:</p>
-
-        <!-- BIG MONEY CALLOUT -->
-        <div class="money-callout">
-          <span class="kick">Sales recovered in 14 days</span>
-          <span class="big">A$4,331</span>
-          <span class="sub">won back from carts that were already abandoned</span>
-          <p class="emph">That's over <b>$4,000 in sales</b> that would have otherwise been <b>lost for good</b> — recovered automatically, by itself.</p>
-        </div>
-
-        <div class="mini-stats">
-          <div class="mini-stat"><span class="n">20</span><span class="l">carts won back</span></div>
-          <div class="mini-stat"><span class="n">29%</span><span class="l">of tracked carts recovered</span></div>
-          <div class="mini-stat"><span class="n">69</span><span class="l">abandoned carts tracked</span></div>
-          <div class="mini-stat"><span class="n">$0</span><span class="l">extra staff time to run it</span></div>
-        </div>
-
-        <figure class="proof-figure">
-          <div class="proof-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="lbl">app.gohighlevel.com · Cart Recovery dashboard</span></div>
-          <img src="03-recovery.png" alt="An abandoned-cart recovery dashboard inside GoHighLevel showing a 29.0% conversion rate, 20 carts recovered of 69 tracked, and A$4,331.23 in recovered revenue." width="3456" height="2070" loading="lazy">
-          <figcaption><b>The live recovery dashboard.</b> Every abandoned cart is tracked until it turns into a sale — so the <b>A$4,331.23 recovered</b> is real money attributed to the workflow, not a guess. Brand name and website redacted.</figcaption>
-        </figure>
+        <h2 class="loud-h2">Tracking leads through the pipeline</h2>
+        <p class="lead-in">Every abandoned cart becomes a lead the system follows automatically — moving it stage by stage, from abandoned, to reminded, to bought.</p>
 
         <figure class="proof-figure">
           <div class="proof-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="lbl">app.gohighlevel.com · Abandoned-cart pipeline</span></div>
           <img src="02-pipeline.png" alt="A GoHighLevel opportunities board tracking abandoned carts through stages — cart occurred, SMS sent, customer purchased — each card showing its dollar value. Customer details are redacted." width="3456" height="2078" loading="lazy">
-          <figcaption><b>Every cart, tracked automatically.</b> Carts move left-to-right on their own — from abandoned, to reminded, to <b>bought</b> — with the dollar value on every one. Customer names, emails and phone numbers redacted; only the money stays.</figcaption>
+          <figcaption><b>Every lead, tracked automatically.</b> Carts move left-to-right on their own — from abandoned, to reminded, to <b>bought</b> — with the dollar value on every one. Customer names, emails and phone numbers redacted; only the money stays.</figcaption>
         </figure>
       </div>
     </section>
 
-    <!-- OTHER WORKFLOWS: LIFETIME VALUE + REVIEWS -->
-    <section class="section">
+    <!-- 5. OTHER WORKFLOWS -->
+    <section class="section tint">
       <div class="container">
         <p class="eyebrow">More money, on autopilot</p>
         <h2 class="loud-h2">The other workflows working around the clock</h2>
-        <p class="lead-in">Winning back carts is just the start. The same setup keeps making the store money in three more ways — all automatically.</p>
+        <p class="lead-in">Winning back carts is just the start. The same setup keeps making the store money in three more ways — each one finding revenue that was quietly slipping away.</p>
 
         <div class="grid grid-3 worth-grid">
           <div class="card worth-card">
@@ -239,20 +223,12 @@
           </div>
         </div>
 
+        <h6 class="mini-head">Under the hood — the live workflow list</h6>
         <figure class="proof-figure">
           <div class="proof-bar"><i class="r"></i><i class="y"></i><i class="g"></i><span class="lbl">app.gohighlevel.com · Automation · Workflows</span></div>
           <img src="01-workflows.png" alt="A GoHighLevel workflows list showing the published automations — abandoned-checkout follow-up, post-purchase follow-up, win-back and more — each with total and active enrolment counts." width="3456" height="2076" loading="lazy">
-          <figcaption><b>The automations running it all.</b> Each one is live and quietly working thousands of customers in the background — hundreds already enrolled in follow-up and win-back flows. Brand logo and name redacted.</figcaption>
+          <figcaption><b>The automations running it all.</b> Each one is live and quietly working thousands of customers in the background — hundreds already enrolled in follow-up and win-back flows. Brand logo, name and account ID redacted.</figcaption>
         </figure>
-      </div>
-    </section>
-
-    <!-- THE ECONOMIC VALUE / BOTTOM LINE -->
-    <section class="section tint">
-      <div class="container bottomline">
-        <p class="eyebrow" style="justify-content:center;">Why it's worth it</p>
-        <p class="big-line">Every workflow does one thing: it finds money the business was already losing — and <span>quietly wins it back.</span></p>
-        <p class="lead-in" style="margin: 1.4rem auto 0; max-width: 52ch;">The abandoned-cart workflow alone paid for itself many times over in a fortnight. Add repeat-buyer follow-ups, win-backs and automatic reviews, and the whole system keeps earning — 24 hours a day, inside the tools the business already uses. That's what working together looks like: I set it up, and it keeps paying you back.</p>
       </div>
     </section>
 
