@@ -97,12 +97,26 @@
     .safe-card li { position: relative; padding: 0.28rem 0 0.28rem 1.4rem; color: var(--ink-soft); font-size: 0.98rem; }
     .safe-card li::before { content: "✓"; position: absolute; left: 0; color: var(--green-700); font-weight: 700; }
 
-    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem; margin-top: 3rem; }
-    .kpi { background: var(--paper); border: 1px solid var(--green-100); border-radius: var(--radius); padding: 2.2rem 1.4rem; text-align: center; }
-    .kpi-num { display: block; font-size: clamp(3.2rem, 8vw, 4.6rem); font-weight: 800; color: var(--green-700); line-height: 0.95; letter-spacing: -0.03em; }
-    .kpi-label { display: block; color: var(--ink-soft); font-size: 1rem; max-width: 20ch; margin: 1rem auto 0; line-height: 1.4; }
-    @media (max-width: 860px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .kpis { grid-template-columns: 1fr; gap: 1.4rem; } }
+    /* --- value stat band --- */
+    .valband { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 2.6rem; }
+    .vstat { background: var(--mint); border: 1px solid var(--green-100); border-radius: var(--radius); padding: 1.8rem 1.4rem; }
+    .vstat .vn { display: block; font-size: clamp(2.6rem, 5.2vw, 3.6rem); font-weight: 800; color: var(--green-700); line-height: 0.9; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+    .vstat .vn .u { font-size: 0.42em; font-weight: 800; }
+    .vstat .vl { display: block; font-size: 1rem; color: var(--ink); margin-top: 0.85rem; font-weight: 600; line-height: 1.3; }
+    .vstat .vl b { font-weight: 800; }
+    @media (max-width: 860px) { .valband { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .valband { grid-template-columns: 1fr; } }
+
+    /* --- tech-stack logo strip --- */
+    .stackstrip { display: flex; align-items: center; justify-content: center; gap: 1.4rem; flex-wrap: wrap; background: var(--mint); border: 1px solid var(--green-100); border-radius: var(--radius); padding: 2rem 1.6rem; margin-top: 1.6rem; }
+    .lgroup { display: flex; flex-direction: column; align-items: center; gap: 0.85rem; }
+    .lgroup-lbl { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+    .ltiles { display: flex; gap: 0.8rem; }
+    .ltile { background: #fff; border: 1px solid var(--green-200); border-radius: 12px; height: 74px; padding: 0 1.4rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(27, 67, 50, 0.07); }
+    .ltile img { height: 38px; width: auto; display: block; }
+    .ltile img.zoho { height: 28px; }
+    .sarrow { font-size: 1.8rem; color: var(--green-500); font-weight: 700; }
+    @media (max-width: 720px) { .stackstrip { flex-direction: column; } .sarrow { transform: rotate(90deg); } }
   </style>
 </head>
 <body>
@@ -129,7 +143,7 @@
       <div class="container">
         <a class="back-link" href="/resources/">← All resources</a>
         <p class="eyebrow">Case study · Zoho CRM</p>
-        <h1 style="max-width: 22ch;">Turning inbound emails into ready-to-send quotes in Zoho CRM</h1>
+        <h1 style="max-width: 20ch;">Quotes from emails, <span style="color: var(--green-500);">generated in seconds</span>.</h1>
         <p class="lede">A specialist manufacturer takes every order as an email — often buried in a PDF or an RFQ, in more than one language. I built an automation that reads each email, prices it from the company's own <strong>Zoho price books</strong>, and drops a ready-to-review quote straight into <strong>Zoho CRM</strong>. Staff just check it and hit send.</p>
         <div class="cs-meta">
           <span class="cs-tag">Zoho CRM</span>
@@ -139,6 +153,36 @@
           <span class="cs-tag">Human-in-the-loop</span>
         </div>
 
+        <!-- value band -->
+        <div class="valband">
+          <div class="vstat"><span class="vn">100<span class="u">+</span></span><span class="vl"><b>emails</b> digested a day</span></div>
+          <div class="vstat"><span class="vn">40<span class="u"> hrs</span></span><span class="vl">of manual quoting saved a week</span></div>
+          <div class="vstat"><span class="vn">2</span><span class="vl"><b>languages</b> processed</span></div>
+          <div class="vstat"><span class="vn">0</span><span class="vl"><b>prices</b> ever invented</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TECH STACK -->
+    <section class="section" style="padding: 3.5rem 0 0;">
+      <div class="container">
+        <h2 class="center">Plugs into the tech stack you run</h2>
+        <div class="stackstrip">
+          <div class="lgroup">
+            <div class="ltiles"><span class="ltile"><img src="stack-gmail.jpg" alt="Gmail"></span><span class="ltile"><img src="stack-outlook.jpg" alt="Microsoft Outlook"></span></div>
+            <span class="lgroup-lbl">Your inbox</span>
+          </div>
+          <span class="sarrow">→</span>
+          <div class="lgroup">
+            <div class="ltiles"><span class="ltile"><img src="stack-openai.png" alt="OpenAI"></span><span class="ltile"><img src="stack-claude.png" alt="Claude"></span></div>
+            <span class="lgroup-lbl">AI reads &amp; prices it</span>
+          </div>
+          <span class="sarrow">→</span>
+          <div class="lgroup">
+            <div class="ltiles"><span class="ltile"><img class="zoho" src="stack-zoho.svg" alt="Zoho CRM"></span></div>
+            <span class="lgroup-lbl">Your CRM</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -331,20 +375,6 @@
               <li>Unmatched requests become review tasks — never wrong quotes</li>
             </ul>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- KPIs -->
-    <section class="section tint">
-      <div class="container">
-        <h2 class="center">What it changes</h2>
-        <p class="section-sub center">The whole quoting process, distilled into four numbers.</p>
-        <div class="kpis">
-          <div class="kpi"><span class="kpi-num">3</span><span class="kpi-label">sources read on every email — subject, body &amp; attachments</span></div>
-          <div class="kpi"><span class="kpi-num">2</span><span class="kpi-label">languages handled automatically, in the sender's language</span></div>
-          <div class="kpi"><span class="kpi-num">1</span><span class="kpi-label">source of truth — Zoho CRM, read &amp; written natively</span></div>
-          <div class="kpi"><span class="kpi-num">0</span><span class="kpi-label">prices ever invented by the AI — pricing comes only from Zoho</span></div>
         </div>
       </div>
     </section>
