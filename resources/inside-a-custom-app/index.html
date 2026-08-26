@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inside a custom app I built — Flowlamina Resources</title>
+  <meta name="description" content="A referral partner portal I built and still run, opened up layer by layer: what it does, the three hard problems it had to solve, exactly what it runs on, and what it costs to keep alive each month.">
+  <link rel="canonical" href="https://flowlamina.com/resources/inside-a-custom-app/">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Inside a custom app I built">
+  <meta property="og:description" content="A partner portal that pays commissions on its own, taken apart layer by layer, with the real hosting stack and the real monthly cost.">
+  <meta property="og:url" content="https://flowlamina.com/resources/inside-a-custom-app/">
+  <meta property="og:image" content="https://flowlamina.com/assets/logo.png">
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    /* ---- page-specific components, built on the site tokens ---- */
+    .res-hero { padding: 5.5rem 0 4rem; }
+    .res-hero h1 { max-width: 20ch; }
+    .res-hero .lede { max-width: 42rem; }
+    .crumb { font-size: 0.9rem; color: var(--ink-soft); margin-bottom: 1.6rem; }
+    .crumb a { font-weight: 500; }
+
+    .detail-divider {
+      display: flex; align-items: center; gap: 1.1rem;
+      color: var(--green-500);
+      font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.13em; text-transform: uppercase;
+    }
+    .detail-divider::before, .detail-divider::after {
+      content: ""; flex: 1; height: 1px; background: var(--green-100);
+    }
+
+    /* ---- headline stats ---- */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin-top: 2.6rem; }
+    .stat { text-align: center; }
+    .stat .big {
+      display: block; font-size: clamp(2rem, 4.2vw, 2.9rem);
+      font-weight: 780; color: var(--green-700); line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .stat .cap { display: block; margin-top: 0.55rem; color: var(--ink-soft); font-size: 0.95rem; }
+    @media (max-width: 780px) { .stats { grid-template-columns: 1fr; gap: 1.1rem; } }
+
+    /* ---- before / after ---- */
+    .ba { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-top: 2.4rem; }
+    .ba .card h3 { display: flex; align-items: center; gap: 0.6rem; }
+    .ba .pill {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      border-radius: 999px; padding: 2px 10px 3px;
+    }
+    .ba .before .pill { background: #fbeaea; color: #a33; border: 1px solid #efd0d0; }
+    .ba .after .pill { background: var(--green-700); color: #fff; }
+    .ba ul { list-style: none; margin-top: 0.9rem; }
+    .ba li {
+      color: var(--ink-soft); font-size: 0.96rem;
+      padding: 0.28rem 0 0.28rem 1.5rem; position: relative;
+    }
+    .ba .before li::before { content: "✕"; position: absolute; left: 0; color: #b55; font-weight: 700; }
+    .ba .after li::before { content: "✓"; position: absolute; left: 0; color: var(--green-700); font-weight: 700; }
+    @media (max-width: 860px) { .ba { grid-template-columns: 1fr; } }
+
+    /* ---- board mockup ---- */
+    .board {
+      margin-top: 2.5rem;
+      background: var(--paper);
+      border: 1px solid var(--green-100);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .board-bar {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.8rem 1.1rem;
+      background: var(--green-900);
+      color: #fff;
+    }
+    .board-bar .bdot { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.32); }
+    .board-bar .btitle { font-weight: 650; font-size: 0.92rem; margin-left: 0.4rem; }
+    .board-bar .bwho { margin-left: auto; font-size: 0.82rem; color: var(--green-200); }
+    .board-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 1.2rem; background: var(--mint); }
+    .bcol-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      font-size: 0.76rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+      color: var(--green-500); margin-bottom: 0.7rem;
+    }
+    .bcard {
+      background: var(--paper);
+      border: 1px solid var(--green-100);
+      border-radius: 10px;
+      padding: 0.75rem 0.85rem;
+      margin-bottom: 0.7rem;
+    }
+    .bcard .bname { font-weight: 650; color: var(--green-900); font-size: 0.94rem; }
+    .bcard .bmeta { color: var(--ink-soft); font-size: 0.82rem; margin-top: 0.15rem; }
+    .bcard .brow {
+      display: flex; justify-content: space-between; align-items: baseline;
+      margin-top: 0.55rem; padding-top: 0.5rem; border-top: 1px dashed var(--green-100);
+      font-size: 0.85rem;
+    }
+    .bcard .brow .val { color: var(--ink-soft); }
+    .bcard .brow .comm { font-weight: 700; color: var(--green-700); }
+    .bcard.paid { border-color: var(--green-200); background: #f6fbf7; }
+    .bcard .btag {
+      display: inline-block; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      background: var(--green-700); color: #fff;
+      border-radius: 999px; padding: 1px 8px 2px; margin-top: 0.5rem;
+    }
+    .board-note { font-size: 0.88rem; color: var(--ink-soft); margin-top: 0.9rem; font-style: italic; }
+    @media (max-width: 780px) { .board-cols { grid-template-columns: 1fr; } }
+
+    /* ---- anatomy layers ---- */
+    .layers { margin-top: 2.6rem; display: grid; gap: 1.1rem; }
+    .layer {
+      display: grid; grid-template-columns: 2.6rem 1fr 1.1fr; gap: 1.3rem; align-items: start;
+      background: var(--paper);
+      border: 1px solid var(--green-100);
+      border-radius: var(--radius);
+      padding: 1.3rem 1.5rem;
+    }
+    .section.tint .layer { background: var(--paper); }
+    .section:not(.tint) .layer { background: var(--mint); }
+    .layer .lnum {
+      display: grid; place-items: center;
+      width: 2.4rem; height: 2.4rem; border-radius: 50%;
+      background: var(--green-700); color: #fff; font-weight: 700;
+    }
+    .layer h3 { font-size: 1.08rem; margin-bottom: 0.25rem; }
+    .layer .lwhat { color: var(--ink-soft); font-size: 0.95rem; }
+    .layer .lchose {
+      border-left: 3px solid var(--green-500);
+      padding-left: 1rem;
+      font-size: 0.95rem; color: var(--green-900);
+    }
+    .layer .lchose b { display: block; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green-500); margin-bottom: 0.3rem; }
+    @media (max-width: 880px) {
+      .layer { grid-template-columns: 2.6rem 1fr; }
+      .layer .lchose { grid-column: 2; border-left: none; padding-left: 0; padding-top: 0.85rem; border-top: 1px dashed var(--green-100); }
+    }
+
+    /* ---- hard bits ---- */
+    .hard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin-top: 2.5rem; }
+    .hardcard .hnum {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--green-500); display: block; margin-bottom: 0.55rem;
+    }
+    .hardcard .hq { color: var(--green-900); font-weight: 600; margin-bottom: 0.6rem; }
+    .hardcard .ha { color: var(--ink-soft); font-size: 0.96rem; }
+    .hardcard .hwhy {
+      margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px dashed var(--green-100);
+      font-size: 0.9rem; color: var(--green-900);
+    }
+    @media (max-width: 900px) { .hard { grid-template-columns: 1fr; max-width: 32rem; } }
+
+    /* ---- other builds ---- */
+    .builds { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-top: 2.5rem; }
+    .build .bshape { font-size: 0.74rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green-500); display: block; margin-bottom: 0.5rem; }
+    .build .blayers { list-style: none; margin: 1.1rem 0 0; }
+    .build .blayers li {
+      display: flex; justify-content: space-between; gap: 0.9rem;
+      font-size: 0.9rem; padding: 0.42rem 0; border-top: 1px dashed var(--green-100);
+    }
+    .build .blayers li span:first-child { color: var(--green-500); font-weight: 600; flex-shrink: 0; }
+    .build .blayers li span:last-child { text-align: right; color: var(--green-900); font-weight: 550; }
+    .build .bcost { margin-top: 1rem; padding-top: 0.85rem; border-top: 2px solid var(--green-200); font-weight: 700; color: var(--green-900); }
+    @media (max-width: 860px) { .builds { grid-template-columns: 1fr; } }
+
+    /* ---- stack table ---- */
+    .stack-wrap { overflow-x: auto; margin-top: 2.4rem; -webkit-overflow-scrolling: touch; }
+    table.stack { border-collapse: collapse; width: 100%; min-width: 660px; font-size: 0.96rem; }
+    table.stack th, table.stack td {
+      text-align: left; vertical-align: top;
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid var(--green-100);
+    }
+    table.stack thead th {
+      font-size: 0.76rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--green-500);
+      border-bottom: 2px solid var(--green-200);
+      white-space: nowrap;
+    }
+    table.stack td:first-child { font-weight: 650; color: var(--green-900); width: 21%; }
+    table.stack td { color: var(--ink-soft); }
+    table.stack tbody tr:last-child td { border-bottom: none; }
+    table.stack .pick { color: var(--green-900); font-weight: 600; }
+    table.stack td.used { width: 24%; color: var(--green-700); font-weight: 600; }
+    table.stack td.cost { white-space: nowrap; width: 13%; }
+
+    .rail-icon { font-size: 1.5rem; line-height: 1; margin-bottom: 0.7rem; }
+
+    .callout {
+      margin-top: 2.2rem;
+      background: var(--paper);
+      border: 1px solid var(--green-200);
+      border-left: 4px solid var(--green-700);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.4rem 1.6rem;
+      max-width: 64ch;
+    }
+    .section:not(.tint) .callout { background: var(--mint); }
+    .callout p { color: var(--ink-soft); }
+    .callout strong { color: var(--green-900); }
+  </style>
+</head>
+<body>
+
+  <header class="nav-wrap">
+    <nav class="container nav">
+      <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="34" height="34">
+        <span>Flowlamina</span>
+      </a>
+      <div class="nav-links">
+        <a href="/resources/">Resources</a>
+        <a href="/#services">Services</a>
+        <a href="https://www.youtube.com/@hkaiautomate" target="_blank" rel="noopener">YouTube</a>
+        <a class="btn btn-small" href="https://calendly.com/harshan-flowlamina/30min" target="_blank" rel="noopener">Book a call</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="res-hero">
+      <div class="container">
+        <p class="crumb"><a href="/resources/">Resources</a> / Inside a custom app</p>
+        <p class="eyebrow">Case study · A build that is live today</p>
+        <h1>Inside a custom app I built</h1>
+        <p class="lede">A business with referral partners had a slow leak. Partners kept emailing to ask what had happened to their leads, and commissions were worked out by hand in a spreadsheet at the end of every month. I built them a portal. Partners now sign in and see their own referrals moving in real time, and the commission run happens on its own. This page opens that build right up: what it does, the three genuinely hard problems inside it, exactly what it runs on, and what it costs to keep alive.</p>
+      </div>
+    </section>
+
+    <!-- The problem -->
+    <section class="section tint">
+      <div class="container">
+        <h2>The problem worth paying to fix</h2>
+        <p class="section-sub">This was never really about software. It was about partners going quiet.</p>
+        <div class="ba">
+          <article class="card before">
+            <h3><span class="pill">Before</span> Chasing, guessing, waiting</h3>
+            <ul>
+              <li>Partners emailed to ask what happened to the person they sent</li>
+              <li>Someone answered those emails by digging through the CRM</li>
+              <li>Commission was calculated by hand, once a month, from a spreadsheet</li>
+              <li>Every partner had a different arrangement, held in someone's head</li>
+              <li>A partner who stopped hearing anything simply stopped referring</li>
+            </ul>
+          </article>
+          <article class="card after">
+            <h3><span class="pill">After</span> Self-serve, and paid on time</h3>
+            <ul>
+              <li>Partners sign in and watch their own referrals move through the stages</li>
+              <li>Each card shows the deal value and the commission it will earn them</li>
+              <li>The monthly payout run assembles itself and emails the batch through</li>
+              <li>Each partner's rate is a setting in the CRM, changed without a developer</li>
+              <li>Access is granted or revoked by tagging a contact, and takes effect at once</li>
+            </ul>
+          </article>
+        </div>
+        <div class="stats">
+          <div class="stat"><span class="big">0</span><span class="cap">"where's my lead?" emails to answer</span></div>
+          <div class="stat"><span class="big">1 tag</span><span class="cap">grants or revokes a partner's access</span></div>
+          <div class="stat"><span class="big">Monthly</span><span class="cap">payout run that fires without anyone</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What I built -->
+    <section class="section">
+      <div class="container">
+        <h2>What a partner actually sees</h2>
+        <p class="section-sub">One screen. Their referrals, as cards, in the stage each one has reached. It refreshes itself every couple of minutes, so a partner watching during the day sees things move.</p>
+        <div class="board" role="img" aria-label="Illustration of the partner board: three columns of referral cards showing stage, deal value and commission">
+          <div class="board-bar">
+            <span class="bdot"></span><span class="bdot"></span><span class="bdot"></span>
+            <span class="btitle">My referrals</span>
+            <span class="bwho">signed in as a partner</span>
+          </div>
+          <div class="board-cols">
+            <div>
+              <div class="bcol-head"><span>New enquiry</span><span>2</span></div>
+              <div class="bcard">
+                <div class="bname">J. Marsden</div>
+                <div class="bmeta">Referred 3 days ago</div>
+                <div class="brow"><span class="val">Value TBC</span><span class="comm">—</span></div>
+              </div>
+              <div class="bcard">
+                <div class="bname">A. Whitfield</div>
+                <div class="bmeta">Referred yesterday</div>
+                <div class="brow"><span class="val">Value TBC</span><span class="comm">—</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="bcol-head"><span>Consult booked</span><span>1</span></div>
+              <div class="bcard">
+                <div class="bname">R. Okonkwo</div>
+                <div class="bmeta">Consult Thursday 2:00pm</div>
+                <div class="brow"><span class="val">A$6,400</span><span class="comm">A$640</span></div>
+              </div>
+            </div>
+            <div>
+              <div class="bcol-head"><span>Paid</span><span>1</span></div>
+              <div class="bcard paid">
+                <div class="bname">S. Delaney</div>
+                <div class="bmeta">Completed last month</div>
+                <div class="brow"><span class="val">A$9,200</span><span class="comm">A$920</span></div>
+                <span class="btag">Commission paid</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="board-note">Illustration only. Names, values and stages are invented, and every partner sees strictly their own referrals and nobody else's.</p>
+      </div>
+    </section>
+
+    <!-- Anatomy -->
+    <section class="section tint">
+      <div class="container">
+        <h2>The six layers, and what I chose for each</h2>
+        <p class="section-sub">Every custom app is the same six parts, whether it is two screens or two hundred. Here is the anatomy, with the actual decision I made for this build sitting next to each layer. Read it as a template for reading any quote you are given.</p>
+        <div class="layers">
+          <div class="layer">
+            <div class="lnum">1</div>
+            <div>
+              <h3>The screens</h3>
+              <p class="lwhat">What people see and click. Usually the only part anyone pictures, and usually the smallest part of the work.</p>
+            </div>
+            <div class="lchose"><b>In this build</b>A single board, served as static files from a global network so it loads fast wherever a partner is.</div>
+          </div>
+          <div class="layer">
+            <div class="lnum">2</div>
+            <div>
+              <h3>The rules</h3>
+              <p class="lwhat">What happens when someone clicks. Who may do what, how the numbers are worked out, what triggers an email. Your business lives here.</p>
+            </div>
+            <div class="lchose"><b>In this build</b>A small piece of code that runs at the network edge next to the screens. No server to patch, nothing sitting idle costing money.</div>
+          </div>
+          <div class="layer">
+            <div class="lnum">3</div>
+            <div>
+              <h3>The memory</h3>
+              <p class="lwhat">Where the data lives. The most consequential decision in the whole build, because two copies of the truth is a problem you never stop paying for.</p>
+            </div>
+            <div class="lchose"><b>In this build</b>No new database at all. Their CRM stays the master record, and the portal is a window onto it. Nothing to keep in step.</div>
+          </div>
+          <div class="layer">
+            <div class="lnum">4</div>
+            <div>
+              <h3>The doorman</h3>
+              <p class="lwhat">Who gets in, and what they may see once they are in. A partner should never reach another partner's numbers by editing the web address.</p>
+            </div>
+            <div class="lchose"><b>In this build</b>Email and password. Passwords are stored only as a one-way scramble, never as text, and never inside the CRM. Repeated wrong guesses lock the door for fifteen minutes.</div>
+          </div>
+          <div class="layer">
+            <div class="lnum">5</div>
+            <div>
+              <h3>The connections</h3>
+              <p class="lwhat">Everything it plugs into. In most business apps the connections are the product, and the screens are just how you look at them.</p>
+            </div>
+            <div class="lchose"><b>In this build</b>The CRM, in both directions: it supplies every lead the board shows, and its own scheduled workflow is what fires the monthly payout run.</div>
+          </div>
+          <div class="layer">
+            <div class="lnum">6</div>
+            <div>
+              <h3>The home</h3>
+              <p class="lwhat">Where the code actually runs, plus the path that gets new versions onto it safely. Get this wrong and the live app becomes code that exists nowhere else.</p>
+            </div>
+            <div class="lchose"><b>In this build</b>Cloudflare Pages on the free tier, in the client's own account, released from a code repository so every version can be rolled back.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hard bits -->
+    <section class="section">
+      <div class="container">
+        <h2>The three hard bits</h2>
+        <p class="section-sub">The board itself took days. These three took the rest of the build, and they are the reason it can be trusted with money.</p>
+        <div class="hard">
+          <article class="card hardcard">
+            <span class="hnum">Hard bit one</span>
+            <p class="hq">How do you guarantee a partner can never see another partner's leads?</p>
+            <p class="ha">The filter has to happen on the server, before anything is sent to the browser. Anything filtered in the browser can be undone in the browser.</p>
+            <p class="hwhy">There was a subtler trap underneath. One person can be both a partner and a customer, and the referral forms write to the same record. So the field that decides who you are is one only the onboarding process can write, never a field a form can touch. Otherwise a partner filling in someone else's referral link could quietly change who the portal thought they were.</p>
+          </article>
+          <article class="card hardcard">
+            <span class="hnum">Hard bit two</span>
+            <p class="hq">How do you make sure nobody gets paid twice for the same deal?</p>
+            <p class="ha">Each deal carries a stamp recording which partners have already been settled on it. The payout run reads that stamp before it includes anything in a batch.</p>
+            <p class="hwhy">A list rather than a simple yes or no, because two different partners can legitimately earn on one deal. A single flag would have let the first payment block the second, and the second partner would never have been paid.</p>
+          </article>
+          <article class="card hardcard">
+            <span class="hnum">Hard bit three</span>
+            <p class="hq">How does the business change the deal without calling me?</p>
+            <p class="ha">Every commercial term lives as a setting in the CRM, not in the code. Each partner's rate sits on their own record, and changing it takes effect on the next load.</p>
+            <p class="hwhy">This is the difference between an app the business owns and an app it rents from whoever built it. If a rate change needs a developer, you have bought a dependency, not a system.</p>
+          </article>
+        </div>
+        <div class="callout">
+          <p><strong>The rule underneath all three.</strong> If a setting is missing, the app stops and says so rather than quietly guessing at a sensible default. Silent guesses are how you find out six weeks later that every payout since has been wrong, with no error ever raised.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- What it runs on -->
+    <section class="section tint">
+      <div class="container">
+        <h2>What it costs to keep alive</h2>
+        <p class="section-sub">The part everyone expects to be expensive, and almost never is.</p>
+        <div class="grid grid-3" style="margin-top: 2.25rem;">
+          <article class="card">
+            <div class="rail-icon" aria-hidden="true">☁️</div>
+            <h3>Hosting: nothing</h3>
+            <p>Screens and rules both sit on Cloudflare Pages, comfortably inside the free tier at this size. Free until there is real traffic, and cheap after that.</p>
+          </article>
+          <article class="card">
+            <div class="rail-icon" aria-hidden="true">🗄️</div>
+            <h3>Database: nothing</h3>
+            <p>There isn't one. The CRM they already pay for is the master record. No database bill, no backups to run, and no second version of the truth to reconcile.</p>
+          </article>
+          <article class="card">
+            <div class="rail-icon" aria-hidden="true">🔐</div>
+            <h3>Logins: cents</h3>
+            <p>Password hashes and lockout counters live in a small key-value store beside the app. It costs cents a month and keeps auth secrets out of the CRM entirely.</p>
+          </article>
+        </div>
+        <div class="callout">
+          <p><strong>One deliberate choice worth calling out.</strong> I hosted it as a Pages project rather than a bare worker, because pointing their own domain at Pages needed a single DNS record. The alternative would have meant moving control of their entire domain to a new provider, which is a real risk to a live website in exchange for nothing. Hosting decisions are rarely about the code.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="section" style="padding: 3.5rem 0 0;">
+      <div class="container">
+        <div class="detail-divider"><span>Two more builds, two different shapes</span></div>
+      </div>
+    </div>
+
+    <!-- Other builds -->
+    <section class="section">
+      <div class="container">
+        <h2>Not every app looks like that one</h2>
+        <p class="section-sub">Almost every custom build I do falls into one of three shapes. The portal above is the first. Here are the other two, both live, both put together the same way and hosted very differently.</p>
+        <div class="builds">
+          <article class="card build">
+            <span class="bshape">Shape two — the engine</span>
+            <h3>The app with no screens</h3>
+            <p>A property manager looks after about seventy homes across four states and needed to know if any of them quietly appeared for sale publicly. Every Monday at 5am the app checks each address, matches strictly on the exact street number so it never cries wolf, writes the results to a sheet, and pings the team if anything needs a look.</p>
+            <p style="margin-top: 0.8rem;">There is a second, smaller job whose only purpose is to shout if the first one fails to run. An automation nobody is watching is an automation you cannot rely on.</p>
+            <ul class="blayers">
+              <li><span>Screens</span><span>None</span></li>
+              <li><span>Rules</span><span>A scheduled service on Railway</span></li>
+              <li><span>Memory</span><span>A spreadsheet they already use</span></li>
+              <li><span>Alerts</span><span>Slack, plus a failure watchdog</span></li>
+              <li><span>Home</span><span>The client's own Railway account</span></li>
+            </ul>
+            <p class="bcost">A few dollars a month, all in</p>
+          </article>
+          <article class="card build">
+            <span class="bshape">Shape three — the window</span>
+            <h3>The app that is just a better view</h3>
+            <p>My own business dashboard. Every number I track already lives in one system, so the last thing I wanted was a second copy of it. Instead the data is pulled, rendered into a single self-contained page of charts, and published. No server, no database, nothing to maintain.</p>
+            <p style="margin-top: 0.8rem;">Because the page sits on public hosting and shows revenue figures, the whole thing is encrypted behind a password before it is published. Free hosting does not have to mean exposed.</p>
+            <ul class="blayers">
+              <li><span>Screens</span><span>One static page of charts</span></li>
+              <li><span>Rules</span><span>A build script, run on demand</span></li>
+              <li><span>Memory</span><span>The system of record, untouched</span></li>
+              <li><span>Doorman</span><span>Password, encrypted before publishing</span></li>
+              <li><span>Home</span><span>Static hosting, free</span></li>
+            </ul>
+            <p class="bcost">Nothing a month</p>
+          </article>
+        </div>
+        <div class="callout">
+          <p><strong>Which shape is yours?</strong> If people log in and see their own data, it is a portal. If nobody logs in and it just needs to run on its own, it is an engine. If the data already lives somewhere you trust, it is a window, and you should resist every urge to copy that data into a new database.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stack reference -->
+    <section class="section tint">
+      <div class="container">
+        <h2>The parts I choose between</h2>
+        <p class="section-sub">Across those three builds, this is the shopping list I pick from. Most small business apps need four or five of these rows, not all twelve. Costs are indicative monthly figures in Australian dollars at small business volume, and nearly everything here has a genuinely usable free tier.</p>
+        <div class="stack-wrap">
+          <table class="stack">
+            <thead>
+              <tr>
+                <th>Layer</th>
+                <th>What I'd reach for</th>
+                <th>Used in the portal</th>
+                <th>Typical cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Front end hosting</td>
+                <td><span class="pick">Vercel</span> for anything built in Next.js or React. <span class="pick">Cloudflare Pages</span> and <span class="pick">Netlify</span> are strong alternatives. <span class="pick">GitHub Pages</span> when the site is purely static.</td>
+                <td class="used">Cloudflare Pages</td>
+                <td class="cost">$0 to $30</td>
+              </tr>
+              <tr>
+                <td>Back end and API</td>
+                <td><span class="pick">Railway</span> for an always-on service in any language. <span class="pick">Cloudflare Workers</span> when you want it fast, near the user and cheap. <span class="pick">Vercel Functions</span> if the front end already lives there. <span class="pick">Render</span> and <span class="pick">Fly.io</span> are close cousins of Railway.</td>
+                <td class="used">Cloudflare Worker</td>
+                <td class="cost">$0 to $40</td>
+              </tr>
+              <tr>
+                <td>Database</td>
+                <td><span class="pick">Supabase</span> is my default when the app needs its own data: a proper Postgres database with logins, file storage and an admin screen included. <span class="pick">Neon</span> for Postgres on its own. Or the <span class="pick">CRM itself</span> when the app is really a window onto it.</td>
+                <td class="used">None. The CRM is the record</td>
+                <td class="cost">$0 to $40</td>
+              </tr>
+              <tr>
+                <td>Logins and permissions</td>
+                <td><span class="pick">Supabase Auth</span> if you are already on Supabase. <span class="pick">Clerk</span> for a polished sign-up flow out of the box. <span class="pick">Auth0</span> for enterprise requirements. Hand-rolling this is usually a false economy.</td>
+                <td class="used">Hashes in Cloudflare KV</td>
+                <td class="cost">$0 to $40</td>
+              </tr>
+              <tr>
+                <td>File storage</td>
+                <td><span class="pick">Supabase Storage</span> beside the database. <span class="pick">Cloudflare R2</span> when there is real volume, because it doesn't charge to read files back. <span class="pick">Amazon S3</span> is the incumbent.</td>
+                <td class="used">Not needed</td>
+                <td class="cost">$0 to $15</td>
+              </tr>
+              <tr>
+                <td>Scheduled jobs</td>
+                <td><span class="pick">Railway cron</span>, <span class="pick">Cloudflare Cron Triggers</span> or <span class="pick">GitHub Actions</span> on a schedule. When the trigger really belongs to a business process, your CRM's own scheduler is the honest place for it.</td>
+                <td class="used">The CRM's own scheduler</td>
+                <td class="cost">$0 to $10</td>
+              </tr>
+              <tr>
+                <td>Email and SMS</td>
+                <td><span class="pick">Resend</span> or <span class="pick">Postmark</span> for reliable transactional email. <span class="pick">Twilio</span> internationally for SMS, or an Australian provider for local numbers and better local delivery.</td>
+                <td class="used">The CRM's own sending</td>
+                <td class="cost">$0 to $50</td>
+              </tr>
+              <tr>
+                <td>Payments</td>
+                <td><span class="pick">Stripe</span> for almost everything. Never store card details yourself, and never build a form that touches a raw card number.</td>
+                <td class="used">Not needed</td>
+                <td class="cost">Per transaction</td>
+              </tr>
+              <tr>
+                <td>The AI layer</td>
+                <td><span class="pick">OpenAI</span>, <span class="pick">Google Gemini</span> or <span class="pick">Anthropic</span>. Whichever you pick, the account and the key belong to your business, so you can see the usage and you can switch.</td>
+                <td class="used">Not needed here</td>
+                <td class="cost">Usage-based</td>
+              </tr>
+              <tr>
+                <td>Code repository</td>
+                <td><span class="pick">GitHub</span>, connected to the host so that saving the code is what publishes it. This is also your undo button, and the reason a bad release takes a minute to reverse.</td>
+                <td class="used">GitHub, client-owned</td>
+                <td class="cost">$0</td>
+              </tr>
+              <tr>
+                <td>Secrets</td>
+                <td>The <span class="pick">environment variables</span> section of whichever host you chose. Never in the code, never in a spreadsheet, never pasted into a chat.</td>
+                <td class="used">Cloudflare secrets</td>
+                <td class="cost">$0</td>
+              </tr>
+              <tr>
+                <td>Monitoring</td>
+                <td>Your host's logs, plus <span class="pick">Sentry</span> for errors and any uptime pinger. An app with no logs cannot be debugged and cannot be audited.</td>
+                <td class="used">Host logs</td>
+                <td class="cost">$0 to $30</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout">
+          <p><strong>Turn logging on at the start.</strong> I was once asked to prove whether a client had used a feature that shipped a month earlier. No application logs, no access log from the vendor, nothing. The answer had to be reconstructed from the traces the app had left behind in another system. Logging costs nothing and you will eventually need it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How I work -->
+    <section class="section">
+      <div class="container">
+        <h2>How I build these</h2>
+        <div class="grid grid-3" style="margin-top: 2.25rem;">
+          <article class="card">
+            <div class="rail-icon" aria-hidden="true">🔑</div>
+            <h3>You own everything</h3>
+            <p>Every account, domain, repository and key sits in your business's name, and you get a written map of what connects to what. If you ever want to work with someone else, nothing is holding you hostage.</p>
+          </article>
+          <article class="card">
+            <div class="rail-icon" aria-hidden="true">✋</div>
+            <h3>A human gate on anything that matters</h3>
+            <p>Anything that spends money, sends to a customer or publishes stops for a person first. Automation is there to take the labour, not the judgement.</p>
+          </article>
+          <article class="card">
+            <div class="rail-icon" aria-hidden="true">⚠</div>
+            <h3>Loud failures, safe reruns</h3>
+            <p>Missing settings stop the run with a clear message instead of guessing. Anything that imports or syncs can be run twice without duplicating a thing. Every build ships with a way to switch it off.</p>
+          </article>
+        </div>
+        <div class="callout">
+          <p><strong>The number that decides whether to build at all.</strong> Take the hours your current manual process burns each week, multiply by what that hour costs you, then by fifty. That is the annual bleed, and it is the only sensible thing to compare a build against. If an app can't beat that number inside a year, the honest answer is not yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta-section">
+      <div class="container narrow center">
+        <h2>Wondering what your version looks like?</h2>
+        <p class="section-sub">Tell me the job you are trying to do and I'll tell you honestly whether it is a build like this one, a reconfiguration of software you already own, or something you should simply buy. That conversation is free and it is usually the most useful half hour of the whole project.</p>
+        <a class="btn btn-lg" href="https://calendly.com/harshan-flowlamina/30min" target="_blank" rel="noopener">Book a free 30-minute consultation</a>
+        <p class="contact-lines">
+          <a href="mailto:harshan@flowlamina.com">harshan@flowlamina.com</a>
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a class="brand" href="/">
+        <img src="/assets/logo.png" alt="" width="26" height="26">
+        <span>Flowlamina</span>
+      </a>
+      <p>© Flowlamina · Melbourne, Australia</p>
+      <div class="footer-links">
+        <a href="/resources/">Resources</a>
+        <a href="https://www.youtube.com/@hkaiautomate" target="_blank" rel="noopener">YouTube</a>
+        <a href="mailto:harshan@flowlamina.com">Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- GoatCounter — privacy-friendly page-view counts, no cookies. Dashboard: https://flowlamina.goatcounter.com -->
+  <script data-goatcounter="https://flowlamina.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+
+</body>
+</html>

@@ -32,6 +32,9 @@
       margin-bottom: 0.7rem;
     }
     .coming { color: var(--ink-soft); font-size: 0.95rem; margin-top: 2.4rem; }
+    /* placeholder mark for resources with no vendor logo */
+    .res-mark { display: grid; place-items: center; color: var(--green-500); }
+    .res-mark svg { width: 56px; height: 56px; }
   </style>
 </head>
 <body>
@@ -67,6 +70,26 @@
               <span class="go">Read the showcase →</span>
             </div>
             <img class="res-logo" src="/assets/claude-code-logo.png" alt="Claude Code" width="520" height="283" loading="lazy">
+          </a>
+          <a class="card res-card" href="/resources/inside-a-custom-app/">
+            <div class="res-card-body">
+              <span class="res-kind">Case study</span>
+              <h3>Inside a custom app I built</h3>
+              <p>A referral partner portal that pays commissions on its own, taken apart layer by layer, with what it runs on and what it costs to keep alive.</p>
+              <span class="go">Read the case study →</span>
+            </div>
+            <div class="res-logo res-mark" aria-hidden="true">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="7" width="38" height="28" rx="3.5"/>
+                <path d="M5 14h38"/>
+                <circle cx="10.5" cy="10.5" r="0.9" fill="currentColor" stroke="none"/>
+                <circle cx="14.5" cy="10.5" r="0.9" fill="currentColor" stroke="none"/>
+                <path d="M12 21.5h10M12 27h6"/>
+                <path d="M31 19.5l4.5 4.5L31 28.5"/>
+                <path d="M16 41h16"/>
+                <path d="M24 35v6"/>
+              </svg>
+            </div>
           </a>
           <a class="card res-card" href="/resources/zoho-crm-deal-scorecard-forecasting/">
             <div class="res-card-body">
