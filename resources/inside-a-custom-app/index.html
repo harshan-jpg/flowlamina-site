@@ -125,7 +125,8 @@
       width: 2.4rem; height: 2.4rem; border-radius: 50%;
       background: var(--green-700); color: #fff; font-weight: 700;
     }
-    .layer h3 { font-size: 1.08rem; margin-bottom: 0.25rem; }
+    .layer h3 { font-size: 1.08rem; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.55rem; }
+    .layer h3 svg { width: 19px; height: 19px; flex-shrink: 0; color: var(--green-500); }
     .layer .lwhat { color: var(--ink-soft); font-size: 0.95rem; }
     .layer .lchose {
       border-left: 3px solid var(--green-500);
@@ -138,19 +139,65 @@
       .layer .lchose { grid-column: 2; border-left: none; padding-left: 0; padding-top: 0.85rem; border-top: 1px dashed var(--green-100); }
     }
 
-    /* ---- hard bits ---- */
-    .hard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; margin-top: 2.5rem; }
-    .hardcard .hnum {
+    /* ---- diagram figures ---- */
+    .figure {
+      margin: 2.4rem 0 0;
+      background: var(--paper);
+      border: 1px solid var(--green-100);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 12px 34px rgba(27, 67, 50, 0.09);
+    }
+    .figure .fig-body { padding: 1.5rem 1.4rem 1.1rem; }
+    .figure svg { display: block; width: 100%; height: auto; }
+    .figure figcaption {
+      padding: 1rem 1.35rem 1.15rem;
+      border-top: 1px solid var(--green-100);
+      font-size: 0.95rem; color: var(--ink-soft); line-height: 1.6;
+    }
+    .figure figcaption b { color: var(--green-900); font-weight: 650; }
+    /* break the big diagrams out past the text column, so they're easy to talk to on a call */
+    .figure.wide { width: min(94vw, 1500px); margin-left: calc(50% - min(47vw, 750px)); }
+    .figure.wide figcaption { max-width: 72ch; margin-inline: auto; font-size: 1rem; }
+    @media (max-width: 1180px) { .figure.wide { width: 100%; margin-left: 0; } }
+
+    /* ---- shared diagram language ---- */
+    .dgm text { font-family: var(--font); }
+    .dgm .bx { fill: var(--paper); stroke: var(--green-200); stroke-width: 1.6; }
+    .dgm .bx-tint { fill: var(--mint); stroke: var(--green-100); stroke-width: 1.6; }
+    .dgm .bx-key { fill: #f6fbf7; stroke: var(--green-700); stroke-width: 2.4; }
+    .dgm .bx-dark { fill: var(--green-900); }
+    .dgm .bx-mid { fill: var(--green-700); }
+    .dgm .bx-dash { fill: none; stroke: var(--green-200); stroke-width: 1.6; stroke-dasharray: 7 6; }
+    .dgm .t { fill: var(--green-900); font-size: 18px; font-weight: 660; }
+    .dgm .ts { fill: var(--ink-soft); font-size: 14.5px; }
+    .dgm .tw { fill: #ffffff; font-size: 18px; font-weight: 660; }
+    .dgm .tws { fill: var(--green-200); font-size: 14.5px; }
+    .dgm .cap { fill: var(--green-500); font-size: 12.5px; font-weight: 700; letter-spacing: 0.09em; }
+    .dgm .arr { stroke: var(--green-500); stroke-width: 2.2; fill: none; }
+    .dgm .arrlab { fill: var(--green-700); font-size: 13.5px; font-weight: 600; }
+    .dgm .chip { fill: var(--paper); stroke: var(--green-200); stroke-width: 1.4; }
+    .dgm .chipt { fill: var(--green-900); font-size: 14px; font-weight: 650; }
+
+    /* ---- hard bits, one row each with its own diagram ---- */
+    .hardrow {
+      display: grid; grid-template-columns: 1fr 1.1fr; gap: 2.4rem; align-items: center;
+      padding: 2.6rem 0; border-top: 1px solid var(--green-100);
+    }
+    .hardrow:first-of-type { border-top: none; padding-top: 1.6rem; }
+    .hardrow .hnum {
       font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
       color: var(--green-500); display: block; margin-bottom: 0.55rem;
     }
-    .hardcard .hq { color: var(--green-900); font-weight: 600; margin-bottom: 0.6rem; }
-    .hardcard .ha { color: var(--ink-soft); font-size: 0.96rem; }
-    .hardcard .hwhy {
-      margin-top: 0.85rem; padding-top: 0.75rem; border-top: 1px dashed var(--green-100);
-      font-size: 0.9rem; color: var(--green-900);
+    .hardrow .hq { color: var(--green-900); font-weight: 700; font-size: 1.18rem; line-height: 1.35; margin-bottom: 0.7rem; }
+    .hardrow .ha { color: var(--ink-soft); }
+    .hardrow .hwhy {
+      margin-top: 0.9rem; font-size: 0.94rem; color: var(--green-900);
+      background: var(--mint); border-left: 3px solid var(--green-500);
+      border-radius: 0 8px 8px 0; padding: 0.75rem 1rem;
     }
-    @media (max-width: 900px) { .hard { grid-template-columns: 1fr; max-width: 32rem; } }
+    .hardrow .figure { margin-top: 0; }
+    @media (max-width: 900px) { .hardrow { grid-template-columns: 1fr; gap: 1.5rem; } }
 
     /* ---- other builds ---- */
     .builds { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-top: 2.5rem; }
@@ -315,16 +362,130 @@
       </div>
     </section>
 
+    <!-- Payout run -->
+    <section class="section">
+      <div class="container">
+        <h2>And once a month, it pays them</h2>
+        <p class="section-sub">This is the part that used to be an evening with a spreadsheet. Now nobody starts it and nobody assembles it.</p>
+        <figure class="figure wide">
+          <div class="fig-body">
+            <svg class="dgm" viewBox="0 0 1200 250" role="img" aria-label="The monthly payout run in four steps: the CRM scheduler fires, the app gathers paid deals, it skips any partner already settled on a deal, then it stamps each deal and emails the batch summary.">
+              <defs>
+                <marker id="ahP" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--green-500)"/>
+                </marker>
+              </defs>
+              <text x="30" y="28" class="cap">MONTHLY, WITHOUT ANYONE CLICKING ANYTHING</text>
+
+              <rect x="30" y="55" width="255" height="140" rx="14" class="bx-tint"/>
+              <circle cx="62" cy="90" r="15" fill="var(--green-700)"/>
+              <text x="62" y="96" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">1</text>
+              <text x="90" y="96" class="t" font-size="17">It starts itself</text>
+              <text x="52" y="132" class="ts"><tspan x="52" dy="0">The CRM's own scheduler</tspan><tspan x="52" dy="21">fires the run. No outside</tspan><tspan x="52" dy="21">timer to babysit.</tspan></text>
+
+              <path d="M292,125 L338,125" class="arr" marker-end="url(#ahP)"/>
+
+              <rect x="345" y="55" width="255" height="140" rx="14" class="bx-tint"/>
+              <circle cx="377" cy="90" r="15" fill="var(--green-700)"/>
+              <text x="377" y="96" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">2</text>
+              <text x="405" y="96" class="t" font-size="17">It gathers</text>
+              <text x="367" y="132" class="ts"><tspan x="367" dy="0">Every deal marked paid,</tspan><tspan x="367" dy="21">matched to the partner</tspan><tspan x="367" dy="21">who referred it.</tspan></text>
+
+              <path d="M607,125 L653,125" class="arr" marker-end="url(#ahP)"/>
+
+              <rect x="660" y="55" width="255" height="140" rx="14" class="bx-key"/>
+              <circle cx="692" cy="90" r="15" fill="var(--green-700)"/>
+              <text x="692" y="96" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">3</text>
+              <text x="720" y="96" class="t" font-size="17">It checks</text>
+              <text x="682" y="132" class="ts"><tspan x="682" dy="0">Anyone already settled on</tspan><tspan x="682" dy="21">that deal is skipped, so</tspan><tspan x="682" dy="21">nobody is paid twice.</tspan></text>
+              <text x="787" y="222" text-anchor="middle" class="arrlab">the double-payment guard</text>
+              <path d="M787,198 L787,208" class="arr" marker-end="url(#ahP)"/>
+
+              <path d="M922,125 L968,125" class="arr" marker-end="url(#ahP)"/>
+
+              <rect x="975" y="55" width="195" height="140" rx="14" class="bx-mid"/>
+              <circle cx="1007" cy="90" r="15" fill="#ffffff" fill-opacity="0.22"/>
+              <text x="1007" y="96" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">4</text>
+              <text x="1035" y="96" class="tw" font-size="17">It closes</text>
+              <text x="997" y="132" class="tws"><tspan x="997" dy="0">Each deal stamped,</tspan><tspan x="997" dy="21">one batch summary</tspan><tspan x="997" dy="21">emailed through.</tspan></text>
+            </svg>
+          </div>
+          <figcaption><b>The whole run is unattended.</b> The trigger lives in the CRM rather than in the app, which matters more than it sounds: the business can see the schedule, pause it, or fire it early without needing me. Step three is the one that lets it be trusted with money.</figcaption>
+        </figure>
+      </div>
+    </section>
+
     <!-- Anatomy -->
     <section class="section tint">
       <div class="container">
         <h2>The six layers, and what I chose for each</h2>
-        <p class="section-sub">Every custom app is the same six parts, whether it is two screens or two hundred. Here is the anatomy, with the actual decision I made for this build sitting next to each layer. Read it as a template for reading any quote you are given.</p>
+        <p class="section-sub">Every custom app is the same six parts, whether it is two screens or two hundred. Here is the whole thing on one picture, then the anatomy with the actual decision I made for each layer. Read it as a template for reading any quote you are ever given.</p>
+
+        <figure class="figure wide">
+          <div class="fig-body">
+            <svg class="dgm" viewBox="0 0 1200 430" role="img" aria-label="System map: a partner's browser talks to the board and the rules, both hosted on Cloudflare Pages; the rules check a password store and read from the client's CRM, which holds partners, leads, deal values and commission rates.">
+              <defs>
+                <marker id="ahS" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--green-500)"/>
+                </marker>
+              </defs>
+
+              <!-- partner -->
+              <rect x="40" y="125" width="225" height="125" rx="14" class="bx-tint"/>
+              <circle cx="152" cy="163" r="13" fill="none" stroke="var(--green-700)" stroke-width="2.2"/>
+              <path d="M130,192 c4,-14 12,-21 22,-21 c10,0 18,7 22,21" fill="none" stroke="var(--green-700)" stroke-width="2.2" stroke-linecap="round"/>
+              <text x="152" y="219" text-anchor="middle" class="t" font-size="17">A partner</text>
+              <text x="152" y="240" text-anchor="middle" class="ts" font-size="13.5">in a web browser</text>
+
+              <path d="M272,160 L366,160" class="arr" marker-end="url(#ahS)"/>
+              <text x="319" y="148" text-anchor="middle" class="arrlab">signs in</text>
+
+              <!-- hosting container -->
+              <rect x="345" y="50" width="410" height="270" rx="18" class="bx-dash"/>
+              <text x="550" y="80" text-anchor="middle" class="cap">CLOUDFLARE PAGES</text>
+              <text x="550" y="101" text-anchor="middle" class="ts" font-size="13">free tier, in the client's own account</text>
+
+              <rect x="378" y="118" width="344" height="82" rx="12" class="bx"/>
+              <text x="402" y="152" class="t" font-size="17">The board</text>
+              <text x="402" y="177" class="ts" font-size="13.5">static files, served from everywhere at once</text>
+
+              <rect x="378" y="218" width="344" height="88" rx="12" class="bx-mid"/>
+              <text x="402" y="254" class="tw" font-size="17">The rules</text>
+              <text x="402" y="280" class="tws" font-size="13.5">login · the per-partner filter · the payout run</text>
+
+              <path d="M550,312 L550,346" class="arr" marker-end="url(#ahS)"/>
+              <text x="568" y="336" class="arrlab">checks the password</text>
+
+              <rect x="378" y="352" width="344" height="64" rx="12" class="bx-tint"/>
+              <text x="402" y="380" class="t" font-size="16">Password store</text>
+              <text x="402" y="402" class="ts" font-size="13.5">one-way hashes only, never inside the CRM</text>
+
+              <path d="M729,262 L854,240" class="arr" marker-end="url(#ahS)"/>
+              <text x="800" y="310" text-anchor="middle" class="arrlab"><tspan x="800" dy="0">reads leads</tspan><tspan x="800" dy="17">read-only</tspan></text>
+
+              <!-- CRM -->
+              <rect x="860" y="50" width="300" height="270" rx="16" class="bx-dark"/>
+              <text x="890" y="96" class="tw" font-size="20">Their CRM</text>
+              <text x="890" y="121" class="tws" font-size="14">the single source of truth</text>
+              <path d="M890,143 L1130,143" stroke="var(--green-700)" stroke-width="1.6"/>
+              <circle cx="897" cy="176" r="3.5" fill="var(--green-500)"/>
+              <text x="913" y="182" class="tws">Partners and their access</text>
+              <circle cx="897" cy="212" r="3.5" fill="var(--green-500)"/>
+              <text x="913" y="218" class="tws">Leads and their stages</text>
+              <circle cx="897" cy="248" r="3.5" fill="var(--green-500)"/>
+              <text x="913" y="254" class="tws">Deal values</text>
+              <circle cx="897" cy="284" r="3.5" fill="var(--green-500)"/>
+              <text x="913" y="290" class="tws">Commission rates</text>
+            </svg>
+          </div>
+          <figcaption><b>Six layers, four boxes, no database.</b> The dashed box is everything I had to build and host. Everything on the right they already owned and already paid for, which is why the running cost of this app rounds to nothing. Note the arrow only points one way: the portal reads from the CRM and cannot write to it.</figcaption>
+        </figure>
+
         <div class="layers">
           <div class="layer">
             <div class="lnum">1</div>
             <div>
-              <h3>The screens</h3>
+              <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4.5" width="18" height="13" rx="2"/><path d="M3 9h18M8.5 21h7M12 17.5V21"/></svg><span>The screens</span></h3>
               <p class="lwhat">What people see and click. Usually the only part anyone pictures, and usually the smallest part of the work.</p>
             </div>
             <div class="lchose"><b>In this build</b>A single board, served as static files from a global network so it loads fast wherever a partner is.</div>
@@ -332,7 +493,7 @@
           <div class="layer">
             <div class="lnum">2</div>
             <div>
-              <h3>The rules</h3>
+              <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3.5v6.5a3 3 0 003 3h6a3 3 0 013 3v4.5"/><circle cx="6" cy="3.5" r="1.6"/><circle cx="18" cy="20.5" r="1.6"/><path d="M9.5 13H4"/></svg><span>The rules</span></h3>
               <p class="lwhat">What happens when someone clicks. Who may do what, how the numbers are worked out, what triggers an email. Your business lives here.</p>
             </div>
             <div class="lchose"><b>In this build</b>A small piece of code that runs at the network edge next to the screens. No server to patch, nothing sitting idle costing money.</div>
@@ -340,7 +501,7 @@
           <div class="layer">
             <div class="lnum">3</div>
             <div>
-              <h3>The memory</h3>
+              <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="6" rx="7.5" ry="3"/><path d="M4.5 6v12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3V6"/><path d="M4.5 12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3"/></svg><span>The memory</span></h3>
               <p class="lwhat">Where the data lives. The most consequential decision in the whole build, because two copies of the truth is a problem you never stop paying for.</p>
             </div>
             <div class="lchose"><b>In this build</b>No new database at all. Their CRM stays the master record, and the portal is a window onto it. Nothing to keep in step.</div>
@@ -348,7 +509,7 @@
           <div class="layer">
             <div class="lnum">4</div>
             <div>
-              <h3>The doorman</h3>
+              <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 018 0v3"/><circle cx="12" cy="15.5" r="1.3"/></svg><span>The doorman</span></h3>
               <p class="lwhat">Who gets in, and what they may see once they are in. A partner should never reach another partner's numbers by editing the web address.</p>
             </div>
             <div class="lchose"><b>In this build</b>Email and password. Passwords are stored only as a one-way scramble, never as text, and never inside the CRM. Repeated wrong guesses lock the door for fifteen minutes.</div>
@@ -356,7 +517,7 @@
           <div class="layer">
             <div class="lnum">5</div>
             <div>
-              <h3>The connections</h3>
+              <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="18" cy="18" r="2.4"/><path d="M8.2 10.9l7.6-3.8M8.2 13.1l7.6 3.8"/></svg><span>The connections</span></h3>
               <p class="lwhat">Everything it plugs into. In most business apps the connections are the product, and the screens are just how you look at them.</p>
             </div>
             <div class="lchose"><b>In this build</b>The CRM, in both directions: it supplies every lead the board shows, and its own scheduled workflow is what fires the monthly payout run.</div>
@@ -364,7 +525,7 @@
           <div class="layer">
             <div class="lnum">6</div>
             <div>
-              <h3>The home</h3>
+              <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20.5v-9l8-6 8 6v9"/><path d="M9.5 20.5v-6h5v6"/></svg><span>The home</span></h3>
               <p class="lwhat">Where the code actually runs, plus the path that gets new versions onto it safely. Get this wrong and the live app becomes code that exists nowhere else.</p>
             </div>
             <div class="lchose"><b>In this build</b>Cloudflare Pages on the free tier, in the client's own account, released from a code repository so every version can be rolled back.</div>
@@ -378,25 +539,129 @@
       <div class="container">
         <h2>The three hard bits</h2>
         <p class="section-sub">The board itself took days. These three took the rest of the build, and they are the reason it can be trusted with money.</p>
-        <div class="hard">
-          <article class="card hardcard">
+        <div class="hardrow">
+          <div>
             <span class="hnum">Hard bit one</span>
             <p class="hq">How do you guarantee a partner can never see another partner's leads?</p>
             <p class="ha">The filter has to happen on the server, before anything is sent to the browser. Anything filtered in the browser can be undone in the browser.</p>
             <p class="hwhy">There was a subtler trap underneath. One person can be both a partner and a customer, and the referral forms write to the same record. So the field that decides who you are is one only the onboarding process can write, never a field a form can touch. Otherwise a partner filling in someone else's referral link could quietly change who the portal thought they were.</p>
-          </article>
-          <article class="card hardcard">
+          </div>
+          <figure class="figure">
+            <div class="fig-body">
+              <svg class="dgm" viewBox="0 0 620 300" role="img" aria-label="Every lead sits in the CRM. The rules filter them on the server, so partner A receives only A's leads and partner B receives only B's.">
+                <defs>
+                  <marker id="ah1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M0,0 L10,5 L0,10 z" fill="var(--green-500)"/>
+                  </marker>
+                </defs>
+                <rect x="15" y="80" width="175" height="140" rx="13" class="bx-tint"/>
+                <text x="102" y="112" text-anchor="middle" class="t" font-size="16">Every lead</text>
+                <rect x="35" y="132" width="60" height="30" rx="7" class="chip"/><text x="65" y="152" text-anchor="middle" class="chipt">A</text>
+                <rect x="108" y="132" width="60" height="30" rx="7" class="chip"/><text x="138" y="152" text-anchor="middle" class="chipt">B</text>
+                <rect x="35" y="172" width="60" height="30" rx="7" class="chip"/><text x="65" y="192" text-anchor="middle" class="chipt">B</text>
+                <rect x="108" y="172" width="60" height="30" rx="7" class="chip"/><text x="138" y="192" text-anchor="middle" class="chipt">A</text>
+
+                <path d="M197,150 L228,150" class="arr" marker-end="url(#ah1)"/>
+
+                <rect x="235" y="80" width="165" height="140" rx="13" class="bx-dark"/>
+                <text x="317" y="128" text-anchor="middle" class="tw" font-size="17">The rules</text>
+                <text x="317" y="156" text-anchor="middle" class="tws" font-size="13.5">filter on the server,</text>
+                <text x="317" y="176" text-anchor="middle" class="tws" font-size="13.5">before it is sent</text>
+
+                <path d="M407,128 L442,98" class="arr" marker-end="url(#ah1)"/>
+                <path d="M407,172 L442,202" class="arr" marker-end="url(#ah1)"/>
+
+                <rect x="450" y="52" width="155" height="88" rx="12" class="bx"/>
+                <text x="527" y="88" text-anchor="middle" class="t" font-size="16">Partner A</text>
+                <text x="527" y="113" text-anchor="middle" class="ts" font-size="13.5">sees only A</text>
+
+                <rect x="450" y="160" width="155" height="88" rx="12" class="bx"/>
+                <text x="527" y="196" text-anchor="middle" class="t" font-size="16">Partner B</text>
+                <text x="527" y="221" text-anchor="middle" class="ts" font-size="13.5">sees only B</text>
+              </svg>
+            </div>
+            <figcaption>The other partner's cards are never sent to the browser at all, so there is nothing to uncover by poking at the page.</figcaption>
+          </figure>
+        </div>
+
+        <div class="hardrow">
+          <div>
             <span class="hnum">Hard bit two</span>
             <p class="hq">How do you make sure nobody gets paid twice for the same deal?</p>
             <p class="ha">Each deal carries a stamp recording which partners have already been settled on it. The payout run reads that stamp before it includes anything in a batch.</p>
             <p class="hwhy">A list rather than a simple yes or no, because two different partners can legitimately earn on one deal. A single flag would have let the first payment block the second, and the second partner would never have been paid.</p>
-          </article>
-          <article class="card hardcard">
+          </div>
+          <figure class="figure">
+            <div class="fig-body">
+              <svg class="dgm" viewBox="0 0 620 300" role="img" aria-label="One paid deal is settled by the June run for partner A and the July run for partner B. The deal carries a list of settled partners rather than a single paid flag.">
+                <defs>
+                  <marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M0,0 L10,5 L0,10 z" fill="var(--green-500)"/>
+                  </marker>
+                </defs>
+                <rect x="15" y="58" width="150" height="88" rx="12" class="bx-tint"/>
+                <text x="90" y="94" text-anchor="middle" class="t" font-size="16">June run</text>
+                <text x="90" y="119" text-anchor="middle" class="ts" font-size="13.5">settles partner A</text>
+
+                <rect x="455" y="58" width="150" height="88" rx="12" class="bx-tint"/>
+                <text x="530" y="94" text-anchor="middle" class="t" font-size="16">July run</text>
+                <text x="530" y="119" text-anchor="middle" class="ts" font-size="13.5">settles partner B</text>
+
+                <path d="M172,102 L196,102" class="arr" marker-end="url(#ah2)"/>
+                <path d="M448,102 L424,102" class="arr" marker-end="url(#ah2)"/>
+
+                <rect x="203" y="48" width="214" height="108" rx="14" class="bx-key"/>
+                <text x="310" y="82" text-anchor="middle" class="t" font-size="16">One paid deal</text>
+                <text x="310" y="126" text-anchor="middle" fill="var(--green-700)" font-size="27" font-weight="750">A$9,200</text>
+
+                <path d="M310,163 L310,190" class="arr" marker-end="url(#ah2)"/>
+
+                <rect x="140" y="197" width="340" height="86" rx="13" class="bx-tint"/>
+                <text x="310" y="223" text-anchor="middle" class="cap">SETTLED SO FAR, AS A LIST</text>
+                <rect x="168" y="236" width="128" height="32" rx="8" class="chip"/><text x="232" y="257" text-anchor="middle" class="chipt">partner A ✓</text>
+                <rect x="324" y="236" width="128" height="32" rx="8" class="chip"/><text x="388" y="257" text-anchor="middle" class="chipt">partner B ✓</text>
+              </svg>
+            </div>
+            <figcaption>A single "commission paid" tick box here would have been the obvious build, and it would have quietly underpaid the second partner every time.</figcaption>
+          </figure>
+        </div>
+
+        <div class="hardrow">
+          <div>
             <span class="hnum">Hard bit three</span>
             <p class="hq">How does the business change the deal without calling me?</p>
             <p class="ha">Every commercial term lives as a setting in the CRM, not in the code. Each partner's rate sits on their own record, and changing it takes effect on the next load.</p>
             <p class="hwhy">This is the difference between an app the business owns and an app it rents from whoever built it. If a rate change needs a developer, you have bought a dependency, not a system.</p>
-          </article>
+          </div>
+          <figure class="figure">
+            <div class="fig-body">
+              <svg class="dgm" viewBox="0 0 620 300" role="img" aria-label="A partner record in the CRM holds the commission rate as an editable field. The app reads it live, so a change applies on the next load with no deploy.">
+                <defs>
+                  <marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                    <path d="M0,0 L10,5 L0,10 z" fill="var(--green-500)"/>
+                  </marker>
+                </defs>
+                <rect x="20" y="52" width="268" height="192" rx="14" class="bx"/>
+                <text x="46" y="86" class="t" font-size="16">Partner record</text>
+                <path d="M20,102 L288,102" stroke="var(--green-100)" stroke-width="1.6"/>
+                <text x="46" y="134" class="cap">COMMISSION RATE</text>
+                <rect x="46" y="150" width="96" height="40" rx="9" class="bx-mid"/>
+                <text x="94" y="177" text-anchor="middle" fill="#ffffff" font-size="19" font-weight="750">10%</text>
+                <path d="M160,180 l22,-22 a5,5 0 017,7 l-22,22 l-9,2 z" fill="none" stroke="var(--green-500)" stroke-width="2"/>
+                <text x="46" y="219" class="ts" font-size="13.5">typed in by the business, any day</text>
+
+                <path d="M296,148 L370,148" class="arr" marker-end="url(#ah3)"/>
+                <text x="333" y="136" text-anchor="middle" class="arrlab">read live</text>
+
+                <rect x="378" y="98" width="222" height="100" rx="13" class="bx-dark"/>
+                <text x="489" y="138" text-anchor="middle" class="tw" font-size="17">The app applies it</text>
+                <text x="489" y="164" text-anchor="middle" class="tws" font-size="13.5">on the very next load</text>
+
+                <text x="310" y="272" text-anchor="middle" fill="var(--green-700)" font-size="16" font-weight="700">No deploy. No developer. No waiting on me.</text>
+              </svg>
+            </div>
+            <figcaption>Every commercial term is wired this way: rates, which partners are active, even which referral links each of them gets.</figcaption>
+          </figure>
         </div>
         <div class="callout">
           <p><strong>The rule underneath all three.</strong> If a setting is missing, the app stops and says so rather than quietly guessing at a sensible default. Silent guesses are how you find out six weeks later that every payout since has been wrong, with no error ever raised.</p>
@@ -443,6 +708,67 @@
       <div class="container">
         <h2>Not every app looks like that one</h2>
         <p class="section-sub">Almost every custom build I do falls into one of three shapes. The portal above is the first. Here are the other two, both live, both put together the same way and hosted very differently.</p>
+
+        <figure class="figure wide">
+          <div class="fig-body">
+            <svg class="dgm" viewBox="0 0 1200 235" role="img" aria-label="Three app shapes side by side. The portal: a person, the app, the CRM. The engine: a schedule, a service, a sheet with alerts. The window: the system of record, a build step, a static page.">
+              <defs>
+                <marker id="ahT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" fill="var(--green-500)"/>
+                </marker>
+              </defs>
+
+              <!-- column dividers -->
+              <path d="M407,20 L407,215" stroke="var(--green-100)" stroke-width="1.5" stroke-dasharray="6 7"/>
+              <path d="M807,20 L807,215" stroke="var(--green-100)" stroke-width="1.5" stroke-dasharray="6 7"/>
+
+              <!-- shape 1: the portal -->
+              <text x="207" y="32" text-anchor="middle" class="cap">THE PORTAL</text>
+              <rect x="20" y="52" width="105" height="72" rx="12" class="bx-tint"/>
+              <text x="72" y="96" text-anchor="middle" class="t" font-size="15">Person</text>
+              <path d="M132,88 L148,88" class="arr" marker-end="url(#ahT)"/>
+              <rect x="155" y="52" width="105" height="72" rx="12" class="bx-mid"/>
+              <text x="207" y="96" text-anchor="middle" class="tw" font-size="15">The app</text>
+              <path d="M267,88 L283,88" class="arr" marker-end="url(#ahT)"/>
+              <rect x="290" y="52" width="105" height="72" rx="12" class="bx-dark"/>
+              <text x="342" y="96" text-anchor="middle" class="tw" font-size="15">CRM</text>
+              <text x="207" y="163" text-anchor="middle" class="ts">People log in and see</text>
+              <text x="207" y="185" text-anchor="middle" class="ts">their own data.</text>
+
+              <!-- shape 2: the engine -->
+              <text x="607" y="32" text-anchor="middle" class="cap">THE ENGINE</text>
+              <rect x="420" y="52" width="105" height="72" rx="12" class="bx-tint"/>
+              <text x="472" y="96" text-anchor="middle" class="t" font-size="15">A clock</text>
+              <path d="M532,88 L548,88" class="arr" marker-end="url(#ahT)"/>
+              <rect x="555" y="52" width="105" height="72" rx="12" class="bx-mid"/>
+              <text x="607" y="90" text-anchor="middle" class="tw" font-size="15">Service</text>
+              <text x="607" y="110" text-anchor="middle" class="tws" font-size="12.5">no screens</text>
+              <path d="M667,88 L683,88" class="arr" marker-end="url(#ahT)"/>
+              <rect x="690" y="52" width="105" height="72" rx="12" class="bx"/>
+              <text x="742" y="90" text-anchor="middle" class="t" font-size="15">Result</text>
+              <text x="742" y="110" text-anchor="middle" class="ts" font-size="12.5">and an alert</text>
+              <text x="607" y="163" text-anchor="middle" class="ts">Nobody logs in. It just</text>
+              <text x="607" y="185" text-anchor="middle" class="ts">has to run, on its own.</text>
+
+              <!-- shape 3: the window -->
+              <text x="1007" y="32" text-anchor="middle" class="cap">THE WINDOW</text>
+              <rect x="820" y="52" width="105" height="72" rx="12" class="bx-dark"/>
+              <text x="872" y="90" text-anchor="middle" class="tw" font-size="15">Record</text>
+              <text x="872" y="110" text-anchor="middle" class="tws" font-size="12.5">untouched</text>
+              <path d="M932,88 L948,88" class="arr" marker-end="url(#ahT)"/>
+              <rect x="955" y="52" width="105" height="72" rx="12" class="bx-mid"/>
+              <text x="1007" y="96" text-anchor="middle" class="tw" font-size="15">Build</text>
+              <path d="M1067,88 L1083,88" class="arr" marker-end="url(#ahT)"/>
+              <rect x="1090" y="52" width="105" height="72" rx="12" class="bx-tint"/>
+              <text x="1142" y="90" text-anchor="middle" class="t" font-size="15">A page</text>
+              <text x="1142" y="110" text-anchor="middle" class="ts" font-size="12.5">static</text>
+              <text x="1007" y="163" text-anchor="middle" class="ts">The data already lives</text>
+              <text x="1007" y="185" text-anchor="middle" class="ts">somewhere you trust.</text>
+            </svg>
+          </div>
+          <figcaption><b>Same six layers every time, wired three different ways.</b> The shape decides the hosting, the cost and most of the build time, which is why it's the first thing worth settling in a conversation.</figcaption>
+        </figure>
+
         <div class="builds">
           <article class="card build">
             <span class="bshape">Shape two — the engine</span>
