@@ -34,11 +34,11 @@
 
   /* ---------- covering note (screen only) ---------- */
   .note {
-    max-width: 560px; margin: 0 auto; padding: 28px 16px 8px;
+    max-width: 560px; margin: 0 auto; padding: 20px 16px 0;
   }
   .note p { margin: 0 0 12px; color: var(--ink); }
   .note .hi { font-weight: 700; }
-  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0 8px; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 4px 0 4px; }
   .btn-print {
     appearance: none; border: 0; cursor: pointer;
     background: var(--bright); color: #fff;
@@ -163,11 +163,7 @@
 <body>
 
 <div class="note">
-  <p class="hi">Nathan,</p>
-  <p>Something small for the team while you weigh up the proposal. It's the job routine in the ServiceM8 app, step by step, so every job ends the day with its time, materials, photos and notes on it, and nothing finished sits unmarked waiting to be invoiced.</p>
-  <p>It only uses what's already in your ServiceM8 today, so the techs can start on Monday. Print it double-sided for the vans, or send this link to their phones.</p>
   <div class="actions"><button class="btn-print" onclick="window.print()">Print the van card (A5)</button></div>
-  <p class="sig">Harshan</p>
 </div>
 
 <main>
