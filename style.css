@@ -332,10 +332,6 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
 .marquee.is-paused .marquee-track { animation-play-state: paused; }
 .marquee-set { display: flex; align-items: stretch; gap: 1.5rem; padding-right: 1.5rem; }
 @keyframes marquee-ltr { from { transform: translateX(-50%); } to { transform: translateX(0); } }
-.mq-heading {
-  font-size: clamp(2.4rem, 5vw, 3.8rem); font-weight: 800; letter-spacing: -0.02em;
-  color: var(--green-700); margin-bottom: 2rem;
-}
 .mq-card {
   flex: 0 0 340px; display: flex; flex-direction: column; background: var(--paper);
   border: 1px solid var(--green-100); border-radius: var(--radius); padding: 1.5rem;
