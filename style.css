@@ -317,6 +317,44 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   color: var(--green-700); background: var(--green-100); border-radius: 999px; padding: 0.2rem 0.65rem; margin-bottom: 0.8rem;
 }
 
+
+/* ---------- Testimonials band (moving, left to right) ---------- */
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.testimonials-band { overflow: hidden; }
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+}
+.marquee-track { display: flex; width: max-content; animation: marquee-ltr 70s linear infinite; }
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track,
+.marquee.is-paused .marquee-track { animation-play-state: paused; }
+.marquee-set { display: flex; align-items: stretch; gap: 1.5rem; padding-right: 1.5rem; }
+@keyframes marquee-ltr { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.mq-word {
+  align-self: center; font-size: clamp(2.6rem, 6vw, 4.6rem); font-weight: 800; letter-spacing: -0.02em;
+  color: var(--green-700); padding: 0 1rem; white-space: nowrap;
+}
+.mq-card {
+  flex: 0 0 340px; display: flex; flex-direction: column; background: var(--paper);
+  border: 1px solid var(--green-100); border-radius: var(--radius); padding: 1.5rem;
+}
+.mq-card.mq-wide { flex-basis: 470px; }
+.mq-card figcaption { font-weight: 650; color: var(--green-700); }
+.mq-card blockquote { font-size: 0.95rem; color: var(--ink); margin-bottom: 1.2rem; }
+.mq-video { flex-basis: 440px; }
+.mq-video video { width: 100%; border-radius: 10px; background: #000; margin-bottom: 1rem; display: block; }
+@media (max-width: 640px) {
+  .mq-card { flex-basis: 280px; padding: 1.2rem; }
+  .mq-card.mq-wide, .mq-video { flex-basis: 300px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .marquee-track { animation: none; }
+  .marquee-set[aria-hidden="true"] { display: none; }
+}
+
 /* ---------- FAQ ---------- */
 #faq details {
   border-bottom: 1px solid var(--green-100);
