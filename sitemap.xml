@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Public, indexable pages only. Gated (noindex) case studies and client update pages stay out. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://flowlamina.com/</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://flowlamina.com/resources/</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://flowlamina.com/resources/claude-code-showcase/</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://flowlamina.com/resources/inside-a-custom-app/</loc><lastmod>2026-10-18</lastmod></url>
+</urlset>

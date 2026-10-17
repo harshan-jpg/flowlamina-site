@@ -1,0 +1,29 @@
+# Flowlamina
+
+> Flowlamina is an AI automation consultancy based in Melbourne, Australia, founded by Harshan Karthikeyan. It builds practical AI systems for small and medium businesses that cut manual work, save time and generate revenue, working with businesses in Australia and overseas.
+
+Flowlamina covers four areas of a business:
+
+- Sales: lead generation, quoting and proposals, sales pipeline, customer invoicing.
+- Marketing: email marketing, promotional campaigns, social media scheduling, reputation monitoring.
+- Operations: data entry and CRM, project and job management, appointment booking, reporting dashboards.
+- Customer: customer reminders, follow-up sequences, review collection, feedback management.
+
+Typical builds include AI agents that answer and follow up leads by SMS, email and social; lead reactivation campaigns that win back past customers; and CRM workflows in GoHighLevel, HubSpot, Zoho CRM and ServiceM8.
+
+How an engagement runs: a business audit and discovery, then the build (integrated with the tools the business already uses), then testing and optimisation, then ongoing maintenance and scaling. Most projects take 2 to 4 weeks from audit to full implementation. Pricing is a custom quote after a free audit.
+
+Founder: Harshan Karthikeyan has a background in systems engineering and a Master's in reliability engineering, and has helped more than 30 businesses adopt AI in the last 2 years.
+
+## Pages
+
+- [Home](https://flowlamina.com/): services, process, testimonials, founder and FAQ
+- [Resources and case studies](https://flowlamina.com/resources/): summaries of real builds and their results (full case studies are password-protected)
+- [How we run an entire business with Claude Code](https://flowlamina.com/resources/claude-code-showcase/): Flowlamina's own AI-run operating setup
+- [Inside a custom app I built](https://flowlamina.com/resources/inside-a-custom-app/): a referral partner portal taken apart layer by layer, with its stack and running costs
+
+## Contact
+
+- Book a free 30-minute consultation: https://calendly.com/harshan-flowlamina/30min
+- Email: harshan@flowlamina.com
+- YouTube: https://www.youtube.com/@hkaiautomate
