@@ -326,6 +326,7 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
           mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
 }
+.testimonials-band .marquee { margin-top: 2.25rem; }   /* same heading-to-cards gap as .steps under 'How we work' */
 .marquee-track { display: flex; width: max-content; animation: marquee-ltr 70s linear infinite; }
 .marquee:hover .marquee-track,
 .marquee:focus-within .marquee-track,
