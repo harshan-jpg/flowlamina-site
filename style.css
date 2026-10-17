@@ -303,6 +303,20 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   flex-shrink: 0;
 }
 
+
+.quote-who { display: flex; flex-direction: column; line-height: 1.25; }
+.quote-who small { font-weight: 500; color: var(--ink-soft); font-size: 0.85rem; margin-top: 0.15rem; }
+.quote-ini {
+  width: 56px; height: 56px; border-radius: 50%; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--green-700); color: #fff; font-weight: 700; letter-spacing: 0.02em;
+}
+.testimonials-featured { margin-bottom: 1.5rem; }
+.quote-tag {
+  align-self: flex-start; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--green-700); background: var(--green-100); border-radius: 999px; padding: 0.2rem 0.65rem; margin-bottom: 0.8rem;
+}
+
 /* ---------- FAQ ---------- */
 #faq details {
   border-bottom: 1px solid var(--green-100);
