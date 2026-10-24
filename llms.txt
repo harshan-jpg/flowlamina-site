@@ -1,6 +1,6 @@
 # Flowlamina
 
-> Flowlamina is an AI automation consultancy based in Melbourne, Australia, founded by Harshan Karthikeyan. It builds practical AI systems for small and medium businesses that cut manual work, save time and generate revenue, working with businesses in Australia and overseas.
+> Flowlamina is an AI automation consultancy founded by Harshan Karthikeyan. It builds practical AI systems for small and medium businesses that cut manual work, save time and generate revenue, working remotely with businesses anywhere, including Australia and the United States.
 
 Flowlamina covers four areas of a business:
 
@@ -17,7 +17,7 @@ Founder: Harshan Karthikeyan has a background in systems engineering and a Maste
 
 ## Pages
 
-- [Home](https://flowlamina.com/): services, process, testimonials, founder and FAQ
+- [Home](https://flowlamina.com/): services with client results and testimonials, process, founder and FAQ
 - [Resources and case studies](https://flowlamina.com/resources/): real builds and their results, every case study free to read
 - [How we run an entire business with Claude Code](https://flowlamina.com/resources/claude-code-showcase/): Flowlamina's own AI-run operating setup
 - [Inside a custom app I built](https://flowlamina.com/resources/inside-a-custom-app/): a referral partner portal taken apart layer by layer, with its stack and running costs

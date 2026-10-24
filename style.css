@@ -328,9 +328,8 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
   gap: 1.4rem;
-  align-items: stretch;
+  align-items: start;               /* checklist card keeps its own height, not stretched to the proof card */
 }
-.qrow .quadrant { height: 100%; }
 .proof {
   display: flex; flex-direction: column;
   background: var(--paper);
@@ -345,7 +344,8 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   letter-spacing: -0.01em;
   color: var(--green-700);
 }
-.proof-note { color: var(--ink-soft); font-size: 0.98rem; margin: 0.5rem 0 1.2rem; }
+.proof-stat { margin-bottom: 1rem; }
+.proof-note { color: var(--ink-soft); font-size: 0.98rem; margin: -0.6rem 0 1.1rem; }
 .proof blockquote {
   font-size: 0.95rem; color: var(--ink);
   border-left: 3px solid var(--green-100);
@@ -370,7 +370,6 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
 .mq-play:hover::after, .mq-play:focus-visible::after { transform: scale(1.08); }
 .mq-play-label { position: absolute; left: 0.8rem; bottom: 0.7rem; color: #fff; font-size: 0.8rem; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
 
-.more-clients { margin-top: 2.25rem; }
 @media (max-width: 860px) {
   .qrow { grid-template-columns: 1fr; gap: 0.75rem; }
   .qrows { gap: 2.4rem; }
