@@ -323,19 +323,19 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
    Each row pairs a quadrant checklist (left) with a real client result and their own words (right).
    The testimonials live here now, so there is no separate moving band to misbehave on phones. */
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.qrows { display: grid; gap: 1.6rem; }
-.qrow {
+.qrows {
   display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-  gap: 1.4rem;
-  align-items: start;               /* checklist card keeps its own height, not stretched to the proof card */
+  grid-template-columns: repeat(2, minmax(0, 1fr));   /* Sales | Marketing, then Operation | Customer */
+  gap: 2.4rem 1.6rem;
+  align-items: start;
 }
+.qrow { display: grid; gap: 0.9rem; }   /* the area's checklist on top, its client result directly below */
 .proof {
   display: flex; flex-direction: column;
   background: var(--paper);
   border: 1px solid var(--green-100);
   border-radius: var(--radius);
-  padding: 1.8rem 1.6rem;
+  padding: 2.3rem 1.6rem 1.8rem;
 }
 .proof-stat {
   font-size: clamp(1.45rem, 2.6vw, 1.9rem);
@@ -371,11 +371,10 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
 .mq-play-label { position: absolute; left: 0.8rem; bottom: 0.7rem; color: #fff; font-size: 0.8rem; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
 
 @media (max-width: 860px) {
-  .qrow { grid-template-columns: 1fr; gap: 0.75rem; }
-  .qrows { gap: 2.4rem; }
+  .qrows { grid-template-columns: 1fr; gap: 2.4rem; }
 }
 @media (max-width: 720px) {
-  .proof { padding: 1.4rem 1.25rem; }
+  .proof { padding: 1.9rem 1.25rem 1.4rem; }
 }
 
 /* ---------- FAQ ---------- */
