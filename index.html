@@ -150,6 +150,38 @@
       "mainEntity": [
         {
           "@type": "Question",
+          "name": "Who owns the data and the systems you build?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You do. Everything we build lives in your own accounts: your CRM, your automation platform, your hosting and your AI provider. Your data, workflows and code sit in accounts you own and pay for directly, never in ours, so nothing about your business is locked inside Flowlamina."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What happens if we stop working together?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Everything keeps running. Because the whole system sits in your accounts, nothing switches off when an engagement ends. You get a handover handbook that explains how to run it, change it and turn it off, so your team or any other developer can look after it without us."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where is my data hosted?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In the region that best suits your business and your obligations. For Australian businesses we use Australian data centres wherever the platform offers them; for clients overseas we choose the region closest to them or the one their industry requires. Before anything goes live we tell you plainly where each part of the system stores data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you keep access to our systems safe?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We work through logins and keys that you create and can revoke at any time, with only the access the job needs. Credentials are kept in a password vault, never in code, email or chat, and our access is removed at handover. AI runs through your own business account with the provider, on plans where your data is not used to train their models by default."
+          }
+        },
+        {
+          "@type": "Question",
           "name": "What does Flowlamina do?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -240,7 +272,7 @@
   <header class="nav-wrap">
     <nav class="container nav">
       <a class="brand" href="#top">
-        <img src="assets/logo.png" alt="" width="34" height="34">
+        <img src="assets/logo-sm.png" alt="" width="34" height="34">
         <span>Flowlamina</span>
       </a>
       <div class="nav-links">
@@ -259,7 +291,7 @@
     <!-- Hero -->
     <section class="hero">
       <div class="container">
-        <img class="hero-mark" src="assets/logo.png" alt="">
+        <img class="hero-mark" src="assets/logo.webp" alt="" loading="lazy">
         <p class="eyebrow">AI automation consulting · Melbourne, Australia</p>
         <h1>Helping businesses adopt AI.</h1>
         <p class="lede">Cut manual work, save time, generate revenue.</p>
@@ -369,58 +401,55 @@
       </div>
     </section>
 
-    <!-- Testimonials: a continuously moving band (left to right). The set is rendered twice so the loop is
-         seamless; the copy is aria-hidden. Pauses on hover, on keyboard focus, and while a video plays. -->
+    <!-- Testimonials: a slowly drifting band (left to right) that is also a native swipe row. The set is rendered
+         twice so the loop is seamless; the copy is aria-hidden. The script below drives it. It pauses on hover,
+         focus, touch and while the video plays, and picks up again a few seconds after a swipe. -->
     <section class="section tint testimonials-band" aria-labelledby="testimonials-h">
       <div class="container"><h2 id="testimonials-h">Testimonials</h2></div>
-      <div class="marquee">
+      <div class="marquee" tabindex="0" aria-label="Testimonials, swipe or scroll sideways to see more">
         <div class="marquee-track">
           <div class="marquee-set">
             <figure class="mq-card mq-video">
-              <video controls playsinline preload="none" poster="assets/testimonial-alex-tsetong-poster.jpg">
-                <source src="assets/testimonial-alex-tsetong.mp4?v=2" type="video/mp4">
-              </video>
-              <figcaption class="quote-person"><img src="assets/face-alex.jpg" alt="" width="56" height="56" loading="lazy"><span class="quote-who">Alex Tsetong<small>Proposals by Plane</small></span></figcaption>
+              <button class="mq-play" type="button" data-src="assets/testimonial-alex-tsetong.mp4?v=2" aria-label="Play Alex Tsetong's video testimonial, 4 minutes 44 seconds"><img src="assets/testimonial-alex-tsetong-poster.jpg" alt="" width="640" height="428" decoding="async"><span class="mq-play-label">4:44</span></button>
+              <figcaption class="quote-person"><img src="assets/face-alex.jpg" alt="" width="56" height="56" decoding="async"><span class="quote-who">Alex Tsetong<small>Proposals by Plane</small></span></figcaption>
             </figure>
             <figure class="mq-card mq-wide">
               <blockquote>“Harshan has been a strong AI / automation partner for Designer Plants. He helped us build and tighten practical systems across GoHighLevel, including marketing automations (email and SMS), review/sentiment flows, and the supporting Railway + GitHub setup so the infrastructure sits properly in our accounts rather than on his. He’s clear, reliable, and focused on outcomes that actually save time and keep the business moving. I’d happily recommend him to other SMBs looking for someone who can implement AI and integrations without the fluff.”</blockquote>
-              <figcaption class="quote-person"><img src="assets/face-david.jpg" alt="" width="56" height="56" loading="lazy"><span class="quote-who">David Eden<small>Designer Plants</small></span></figcaption>
+              <figcaption class="quote-person"><img src="assets/face-david.jpg" alt="" width="56" height="56" decoding="async"><span class="quote-who">David Eden<small>Designer Plants</small></span></figcaption>
             </figure>
             <figure class="mq-card">
               <blockquote>“Harshan was great to work with — accommodating, responsive and communicative. He took the time to explain the methodology behind what he was building, scoped the project correctly, and his technical skills got it done quickly and professionally. I highly recommend him.”</blockquote>
-              <figcaption class="quote-person"><img src="assets/face-robert.jpg" alt="" width="56" height="56" loading="lazy"><span class="quote-who">Robert Nelcoski<small>Florida Time Vacation Rentals</small></span></figcaption>
+              <figcaption class="quote-person"><img src="assets/face-robert.jpg" alt="" width="56" height="56" decoding="async"><span class="quote-who">Robert Nelcoski<small>Florida Time Vacation Rentals</small></span></figcaption>
             </figure>
             <figure class="mq-card">
               <blockquote>“Harshan was responsive, communicative and skilled, delivering a well-scoped project quickly and professionally with great results.”</blockquote>
-              <figcaption class="quote-person"><img src="assets/face-aminul.jpg" alt="" width="56" height="56" loading="lazy"><span class="quote-who">Aminul Haque<small>Christmas Ideas Blog</small></span></figcaption>
+              <figcaption class="quote-person"><img src="assets/face-aminul.jpg" alt="" width="56" height="56" decoding="async"><span class="quote-who">Aminul Haque<small>Christmas Ideas Blog</small></span></figcaption>
             </figure>
             <figure class="mq-card">
               <blockquote>“Harshan helped automate our social media content. He is highly skilled, personable and cares a lot about the work he delivers.”</blockquote>
-              <figcaption class="quote-person"><img src="assets/face-arjun.jpg" alt="" width="56" height="56" loading="lazy"><span class="quote-who">Arjun Abayasingam<small>Homespun</small></span></figcaption>
+              <figcaption class="quote-person"><img src="assets/face-arjun.jpg" alt="" width="56" height="56" decoding="async"><span class="quote-who">Arjun Abayasingam<small>Homespun</small></span></figcaption>
             </figure>
           </div>
           <div class="marquee-set" aria-hidden="true">
             <figure class="mq-card mq-video">
-              <video controls playsinline preload="none" poster="assets/testimonial-alex-tsetong-poster.jpg">
-                <source src="assets/testimonial-alex-tsetong.mp4?v=2" type="video/mp4">
-              </video>
-              <figcaption class="quote-person"><img src="assets/face-alex.jpg" alt="" width="56" height="56" loading="lazy"><span class="quote-who">Alex Tsetong<small>Proposals by Plane</small></span></figcaption>
+              <button class="mq-play" type="button" data-src="assets/testimonial-alex-tsetong.mp4?v=2" aria-label="Play Alex Tsetong's video testimonial, 4 minutes 44 seconds" tabindex="-1"><img src="assets/testimonial-alex-tsetong-poster.jpg" alt="" width="640" height="428" decoding="async"><span class="mq-play-label">4:44</span></button>
+              <figcaption class="quote-person"><img src="assets/face-alex.jpg" alt="" width="56" height="56" decoding="async"><span class="quote-who">Alex Tsetong<small>Proposals by Plane</small></span></figcaption>
             </figure>
             <figure class="mq-card mq-wide">
               <blockquote>“Harshan has been a strong AI / automation partner for Designer Plants. He helped us build and tighten practical systems across GoHighLevel, including marketing automations (email and SMS), review/sentiment flows, and the supporting Railway + GitHub setup so the infrastructure sits properly in our accounts rather than on his. He’s clear, reliable, and focused on outcomes that actually save time and keep the business moving. I’d happily recommend him to other SMBs looking for someone who can implement AI and integrations without the fluff.”</blockquote>
-              <figcaption class="quote-person"><img src="assets/face-david.jpg" alt="" width="56" height="56" loading="lazy"><span class="quote-who">David Eden<small>Designer Plants</small></span></figcaption>
+              <figcaption class="quote-person"><img src="assets/face-david.jpg" alt="" width="56" height="56" decoding="async"><span class="quote-who">David Eden<small>Designer Plants</small></span></figcaption>
             </figure>
             <figure class="mq-card">
               <blockquote>“Harshan was great to work with — accommodating, responsive and communicative. He took the time to explain the methodology behind what he was building, scoped the project correctly, and his technical skills got it done quickly and professionally. I highly recommend him.”</blockquote>
-              <figcaption class="quote-person"><img src="assets/face-robert.jpg" alt="" width="56" height="56" loading="lazy"><span class="quote-who">Robert Nelcoski<small>Florida Time Vacation Rentals</small></span></figcaption>
+              <figcaption class="quote-person"><img src="assets/face-robert.jpg" alt="" width="56" height="56" decoding="async"><span class="quote-who">Robert Nelcoski<small>Florida Time Vacation Rentals</small></span></figcaption>
             </figure>
             <figure class="mq-card">
               <blockquote>“Harshan was responsive, communicative and skilled, delivering a well-scoped project quickly and professionally with great results.”</blockquote>
-              <figcaption class="quote-person"><img src="assets/face-aminul.jpg" alt="" width="56" height="56" loading="lazy"><span class="quote-who">Aminul Haque<small>Christmas Ideas Blog</small></span></figcaption>
+              <figcaption class="quote-person"><img src="assets/face-aminul.jpg" alt="" width="56" height="56" decoding="async"><span class="quote-who">Aminul Haque<small>Christmas Ideas Blog</small></span></figcaption>
             </figure>
             <figure class="mq-card">
               <blockquote>“Harshan helped automate our social media content. He is highly skilled, personable and cares a lot about the work he delivers.”</blockquote>
-              <figcaption class="quote-person"><img src="assets/face-arjun.jpg" alt="" width="56" height="56" loading="lazy"><span class="quote-who">Arjun Abayasingam<small>Homespun</small></span></figcaption>
+              <figcaption class="quote-person"><img src="assets/face-arjun.jpg" alt="" width="56" height="56" decoding="async"><span class="quote-who">Arjun Abayasingam<small>Homespun</small></span></figcaption>
             </figure>
           </div>
         </div>
@@ -447,6 +476,24 @@
     <section id="faq" class="section">
       <div class="container narrow">
         <h2>Frequently asked questions</h2>
+        <h3 class="faq-group">Safety and data sovereignty</h3>
+        <details>
+          <summary>Who owns the data and the systems you build?</summary>
+          <p>You do. Everything we build lives in your own accounts: your CRM, your automation platform, your hosting and your AI provider. Your data, workflows and code sit in accounts you own and pay for directly, never in ours, so nothing about your business is locked inside Flowlamina.</p>
+        </details>
+        <details>
+          <summary>What happens if we stop working together?</summary>
+          <p>Everything keeps running. Because the whole system sits in your accounts, nothing switches off when an engagement ends. You get a handover handbook that explains how to run it, change it and turn it off, so your team or any other developer can look after it without us.</p>
+        </details>
+        <details>
+          <summary>Where is my data hosted?</summary>
+          <p>In the region that best suits your business and your obligations. For Australian businesses we use Australian data centres wherever the platform offers them; for clients overseas we choose the region closest to them or the one their industry requires. Before anything goes live we tell you plainly where each part of the system stores data.</p>
+        </details>
+        <details>
+          <summary>How do you keep access to our systems safe?</summary>
+          <p>We work through logins and keys that you create and can revoke at any time, with only the access the job needs. Credentials are kept in a password vault, never in code, email or chat, and our access is removed at handover. AI runs through your own business account with the provider, on plans where your data is not used to train their models by default.</p>
+        </details>
+        <h3 class="faq-group">Working with us</h3>
         <details>
           <summary>What does Flowlamina do?</summary>
           <p>Flowlamina is an AI automation consultancy based in Melbourne, Australia. We build AI systems for small and medium businesses across sales, marketing, operations and customer care: AI agents that answer and follow up leads by SMS, email and social, lead reactivation campaigns that win back past customers, and CRM workflows in tools like GoHighLevel, HubSpot, Zoho CRM and ServiceM8.</p>
@@ -507,7 +554,7 @@
   <footer class="footer">
     <div class="container footer-inner">
       <a class="brand" href="#top">
-        <img src="assets/logo.png" alt="" width="26" height="26">
+        <img src="assets/logo-sm.png" alt="" width="26" height="26">
         <span>Flowlamina</span>
       </a>
       <p>© Flowlamina · Melbourne, Australia</p>
@@ -539,23 +586,78 @@
 
   <!-- GoatCounter — privacy-friendly page-view counts, no cookies. Dashboard: https://flowlamina.goatcounter.com -->
   <script>
-    // Testimonials band: hold still while any testimonial video plays, and only one plays at a time.
+    // Testimonials band: drift it slowly to the right on a native scroller and wrap it seamlessly, so it can
+    // never run off and stay off. A swipe, wheel, hover or focus takes over; the drift resumes 2.5 s later.
     (function () {
       var band = document.querySelector('.marquee');
       if (!band) return;
-      var vids = band.querySelectorAll('video');
-      vids.forEach(function (v) {
-        v.addEventListener('play', function () {
-          vids.forEach(function (o) { if (o !== v) o.pause(); });
-          band.classList.add('is-paused');
-        });
-        ['pause', 'ended'].forEach(function (e) {
-          v.addEventListener(e, function () {
-            var anyPlaying = Array.prototype.some.call(vids, function (o) { return !o.paused; });
-            if (!anyPlaying) band.classList.remove('is-paused');
+      var first = band.querySelector('.marquee-set');
+      var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var SPEED = 28;                         // px per second
+      var hover = false, touching = false, focused = false, videoOn = false, onScreen = false, resumeAt = 0;
+      var pos = 0, last = 0, setW = 0;
+
+      function measure() { setW = first.offsetWidth; }
+      function wrap(x) { while (x <= 0) x += setW; while (x > setW) x -= setW; return x; }
+      function nudge() { resumeAt = performance.now() + 2500; }
+      function held() { return hover || touching || focused || videoOn || performance.now() < resumeAt; }
+
+      // Tap-to-play: the 11 MB video is only fetched when someone asks for it.
+      band.querySelectorAll('.mq-play').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var v = document.createElement('video');
+          v.controls = true; v.playsInline = true; v.setAttribute('playsinline', '');
+          v.poster = btn.querySelector('img').src; v.src = btn.getAttribute('data-src');
+          btn.replaceWith(v);
+          v.addEventListener('play', function () {
+            band.querySelectorAll('video').forEach(function (o) { if (o !== v) o.pause(); });
+            videoOn = true;
           });
+          ['pause', 'ended'].forEach(function (e) {
+            v.addEventListener(e, function () {
+              videoOn = Array.prototype.some.call(band.querySelectorAll('video'), function (o) { return !o.paused; });
+              nudge();
+            });
+          });
+          v.play().catch(function () {});
         });
       });
+
+      if (still) return;                      // reduced motion: a plain swipe row, nothing moves on its own
+
+      band.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') hover = true; });
+      band.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') { hover = false; pos = wrap(band.scrollLeft); } });
+      band.addEventListener('touchstart', function () { touching = true; }, { passive: true });
+      band.addEventListener('touchend', function () { touching = false; nudge(); }, { passive: true });
+      band.addEventListener('touchcancel', function () { touching = false; nudge(); }, { passive: true });
+      band.addEventListener('wheel', nudge, { passive: true });
+      band.addEventListener('focusin', function () { focused = true; });
+      band.addEventListener('focusout', function () { focused = false; nudge(); });
+      // A visitor scrolling by hand can reach either end; jump by one set so there is always more to see.
+      band.addEventListener('scroll', function () {
+        if (!held() || touching) return;
+        var max = band.scrollWidth - band.clientWidth;
+        if (band.scrollLeft < 2) band.scrollLeft += setW;
+        else if (band.scrollLeft > max - 2) band.scrollLeft -= setW;
+      }, { passive: true });
+
+      new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; }).observe(band);
+      window.addEventListener('resize', function () { measure(); pos = wrap(band.scrollLeft); });
+
+      function tick(t) {
+        var dt = last ? Math.min(t - last, 64) / 1000 : 0;
+        last = t;
+        if (held()) {
+          pos = wrap(band.scrollLeft || setW); // pick up from wherever the visitor left it
+        } else if (onScreen && !document.hidden) {
+          pos = wrap(pos - SPEED * dt);         // scrolling left moves the cards right
+          band.scrollLeft = pos;
+        }
+        requestAnimationFrame(tick);
+      }
+      measure();
+      pos = setW; band.scrollLeft = pos;
+      requestAnimationFrame(tick);
     })();
   </script>
   <script data-goatcounter="https://flowlamina.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>

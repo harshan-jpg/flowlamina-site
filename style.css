@@ -318,21 +318,25 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
 }
 
 
-/* ---------- Testimonials band (moving, left to right) ---------- */
+/* ---------- Testimonials band (moving, left to right) ----------
+   A native horizontal scroller, not a CSS animation: a small script drifts it slowly and loops it
+   seamlessly, and a visitor can swipe or drag it either way at any time. The old transform marquee
+   froze on iPhone (a tap left it stuck in :hover) and its lazy photos never loaded, because a
+   transformed track never "enters" the viewport. Native scrolling fixes both. */
 .visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .testimonials-band { overflow: hidden; }
 .marquee {
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
-          mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;          /* a swipe at the end never drags the whole page sideways */
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
 }
+.marquee::-webkit-scrollbar { display: none; }
 .testimonials-band .marquee { margin-top: 2.25rem; }   /* same heading-to-cards gap as .steps under 'How we work' */
-.marquee-track { display: flex; width: max-content; animation: marquee-ltr 70s linear infinite; }
-.marquee:hover .marquee-track,
-.marquee:focus-within .marquee-track,
-.marquee.is-paused .marquee-track { animation-play-state: paused; }
-.marquee-set { display: flex; align-items: stretch; gap: 1.5rem; padding-right: 1.5rem; }
-@keyframes marquee-ltr { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+.marquee-track { display: flex; width: max-content; padding: 0 0 0.25rem; }
+.marquee-set { display: flex; align-items: center; gap: 1.5rem; padding-right: 1.5rem; }
 .mq-card {
   flex: 0 0 340px; display: flex; flex-direction: column; background: var(--paper);
   border: 1px solid var(--green-100); border-radius: var(--radius); padding: 1.5rem;
@@ -341,15 +345,25 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
 .mq-card figcaption { font-weight: 650; color: var(--green-700); }
 .mq-card blockquote { font-size: 0.95rem; color: var(--ink); margin-bottom: 1.2rem; }
 .mq-video { flex-basis: 440px; }
-.mq-video video { width: 100%; border-radius: 10px; background: #000; margin-bottom: 1rem; display: block; }
+.mq-video video, .mq-play { width: 100%; aspect-ratio: 640 / 428; border-radius: 10px; background: #000; margin-bottom: 1rem; display: block; }
+/* Click-to-play facade: nothing of the 11 MB video downloads until the visitor taps play. */
+.mq-play { position: relative; border: 0; padding: 0; cursor: pointer; overflow: hidden; }
+.mq-play img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mq-play::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px;
+  border-radius: 50%; background: rgba(27, 67, 50, 0.85) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6.5v11l9-5.5z' fill='%23fff'/%3E%3C/svg%3E") center / 30px no-repeat;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3); transition: transform 0.15s ease;
+}
+.mq-play:hover::after, .mq-play:focus-visible::after { transform: scale(1.08); }
+.mq-play-label { position: absolute; left: 0.8rem; bottom: 0.7rem; color: #fff; font-size: 0.8rem; font-weight: 600; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
 @media (max-width: 640px) {
-  .mq-card { flex-basis: 280px; padding: 1.2rem; }
-  .mq-card.mq-wide, .mq-video { flex-basis: 300px; }
+  .marquee-set { gap: 1rem; padding-right: 1rem; }
+  .mq-card { flex-basis: min(82vw, 300px); padding: 1.2rem; }
+  .mq-card.mq-wide, .mq-video { flex-basis: min(86vw, 330px); }
+  .mq-card blockquote { font-size: 0.93rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
-  .marquee-track { animation: none; }
-  .marquee-set[aria-hidden="true"] { display: none; }
+  .marquee-set[aria-hidden="true"] { display: none; }   /* no drift, so no loop copy needed: plain swipe row */
 }
 
 /* ---------- FAQ ---------- */
@@ -426,13 +440,34 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   .stats { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 720px) {
-  .section { padding: 3.75rem 0; }
-  .hero { padding: 5rem 0 4rem; }
-  .nav-links { gap: 1rem; }
-  .nav-links a:not(.btn) { display: none; }   /* keep nav minimal on phones; page is one scroll */
+  .container { padding: 0 1.15rem; }
+  .section { padding: 3.25rem 0; }
+  .hero { padding: 3.25rem 0 3rem; }
+  .card { padding: 1.4rem 1.25rem; }
+  /* Phones: the text links drop to a second, swipeable row under the logo + Book a call,
+     rather than disappearing (they used to be hidden, so Resources was unreachable on a phone). */
+  .nav { flex-wrap: wrap; justify-content: flex-start; row-gap: 0.2rem; padding-top: 0.55rem; padding-bottom: 0.35rem; }
+  .nav .brand { margin-right: auto; }
+  .nav-links { display: contents; }
+  .nav-links .btn { order: 1; }
+  .nav::after { content: ""; order: 2; flex-basis: 100%; height: 0; }
+  .nav-links a:not(.btn) { order: 3; font-size: 0.9rem; padding: 0.3rem 0; margin-right: 1rem; white-space: nowrap; }
+  .nav-links a:not(.btn):last-of-type { margin-right: 0; }
   .hero-mark { display: none; }
-  .stats { grid-template-columns: 1fr; gap: 2rem; }
+  .stats { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; }
+  .stat-num { font-size: 2rem; }
+  .steps li { padding: 1.4rem 1.25rem 1.4rem 3.6rem; }
+  .steps li::before { left: 1.2rem; top: 1.45rem; }
+  .step-ico { display: none; }   /* the number already marks each step; the icon crowded the heading */
+  .lede { font-size: 1.12rem; margin: 1.1rem 0 1.9rem; }
+  .hero-actions .btn { width: 100%; text-align: center; }
+  html { scroll-padding-top: 6.5rem; }
   .footer-inner { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 385px) {
+  .nav-links a:not(.btn) { font-size: 0.84rem; margin-right: 0.75rem; }
+  .brand { font-size: 1.05rem; }
 }
 
 /* ---------- Icon tones — muted 4-colour system (green is the default).
@@ -470,3 +505,8 @@ p a:hover, .footer a:hover, .contact-lines a:hover { text-decoration: underline;
   .founder { grid-template-columns: 1fr; gap: 2rem; }
   .founder-photo { max-width: 300px; }
 }
+#faq .faq-group {
+  font-size: 0.85rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--green-500); margin: 2.4rem 0 0.2rem;
+}
+#faq h2 + .faq-group { margin-top: 1.6rem; }

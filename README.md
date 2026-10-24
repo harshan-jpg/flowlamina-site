@@ -6,7 +6,7 @@ Hand-coded static site for Flowlamina. No build step, no framework, no dependenc
 
 - `index.html` — the entire site (single page)
 - `style.css` — all styling; brand colours defined as CSS variables at the top
-- `assets/` — logo + favicon (sourced from `proposal/static/` in the main workspace)
+- `assets/` — logo + favicon (sourced from `proposal_engine/static/` in the main workspace)
 - `CNAME` — tells GitHub Pages the custom domain (`flowlamina.com`); do not delete
 - `404.html` — branded not-found page
 
